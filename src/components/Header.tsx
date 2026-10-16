@@ -76,8 +76,8 @@ function MobileNavigation({ className }: { className?: string }) {
           ? 'Записи'
           : pathname.startsWith('/projects')
             ? 'Проекты'
-            : pathname.startsWith('/gear')
-              ? 'Оборудование'
+            : pathname.startsWith('/market')
+              ? 'Магазин'
               : 'Меню'
   let [pathnameWhenOpen, setPathnameWhenOpen] = useState(pathname)
   let reduceMotion = useReducedMotion()
@@ -313,8 +313,8 @@ function MobileNavigation({ className }: { className?: string }) {
                       <MobileNavItem href="/projects" onNavigate={closeMenu}>
                         Проекты
                       </MobileNavItem>
-                      <MobileNavItem href="/gear" onNavigate={closeMenu}>
-                        Оборудование
+                      <MobileNavItem href="/market" onNavigate={closeMenu}>
+                        Магазин
                       </MobileNavItem>
                     </ul>
                   </nav>
@@ -371,7 +371,7 @@ function DesktopNavigation({
           <NavItem href="/about">Обо мне</NavItem>
           <NavItem href="/writing">Записи</NavItem>
           <NavItem href="/projects">Проекты</NavItem>
-          <NavItem href="/gear">Оборудование</NavItem>
+          <NavItem href="/market">Магазин</NavItem>
         </ul>
       </div>
     </nav>

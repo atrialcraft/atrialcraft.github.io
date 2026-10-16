@@ -28,7 +28,7 @@ export function Footer() {
                 <NavLink href="/about">Обо мне</NavLink>
                 <NavLink href="/writing">Записи</NavLink>
                 <NavLink href="/projects">Проекты</NavLink>
-                <NavLink href="/gear">Оборудование</NavLink>
+                <NavLink href="/market">Магазин</NavLink>
               </div>
               <p className="text-sm text-muted-foreground">
                 &copy; {new Date().getFullYear()} {site.name}.

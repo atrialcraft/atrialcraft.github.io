@@ -19,7 +19,7 @@ import logoPeriship from '@/images/logos/periship.png'
 import { formatDate } from '@/lib/formatDate'
 import { getHomePosts, type Post } from '@/lib/posts'
 import { postCtaLabel } from '@/lib/writing'
-import { homeHeroTitle, socialLinks } from '@/lib/site'
+import { homeHeroTitle, site, socialLinks } from '@/lib/site'
 
 function LatestPost({ post }: { post: Post }) {
   return (
@@ -169,7 +169,7 @@ function Resume() {
         ))}
       </ol>
       <Button
-        href="https://t.me/kolbunov"
+        href={site.telegram}
         target="_blank"
         rel="noopener noreferrer"
         variant="secondary"

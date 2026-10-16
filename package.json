@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "stickerify": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/stickerify.ts"
+    "lint": "eslint"
   },
   "type": "module",
   "browserslist": "defaults, not ie <= 11",
@@ -43,8 +42,7 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "16.2.6",
     "prettier": "^3.8.3",
-    "prettier-plugin-tailwindcss": "^0.8.0",
-    "sharp": "0.34.3"
+    "prettier-plugin-tailwindcss": "^0.8.0"
   },
   "overrides": {
     "@types/react": "19.2.14",

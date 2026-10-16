@@ -1,6 +1,6 @@
 # Daniil Kolbunov — мастерская Atrial
 
-Личный сайт [atrialcraft.github.io](https://atrialcraft.github.io): записи, проекты и оборудование мастерской.
+Личный сайт [atrialcraft.github.io](https://atrialcraft.github.io): записи, инструкции, проекты и магазин мастерской.
 
 ## Стек
 
@@ -28,7 +28,7 @@
 | Статьи и видео | `src/app/writing/<адрес>/page.mdx` → `/writing/<адрес>` |
 | Инструкции (для QR-кодов) | `src/app/instructions/<адрес>/page.mdx` → `/instructions/<адрес>`, пример — `/instructions/kak-dobavit-zapis` |
 | Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), массив `projects` |
-| Оборудование | [src/app/gear/tools.ts](src/app/gear/tools.ts) |
+| Магазин: товары, цены, фото | [src/app/market/products.ts](src/app/market/products.ts), фото в `src/images/market/` |
 | Пункты меню | [src/components/Header.tsx](src/components/Header.tsx), [src/components/Footer.tsx](src/components/Footer.tsx) |
 | Иконка сайта | `public/favicon/` |
 | Цвета и шрифты | [src/styles/tailwind.css](src/styles/tailwind.css) |

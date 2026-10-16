@@ -7,6 +7,8 @@ export const site = {
     'Мастерская Atrial: лазерная резка, 3D-печать, Arduino и другие проекты из Брянска.',
   domain: 'atrialcraft.github.io',
   locale: 'ru_RU',
+  /** Личный Telegram: кнопки «Написать» и «Купить» */
+  telegram: 'https://t.me/kolbunov',
 }
 
 export const homeHeroTitle =
@@ -14,7 +16,7 @@ export const homeHeroTitle =
 
 export const socialLinks = [
   {
-    href: 'https://t.me/kolbunov',
+    href: site.telegram,
     label: 'Написать в Telegram',
     icon: TelegramIcon,
   },
