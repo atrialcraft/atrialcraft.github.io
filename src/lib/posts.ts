@@ -99,27 +99,48 @@ export function createPostMetadata(post: PostMeta): Metadata {
   }
 }
 
-async function importPost(postFilename: string): Promise<Post> {
-  let { post } = (await import(`../app/writing/${postFilename}`)) as {
-    default: React.ComponentType
-    post: PostMeta
-  }
+type PostModule = {
+  default: React.ComponentType
+  post: PostMeta
+}
 
-  let slug = postFilename.replace(/(\/page)?\.mdx$/, '')
+// Записи живут в src/app/writing/<slug>, инструкции — в src/app/instructions/<slug>
+// (так у инструкций короткий адрес /instructions/<slug> для QR-кодов).
+// Пути в import() должны быть статическими, иначе сборщик не найдёт файлы.
+const postSections = [
+  {
+    path: 'writing',
+    load: (file: string) =>
+      import(`../app/writing/${file}`) as Promise<PostModule>,
+  },
+  {
+    path: 'instructions',
+    load: (file: string) =>
+      import(`../app/instructions/${file}`) as Promise<PostModule>,
+  },
+]
 
-  return {
-    slug,
-    href: `/writing/${slug}`,
-    ...post,
-  }
+async function getSectionPosts({ path, load }: (typeof postSections)[number]) {
+  let postFilenames = await glob('*/page.mdx', {
+    cwd: `./src/app/${path}`,
+  })
+
+  return Promise.all(
+    postFilenames.map(async (postFilename): Promise<Post> => {
+      let { post } = await load(postFilename)
+      let slug = postFilename.replace(/(\/page)?\.mdx$/, '')
+
+      return {
+        slug,
+        href: `/${path}/${slug}`,
+        ...post,
+      }
+    }),
+  )
 }
 
 export async function getAllPosts() {
-  let postFilenames = await glob('*/page.mdx', {
-    cwd: './src/app/writing',
-  })
-
-  let posts = await Promise.all(postFilenames.map(importPost))
+  let posts = (await Promise.all(postSections.map(getSectionPosts))).flat()
 
   return posts.sort((a, z) => +new Date(z.date) - +new Date(a.date))
 }

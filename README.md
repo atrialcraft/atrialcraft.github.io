@@ -25,7 +25,8 @@
 | Аватар в шапке | `src/images/avatar.png` |
 | Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
 | Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpeg` |
-| Записи (статьи, видео, инструкции) | `src/app/writing/<адрес>/page.mdx`, см. запись `/writing/kak-dobavit-zapis` |
+| Статьи и видео | `src/app/writing/<адрес>/page.mdx` → `/writing/<адрес>` |
+| Инструкции (для QR-кодов) | `src/app/instructions/<адрес>/page.mdx` → `/instructions/<адрес>`, пример — `/instructions/kak-dobavit-zapis` |
 | Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), массив `projects` |
 | Оборудование | [src/app/gear/tools.ts](src/app/gear/tools.ts) |
 | Пункты меню | [src/components/Header.tsx](src/components/Header.tsx), [src/components/Footer.tsx](src/components/Footer.tsx) |

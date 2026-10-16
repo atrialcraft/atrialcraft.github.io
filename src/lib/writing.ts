@@ -6,8 +6,13 @@ export function writingHref(slug?: string) {
   return slug ? `${writingPath}/${slug}` : writingPath
 }
 
+export const instructionsPath = '/instructions'
+
+/** Инструкции тоже относятся к разделу «Записи» в меню */
 export function isWritingPath(pathname: string) {
-  return pathname === writingPath || pathname.startsWith(`${writingPath}/`)
+  return [writingPath, instructionsPath].some(
+    (path) => pathname === path || pathname.startsWith(`${path}/`),
+  )
 }
 
 export const postCtaLabel: Record<PostType, string> = {

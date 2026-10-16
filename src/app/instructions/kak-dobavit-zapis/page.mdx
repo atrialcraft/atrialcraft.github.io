@@ -16,7 +16,12 @@ export const metadata = createPostMetadata(post)
 
 export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
 
-Каждая запись — это папка в `src/app/writing/` с файлом `page.mdx` внутри. Имя папки становится адресом: папка `kak-dobavit-zapis` открывается по ссылке `/writing/kak-dobavit-zapis`.
+Каждая запись — это папка с файлом `page.mdx` внутри. Имя папки становится адресом:
+
+- статьи и видео лежат в `src/app/writing/`, папка `moya-statya` открывается по ссылке `/writing/moya-statya`;
+- инструкции лежат в `src/app/instructions/`, папка `zlynka` открывается по ссылке `/instructions/zlynka` — это адрес для QR-кода на изделии.
+
+Имя папки пишется латиницей, строчными буквами, через дефис, без пробелов. Скопируйте папку этой инструкции, переименуйте и замените текст — так проще всего начать.
 
 ## Шапка записи
 

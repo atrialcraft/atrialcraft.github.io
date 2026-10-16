@@ -65,7 +65,7 @@ function MobileNavigation({ className }: { className?: string }) {
       ? 'Главная'
       : pathname.startsWith('/about')
         ? 'Обо мне'
-        : pathname.startsWith('/writing')
+        : isWritingPath(pathname)
           ? 'Записи'
           : pathname.startsWith('/projects')
             ? 'Проекты'
