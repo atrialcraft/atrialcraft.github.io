@@ -470,7 +470,11 @@ function HomeLink({
     <Link
       href="/"
       aria-label="Главная"
-      className={cn(className, 'pointer-events-auto block text-foreground')}
+      className={cn(
+        className,
+        // The logo has no backdrop, so hide it while the header floats over content
+        '[pointer-events:var(--header-logo-events,auto)] block text-foreground [opacity:var(--header-logo-opacity,1)] transition-opacity duration-200',
+      )}
       {...props}
     >
       <Logo className={cn('w-auto', large ? 'h-16' : 'h-9')} />
@@ -529,10 +533,14 @@ export function Header() {
 
       if (top === 0 && scrollY > 0 && scrollY >= downDelay) {
         setProperty('--header-inner-position', 'fixed')
+        setProperty('--header-logo-opacity', '0')
+        setProperty('--header-logo-events', 'none')
         removeProperty('--header-top')
         removeProperty('--avatar-top')
       } else {
         removeProperty('--header-inner-position')
+        removeProperty('--header-logo-opacity')
+        removeProperty('--header-logo-events')
         setProperty('--header-top', '0px')
         setProperty('--avatar-top', '0px')
       }

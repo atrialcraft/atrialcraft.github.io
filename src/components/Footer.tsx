@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { ContainerInner, ContainerOuter } from '@/components/Container'
+import { LaserEasterEgg } from '@/components/LaserEasterEgg'
 import { MadeInBryanskLogo } from '@/components/MadeInBryanskLogo'
 
 function NavLink({
@@ -30,7 +31,9 @@ export function Footer() {
                 <NavLink href="/projects">Проекты</NavLink>
                 <NavLink href="/market">Магазин</NavLink>
               </div>
-              <MadeInBryanskLogo className="h-10 w-auto flex-none text-foreground" />
+              <LaserEasterEgg label="Сделано брянскими в Брянске">
+                <MadeInBryanskLogo className="h-10 w-auto flex-none text-foreground" />
+              </LaserEasterEgg>
             </div>
           </ContainerInner>
         </div>
