@@ -22,7 +22,7 @@
 | Имя, заголовок и описание сайта, соцсети | [src/lib/site.ts](src/lib/site.ts) |
 | Главная: текст под заголовком, блок «Опыт» | [src/app/page.tsx](src/app/page.tsx) |
 | Фото в карусели на главной | [src/components/PhotoGallery.tsx](src/components/PhotoGallery.tsx), файлы в `src/images/photos/` |
-| Аватар в шапке | `src/images/avatar.jpg` |
+| Аватар в шапке | `src/images/avatar.png` |
 | Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
 | Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpeg` |
 | Записи (статьи, видео, инструкции) | `src/app/writing/<адрес>/page.mdx`, см. запись `/writing/kak-dobavit-zapis` |

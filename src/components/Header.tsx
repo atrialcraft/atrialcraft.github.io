@@ -17,7 +17,7 @@ import { Container } from '@/components/Container'
 import { Halo } from '@/components/Halo'
 import { PageEnter } from '@/components/PageEnter'
 import { DialogOverlay } from '@/components/Dialog'
-import avatarImage from '@/images/avatar.jpg'
+import avatarImage from '@/images/avatar.png'
 import {
   bouncy,
   bouncySpring,
