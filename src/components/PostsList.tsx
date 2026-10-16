@@ -76,6 +76,14 @@ export function PostsList({ posts }: { posts: Array<Post> }) {
             key={item.value}
             href={hrefFor(item.value)}
             scroll={false}
+            onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+              // Filtering is client-only, so just update the URL. Router
+              // navigation breaks here in the static export: when the page is
+              // opened with ?type=…, the router treats /writing as that URL.
+              if (event.metaKey || event.ctrlKey || event.shiftKey) return
+              event.preventDefault()
+              window.history.pushState(null, '', hrefFor(item.value))
+            }}
             variant={filter === item.value ? 'secondary' : 'ghost'}
             aria-current={filter === item.value ? 'page' : undefined}
           >

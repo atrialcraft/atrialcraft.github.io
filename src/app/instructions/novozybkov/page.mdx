@@ -1,0 +1,19 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+
+export const post = {
+  type: 'instruction',
+  author: 'Daniil Kolbunov',
+  date: '2026-10-16',
+  title: 'Инструкция к наличнику «Новозыбков» из Брянской области',
+  description: 'Инструкция по сборке скоро появится здесь.',
+  // Заглушка, пока нет текста: открывается по QR-коду, но не показывается в списках
+  visibility: 'unlisted',
+  showOnHome: false,
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Пошаговая инструкция по сборке скоро появится здесь. А пока можно задать вопрос в [Telegram](https://t.me/kolbunov) — подскажу.
