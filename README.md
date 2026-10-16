@@ -1,30 +1,63 @@
-# Brian Ruiz
+# Daniil Kolbunov — мастерская Atrial
 
-Personal site for [b-r.io](https://b-r.io) — portfolio, writing, projects, and gear.
+Личный сайт [atrialcraft.github.io](https://atrialcraft.github.io): записи, проекты и оборудование мастерской.
 
-## Stack
+## Стек
 
-- [Next.js](https://nextjs.org) (App Router) + TypeScript
-- [MDX](https://mdxjs.com) for writing
+- [Next.js](https://nextjs.org) (App Router) + TypeScript, статический экспорт
+- [MDX](https://mdxjs.com) для записей
 - [Tailwind CSS](https://tailwindcss.com) v4
-- [Motion](https://motion.dev) for animation
+- [Motion](https://motion.dev) для анимаций
 
-## Getting started
+## Запуск
 
 1. `npm install`
-2. Copy `.env.example` to `.env.local` and fill in values
-3. `npm run dev`
+2. Скопировать `.env.example` в `.env.local` и заполнить
+3. `npm run dev` и открыть http://localhost:3000
 
-## Deployment
+## Что где редактируется
 
-The site is exported as static HTML (`output: 'export'`, built into `out/`) and deployed to GitHub Pages by [.github/workflows/deploy.yml](.github/workflows/deploy.yml) on every push to `main`.
-
-In the repository settings: **Pages → Source → GitHub Actions**. Analytics IDs are set as repository variables (**Settings → Secrets and variables → Actions → Variables**).
-
-## Environment
-
-| Variable | Purpose |
+| Что | Где |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Canonical site URL (OG, sitemap, RSS) |
-| `NEXT_PUBLIC_YANDEX_METRIKA_ID` | Yandex Metrika counter ID (repo variable `YANDEX_METRIKA_ID`), optional |
-| `NEXT_PUBLIC_GA_ID` | Google Analytics 4 measurement ID, `G-…` (repo variable `GA_ID`), optional |
+| Имя, заголовок и описание сайта, соцсети | [src/lib/site.ts](src/lib/site.ts) |
+| Главная: текст под заголовком, блок «Опыт» | [src/app/page.tsx](src/app/page.tsx) |
+| Фото в карусели на главной | [src/components/PhotoGallery.tsx](src/components/PhotoGallery.tsx), файлы в `src/images/photos/` |
+| Аватар в шапке | `src/images/avatar.jpg` |
+| Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
+| Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpeg` |
+| Записи (статьи, видео, инструкции) | `src/app/writing/<адрес>/page.mdx`, см. запись `/writing/kak-dobavit-zapis` |
+| Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), массив `projects` |
+| Оборудование | [src/app/gear/tools.ts](src/app/gear/tools.ts) |
+| Пункты меню | [src/components/Header.tsx](src/components/Header.tsx), [src/components/Footer.tsx](src/components/Footer.tsx) |
+| Иконка сайта | `public/favicon/` |
+| Цвета и шрифты | [src/styles/tailwind.css](src/styles/tailwind.css) |
+
+### Поля записи
+
+```js
+export const post = {
+  type: 'article', // 'article' | 'video' | 'instruction'
+  author: 'Daniil Kolbunov',
+  date: '2026-10-16',
+  title: 'Заголовок',
+  description: 'Описание',
+  youtubeId: '...', // только для видео
+  coverImage: '...', // необязательно
+  visibility: 'public', // 'unlisted' — только по прямой ссылке
+  showOnHome: true, // false — не показывать на главной
+}
+```
+
+## Деплой
+
+Сайт собирается в статический HTML (`output: 'export'`, папка `out/`) и выкладывается на GitHub Pages workflow-ом [.github/workflows/deploy.yml](.github/workflows/deploy.yml) при каждом push в `main`.
+
+В настройках репозитория: **Pages → Source → GitHub Actions**. ID аналитики задаются в **Settings → Secrets and variables → Actions → Variables**.
+
+## Переменные окружения
+
+| Переменная | Назначение |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Адрес сайта (OG, sitemap, RSS) |
+| `NEXT_PUBLIC_YANDEX_METRIKA_ID` | Номер счётчика Яндекс Метрики (переменная репозитория `YANDEX_METRIKA_ID`), необязательно |
+| `NEXT_PUBLIC_GA_ID` | ID Google Analytics 4, `G-…` (переменная репозитория `GA_ID`), необязательно |

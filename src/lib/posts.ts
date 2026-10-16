@@ -7,30 +7,41 @@ import {
   createTwitterMetadata,
 } from '@/lib/metadata'
 
-export type PostType = 'article' | 'video'
+export type PostType = 'article' | 'video' | 'instruction'
 
-interface ArticleMeta {
+/**
+ * public   — запись видна в списках, RSS и sitemap
+ * unlisted — запись открывается только по прямой ссылке и не индексируется
+ */
+export type PostVisibility = 'public' | 'unlisted'
+
+interface BaseMeta {
+  title: string
+  description: string
+  author: string
+  date: string
+  coverImage?: string
+  ogImage?: string
+  /** По умолчанию 'public' */
+  visibility?: PostVisibility
+  /** Показывать ли запись в блоке «Свежее» на главной. По умолчанию true */
+  showOnHome?: boolean
+}
+
+interface ArticleMeta extends BaseMeta {
   type: 'article'
-  title: string
-  description: string
-  author: string
-  date: string
-  coverImage?: string
-  ogImage?: string
 }
 
-interface VideoMeta {
+interface InstructionMeta extends BaseMeta {
+  type: 'instruction'
+}
+
+interface VideoMeta extends BaseMeta {
   type: 'video'
-  title: string
-  description: string
-  author: string
-  date: string
   youtubeId: string
-  coverImage?: string
-  ogImage?: string
 }
 
-export type PostMeta = ArticleMeta | VideoMeta
+export type PostMeta = ArticleMeta | InstructionMeta | VideoMeta
 
 export type Post = PostMeta & {
   slug: string
@@ -63,17 +74,16 @@ function getPostShareImage(post: PostMeta) {
 export function createPostMetadata(post: PostMeta): Metadata {
   const shareImage = getPostShareImage(post)
   const openGraphImages = shareImage
-    ? createCoverOpenGraphImages(
-        shareImage.url,
-        post.title,
-        shareImage.size,
-      )
+    ? createCoverOpenGraphImages(shareImage.url, post.title, shareImage.size)
     : createOpenGraphImages(post.title)
   const twitterImage = shareImage?.url
 
   return {
     title: post.title,
     description: post.description,
+    ...(post.visibility === 'unlisted'
+      ? { robots: { index: false, follow: false } }
+      : {}),
     openGraph: {
       title: post.title,
       description: post.description,
@@ -112,4 +122,16 @@ export async function getAllPosts() {
   let posts = await Promise.all(postFilenames.map(importPost))
 
   return posts.sort((a, z) => +new Date(z.date) - +new Date(a.date))
+}
+
+/** Записи, которые видны в списках, RSS и sitemap */
+export async function getListedPosts() {
+  return (await getAllPosts()).filter((post) => post.visibility !== 'unlisted')
+}
+
+/** Записи для блока «Свежее» на главной */
+export async function getHomePosts(limit = 3) {
+  return (await getListedPosts())
+    .filter((post) => post.showOnHome !== false)
+    .slice(0, limit)
 }

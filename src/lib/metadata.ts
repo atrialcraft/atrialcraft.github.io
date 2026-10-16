@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { ogSize } from '@/lib/og'
-import { homeHeroTitle } from '@/lib/site-copy'
+import { homeHeroTitle, site } from '@/lib/site'
 
 export function getSiteUrl() {
   return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
@@ -79,6 +79,6 @@ export const siteOgImageTitle = homeHeroTitle
 export const siteOpenGraphImages = createOpenGraphImages(siteOgImageTitle)
 
 export const siteTwitterMetadata = createTwitterMetadata(
-  'Brian Ruiz - Software engineer and creator in NYC',
+  site.title,
   createOgImageUrl(siteOgImageTitle),
 )

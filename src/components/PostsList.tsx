@@ -9,20 +9,20 @@ import {
   ContentCardTitle,
 } from '@/components/ContentCard'
 import { Button } from '@/components/Button'
-import { type Post } from '@/lib/posts'
-import { writingHref } from '@/lib/writing'
+import { type Post, type PostType } from '@/lib/posts'
+import { postCtaLabel, writingHref } from '@/lib/writing'
 
-type Filter = 'all' | 'article' | 'video'
+type Filter = 'all' | PostType
 
 const filters: Array<{ label: string; value: Filter }> = [
-  { label: 'All', value: 'all' },
-  { label: 'Articles', value: 'article' },
-  { label: 'Videos', value: 'video' },
+  { label: 'Все', value: 'all' },
+  { label: 'Статьи', value: 'article' },
+  { label: 'Видео', value: 'video' },
+  { label: 'Инструкции', value: 'instruction' },
 ]
 
 function parseFilter(value: string | null): Filter {
-  if (value === 'article' || value === 'video') return value
-  return 'all'
+  return filters.find((item) => item.value === value)?.value ?? 'all'
 }
 
 function hrefFor(filter: Filter) {
@@ -56,9 +56,7 @@ function PostItem({ post }: { post: Post }) {
       <ContentCardDescription className="text-pretty">
         {post.description}
       </ContentCardDescription>
-      <ContentCardCta>
-        {post.type === 'article' ? 'Read article' : 'Watch video'}
-      </ContentCardCta>
+      <ContentCardCta>{postCtaLabel[post.type]}</ContentCardCta>
     </ContentCard>
   )
 }
@@ -72,7 +70,7 @@ export function PostsList({ posts }: { posts: Array<Post> }) {
 
   return (
     <div className="space-y-20">
-      <div className="flex gap-1" aria-label="Filter writing">
+      <div className="flex flex-wrap gap-1" aria-label="Фильтр записей">
         {filters.map((item) => (
           <Button
             key={item.value}
@@ -87,10 +85,13 @@ export function PostsList({ posts }: { posts: Array<Post> }) {
       </div>
 
       <div className="space-y-20">
+        {postsByYear.length === 0 && (
+          <p className="text-base text-muted-foreground">Пока здесь пусто.</p>
+        )}
         {postsByYear.map(([year, yearPosts]) => (
           <section
             key={year}
-            aria-label={`${year} writing`}
+            aria-label={`Записи за ${year} год`}
             className="md:border-l md:border-border md:pl-6"
           >
             <div className="grid max-w-3xl grid-cols-1 items-start gap-y-8 md:grid-cols-4">

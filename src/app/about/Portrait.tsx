@@ -8,8 +8,8 @@ export function Portrait() {
     <div className="max-w-[19.25rem] px-2.5 lg:max-w-none">
       <PhotoCard
         image={portraitImage}
-        alt="Brian Ruiz in New York City"
-        caption="Brian Ruiz in New York City"
+        alt="Портрет"
+        caption="здесь будет моё фото"
         filename="me.jpeg"
         sizes="(min-width: 1024px) 32rem, 18rem"
         quality={100}

@@ -3,24 +3,24 @@ import { Suspense } from 'react'
 import { PostsList } from '@/components/PostsList'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { createPageMetadata } from '@/lib/metadata'
-import { getAllPosts } from '@/lib/posts'
+import { getListedPosts } from '@/lib/posts'
 
-const heroTitle = 'Writing on coding, productivity, and life updates.'
+const heroTitle = 'Статьи, видео и инструкции из мастерской.'
 
 export const metadata = createPageMetadata({
-  title: 'Writing',
+  title: 'Записи',
   description:
-    'Articles and videos on software engineering, design, productivity, and life in New York City.',
+    'Статьи, видео и инструкции о лазерной резке, 3D-печати, Arduino и других проектах мастерской Atrial.',
   heroTitle,
 })
 
 export default async function Writing() {
-  let posts = await getAllPosts()
+  let posts = await getListedPosts()
 
   return (
     <SimpleLayout
       title={heroTitle}
-      intro="Longer writing and videos covering the work I do, the tools I use, and the occasional life update. Some technical, some personal, all things I wanted to write down."
+      intro="Рассказываю о проектах, показываю процесс и делюсь инструкциями: как что-то сделано и как повторить самому."
     >
       <Suspense fallback={null}>
         <PostsList posts={posts} />

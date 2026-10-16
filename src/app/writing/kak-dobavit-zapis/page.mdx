@@ -1,0 +1,49 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+
+export const post = {
+  type: 'instruction',
+  author: 'Daniil Kolbunov',
+  date: '2026-10-16',
+  title: 'Как добавить запись на сайт',
+  description:
+    'Шпаргалка: где лежат записи, какие у них бывают типы и как управлять видимостью.',
+  visibility: 'unlisted',
+  showOnHome: false,
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Каждая запись — это папка в `src/app/writing/` с файлом `page.mdx` внутри. Имя папки становится адресом: папка `kak-dobavit-zapis` открывается по ссылке `/writing/kak-dobavit-zapis`.
+
+## Шапка записи
+
+В начале файла объявляется объект `post`:
+
+```js
+export const post = {
+  type: 'instruction', // 'article' — статья, 'video' — видео, 'instruction' — инструкция
+  author: 'Daniil Kolbunov',
+  date: '2026-10-16', // по дате записи сортируются
+  title: 'Заголовок',
+  description: 'Короткое описание для списка и превью в соцсетях',
+  coverImage: '/covers/foto.jpg', // необязательно: обложка статьи или инструкции
+  youtubeId: 'dQw4w9WgXcQ', // только для type: 'video'
+  visibility: 'public', // 'public' — видна всем, 'unlisted' — только по прямой ссылке
+  showOnHome: true, // false — запись не попадёт в блок «Свежее» на главной
+}
+```
+
+## Видимость
+
+- `visibility: 'public'` (по умолчанию) — запись есть на странице «Записи», в RSS и sitemap.
+- `visibility: 'unlisted'` — записи нет ни в одном списке, поисковикам запрещено её индексировать, но она открывается по прямой ссылке. Эта инструкция как раз такая.
+- `showOnHome: false` — запись есть на странице «Записи», но не на главной. Для `unlisted` не важно: такая запись и так нигде не показывается.
+
+## Текст
+
+Ниже шапки пишется обычный Markdown: заголовки `##`, списки, **жирный**, ссылки, код. Картинки кладутся в папку записи и подключаются через `import` — посмотрите, как это сделано в других записях.
+
+После `git push` сайт пересоберётся сам, через пару минут запись появится на сайте.

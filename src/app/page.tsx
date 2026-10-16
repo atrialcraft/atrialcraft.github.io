@@ -12,20 +12,14 @@ import {
   ContentCardTitle,
 } from '@/components/ContentCard'
 import { Button } from '@/components/Button'
-import {
-  GitHubIcon,
-  InstagramIcon,
-  XIcon,
-  YouTubeIcon,
-} from '@/components/SocialIcons'
 import { PhotoGallery } from '@/components/PhotoGallery'
-import logoBeamIcon from '@/images/logos/beam-icon-borderless.svg'
 import logoCams from '@/images/logos/cams-white.png'
 import logoHines from '@/images/logos/hines.svg'
 import logoPeriship from '@/images/logos/periship.png'
 import { formatDate } from '@/lib/formatDate'
-import { getAllPosts, type Post } from '@/lib/posts'
-import { homeHeroTitle } from '@/lib/site-copy'
+import { getHomePosts, type Post } from '@/lib/posts'
+import { postCtaLabel } from '@/lib/writing'
+import { homeHeroTitle, socialLinks } from '@/lib/site'
 
 function LatestPost({ post }: { post: Post }) {
   return (
@@ -37,9 +31,7 @@ function LatestPost({ post }: { post: Post }) {
       <ContentCardDescription className="text-pretty">
         {post.description}
       </ContentCardDescription>
-      <ContentCardCta>
-        {post.type === 'article' ? 'Read article' : 'Watch video'}
-      </ContentCardCta>
+      <ContentCardCta>{postCtaLabel[post.type]}</ContentCardCta>
     </ContentCard>
   )
 }
@@ -110,16 +102,16 @@ function Role({ role }: { role: Role }) {
         )}
       </div>
       <dl className="flex flex-auto flex-wrap gap-x-2">
-        <dt className="sr-only">Company</dt>
+        <dt className="sr-only">Компания</dt>
         <dd className="w-full flex-none text-sm font-medium text-foreground">
           {role.company}
         </dd>
-        <dt className="sr-only">Role</dt>
+        <dt className="sr-only">Должность</dt>
         <dd className="text-xs text-muted-foreground">{role.title}</dd>
-        <dt className="sr-only">Date</dt>
+        <dt className="sr-only">Период</dt>
         <dd
           className="ml-auto text-xs text-muted-foreground"
-          aria-label={`${startLabel} until ${endLabel}`}
+          aria-label={`${startLabel} — ${endLabel}`}
         >
           <time dateTime={startDate}>{startLabel}</time>{' '}
           <span aria-hidden="true">—</span>{' '}
@@ -139,7 +131,7 @@ function Resume() {
       logo: logoHines,
       start: '2021',
       end: {
-        label: 'Present',
+        label: 'сейчас',
         dateTime: new Date().getFullYear().toString(),
       },
     },
@@ -169,7 +161,7 @@ function Resume() {
     <div className="rounded-2xl border border-border p-6">
       <h2 className="flex text-sm font-semibold text-foreground">
         <BriefcaseIcon className="size-6 flex-none text-muted-foreground" />
-        <span className="ml-3">Work</span>
+        <span className="ml-3">Опыт</span>
       </h2>
       <ol className="mt-6 space-y-4">
         {resume.map((role, roleIndex) => (
@@ -177,20 +169,20 @@ function Resume() {
         ))}
       </ol>
       <Button
-        href="https://www.linkedin.com/in/brianruizy/"
+        href="https://t.me/kolbunov"
         target="_blank"
         rel="noopener noreferrer"
         variant="secondary"
         className="mt-6 w-full"
       >
-        View LinkedIn
+        Написать в Telegram
       </Button>
     </div>
   )
 }
 
 export default async function Home() {
-  let posts = (await getAllPosts()).slice(0, 3)
+  let posts = await getHomePosts()
 
   return (
     <>
@@ -200,58 +192,19 @@ export default async function Home() {
             {homeHeroTitle}
           </h1>
           <p className="mt-6 text-base text-muted-foreground">
-            Software Engineer at Hines, and currently building{' '}
-            <Link
-              href="https://joinbeam.app"
-              className="link-underline inline-flex items-center gap-1"
-            >
-              <span
-                aria-hidden
-                className="inline-block size-3 shrink-0 bg-current"
-                style={{
-                  maskImage: `url(${logoBeamIcon.src})`,
-                  maskSize: 'contain',
-                  maskRepeat: 'no-repeat',
-                  maskPosition: 'center',
-                  WebkitMaskImage: `url(${logoBeamIcon.src})`,
-                  WebkitMaskSize: 'contain',
-                  WebkitMaskRepeat: 'no-repeat',
-                  WebkitMaskPosition: 'center',
-                }}
-              />
-              Beam
-            </Link>
-            . Focused on crafting delightful digital products. Based in NYC. I
-            also make{' '}
-            <Link
-              href="https://www.youtube.com/@brianruizy"
-              className="link-underline"
-            >
-              tech videos
-            </Link>{' '}
-            for 100K+ subscribers.
+            Меня зовут Даниил, я из Брянска. Atrial — моя личная мастерская на
+            окраине города. Делаю проекты для себя, для друзей и для локальных
+            брянских проектов, а здесь рассказываю о них.
           </p>
           <div className="mt-6 flex gap-6">
-            <SocialLink
-              href="https://x.com/brianruizy"
-              aria-label="Follow on X"
-              icon={XIcon}
-            />
-            <SocialLink
-              href="https://www.instagram.com/brianruizy"
-              aria-label="Follow on Instagram"
-              icon={InstagramIcon}
-            />
-            <SocialLink
-              href="https://www.youtube.com/@brianruizy"
-              aria-label="Follow on YouTube"
-              icon={YouTubeIcon}
-            />
-            <SocialLink
-              href="https://www.github.com/brianruizy"
-              aria-label="Follow on GitHub"
-              icon={GitHubIcon}
-            />
+            {socialLinks.map((link) => (
+              <SocialLink
+                key={link.href}
+                href={link.href}
+                aria-label={link.label}
+                icon={link.icon}
+              />
+            ))}
           </div>
         </PageEnter>
       </Container>
@@ -260,7 +213,7 @@ export default async function Home() {
         <PageEnter index={3}>
           <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
             <div className="space-y-10">
-              <h2 className="text-sm font-semibold tracking-tight">Latest</h2>
+              <h2 className="text-sm font-semibold tracking-tight">Свежее</h2>
               <div className="flex flex-col gap-16">
                 {posts.map((post) => (
                   <LatestPost key={post.href} post={post} />

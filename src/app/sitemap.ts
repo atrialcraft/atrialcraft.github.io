@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { getAllPosts } from '@/lib/posts'
+import { getListedPosts } from '@/lib/posts'
 
 export const dynamic = 'force-static'
 
@@ -8,7 +8,7 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  let posts = await getAllPosts()
+  let posts = await getListedPosts()
 
   return [
     {

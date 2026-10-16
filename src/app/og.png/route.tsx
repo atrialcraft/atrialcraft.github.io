@@ -1,5 +1,5 @@
 import { generateOgImage } from '@/lib/og'
-import { homeHeroTitle } from '@/lib/site-copy'
+import { homeHeroTitle } from '@/lib/site'
 
 export const dynamic = 'force-static'
 

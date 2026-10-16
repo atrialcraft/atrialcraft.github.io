@@ -71,11 +71,11 @@ function Tool({
   )
 }
 
-const heroTitle = 'Things I use to build, create, and stay productive.'
+const heroTitle = 'Оборудование и инструменты, с которыми я работаю.'
 
 export const metadata = createPageMetadata({
-  title: 'Gear',
-  description: 'Things I use to build, create, and stay productive.',
+  title: 'Оборудование',
+  description: 'Оборудование и инструменты, с которыми я работаю.',
   heroTitle,
 })
 
@@ -84,7 +84,7 @@ export default function Gear() {
     <SimpleLayout
       title={heroTitle}
       animateChildren={false}
-      intro="Here are some of the tools I actually own and enjoy using on a daily basis. Mostly tech. Some links are affiliate links, I may earn a commission."
+      intro="Техника, инструменты и приложения, которыми я пользуюсь каждый день."
     >
       <div className="space-y-20">
         {toolGroups.map((group, index) => (

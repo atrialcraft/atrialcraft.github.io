@@ -54,7 +54,7 @@ function Dialog({
 function DialogOverlay({
   className,
   onClose,
-  'aria-label': ariaLabel = 'Close',
+  'aria-label': ariaLabel = 'Закрыть',
 }: {
   className?: string
   onClose?: () => void
@@ -97,7 +97,7 @@ function DialogContent({
     <>
       <DialogOverlay
         key="backdrop"
-        aria-label="Close dialog"
+        aria-label="Закрыть"
         onClose={() => onClose(false)}
       />
 

@@ -158,7 +158,7 @@ export function ImageCarousel({
             <button
               type="button"
               onClick={() => goTo(index - 1)}
-              aria-label="Previous image"
+              aria-label="Предыдущее фото"
               disabled={!canGoPrev}
               className={cn(navButtonClassName, 'left-0')}
             >
@@ -167,7 +167,7 @@ export function ImageCarousel({
             <button
               type="button"
               onClick={() => goTo(index + 1)}
-              aria-label="Next image"
+              aria-label="Следующее фото"
               disabled={!canGoNext}
               className={cn(navButtonClassName, 'right-0')}
             >
@@ -203,7 +203,7 @@ export function ImageCarousel({
             <button
               key={i}
               type="button"
-              aria-label={`Image ${i + 1} of ${count}`}
+              aria-label={`Фото ${i + 1} из ${count}`}
               aria-current={i === index ? 'true' : undefined}
               onClick={() => goTo(i)}
               className="group flex items-center justify-center p-2.5"

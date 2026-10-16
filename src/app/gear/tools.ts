@@ -53,7 +53,7 @@ export type ToolGroup = {
 
 export const toolGroups: ToolGroup[] = [
   {
-    title: 'Everyday carry',
+    title: 'На каждый день',
     tools: [
       {
         title: 'AirPods Max',
@@ -96,7 +96,7 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
-    title: 'Workstation',
+    title: 'Рабочее место',
     tools: [
       {
         title: 'Apple Magic Keyboard with Touch ID',
@@ -145,7 +145,7 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
-    title: 'Camera gear',
+    title: 'Фото и видео',
     tools: [
       {
         title: 'Peak Design carbon fiber tripod',
@@ -212,7 +212,7 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
-    title: 'Home',
+    title: 'Дом',
     tools: [
       {
         title: 'Apple TV 4K',
@@ -262,7 +262,7 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
-    title: 'Apps',
+    title: 'Приложения',
     tools: [
       {
         title: 'OpenAI Codex',
@@ -301,7 +301,7 @@ export const toolGroups: ToolGroup[] = [
       },
       {
         title: 'Superhuman Mail',
-        href: 'https://superhuman.com/brianruizy',
+        href: 'https://superhuman.com',
         description:
           'Seriously, the fastest email app I\'ve used. Inbox Zero is a game changer.',
         image: appSuperhumanMail,

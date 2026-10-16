@@ -1,21 +1,13 @@
 import Link from 'next/link'
-import { EnvelopeIcon } from '@heroicons/react/24/solid'
 import { cn } from '@/lib/utils'
 
 import { Container } from '@/components/Container'
 import { PageEnter } from '@/components/PageEnter'
-import {
-  GitHubIcon,
-  InstagramIcon,
-  LinkedInIcon,
-  XIcon,
-  YouTubeIcon,
-} from '@/components/SocialIcons'
 import { Portrait } from '@/app/about/Portrait'
 import { createPageMetadata } from '@/lib/metadata'
+import { socialLinks } from '@/lib/site'
 
-const heroTitle =
-  "I'm Brian. I live in New York City, building and sharing the journey."
+const heroTitle = 'Привет ✌ Меня зовут Даниил, я из Брянска.'
 
 function SocialLink({
   className,
@@ -42,9 +34,9 @@ function SocialLink({
 }
 
 export const metadata = createPageMetadata({
-  title: 'About',
+  title: 'Обо мне',
   description:
-    'Brian Ruiz is a software engineer and creator based in New York City.',
+    'Daniil Kolbunov — мастерская Atrial в Брянске: лазерная резка, 3D-печать, Arduino.',
   heroTitle,
 })
 
@@ -61,82 +53,35 @@ export default function About() {
           </h1>
           <div className="mt-6 space-y-7 text-base text-muted-foreground">
             <p>
-              I was born in Honduras, grew up in Texas, and now live in NYC. I
-              got into coding because I liked creating things from scratch. That
-              same instinct still drives the work I do, both in software and on
-              camera.
+              Atrial — моя личная мастерская на окраине города. Здесь я делюсь
+              своими проектами и идеями: лазерная резка, 3D-печать, Arduino и
+              многое другое.
             </p>
             <p>
-              I currently work at{' '}
-              <a href="https://www.hines.com" className="link-underline">
-                Hines
-              </a>{' '}
-              as a Sr. Software Engineer, building web apps at the enterprise
-              level. Most of my time goes into making complex systems feel
-              straightforward.
+              Делал для себя, для друзей и даже для локальных брянских проектов.
+              Долгое время всё это просто оставалось в галерее телефона, а
+              теперь буду показывать и рассказывать об этом здесь, в Telegram и
+              Instagram.
             </p>
             <p>
-              My expertise is in full-stack web development, but I really love
-              the front-end side of it. There&apos;s something about crafting a
-              pixel-perfect layout, tweaking spring animations, or simply making
-              apps delightful to use that I find the most rewarding.
+              Возможно, иногда будут залетать мемы с потешными котами, без этого
+              никуда.
             </p>
-            <p>
-              I also run a YouTube channel with more than 100,000 subscribers.
-              It started with photography and cameras, then grew into videos
-              about tech, productivity, and what building things day to day
-              actually looks like, sometimes with a little filmmaking mixed in.
-            </p>
-            <p>
-              When I&apos;m not working, you&apos;ll usually find me at the gym,
-              riding my e-bike around the city, or at a coffee shop with a
-              laptop nearby.
-            </p>
+            <p>Спасибо, что заглянули. Буду рад познакомиться ближе.</p>
           </div>
         </PageEnter>
         <PageEnter className="lg:pl-20">
           <ul role="list">
-            <SocialLink
-              href="https://www.instagram.com/brianruizy"
-              icon={InstagramIcon}
-            >
-              Follow on Instagram
-            </SocialLink>
-            <SocialLink
-              href="https://www.youtube.com/@brianruizy"
-              icon={YouTubeIcon}
-              className="mt-4"
-            >
-              Subscribe on YouTube
-            </SocialLink>
-            <SocialLink
-              href="https://www.github.com/brianruizy"
-              icon={GitHubIcon}
-              className="mt-4"
-            >
-              Follow on GitHub
-            </SocialLink>
-            <SocialLink
-              href="https://www.linkedin.com/in/brianruizy/"
-              icon={LinkedInIcon}
-              className="mt-4"
-            >
-              Connect on LinkedIn
-            </SocialLink>
-            <SocialLink
-              href="https://x.com/brianruizy"
-              icon={XIcon}
-              className="mt-4"
-            >
-              Follow on X
-            </SocialLink>
-            <SocialLink
-              href="mailto:partners@b-r.io"
-              icon={EnvelopeIcon}
-              className="mt-8 border-t border-border pt-8"
-            >
-              partners@b-r.io
-            </SocialLink>
+            {socialLinks.map((link, index) => (
+              <SocialLink
+                key={link.href}
+                href={link.href}
+                icon={link.icon}
+                className={index > 0 ? 'mt-4' : undefined}
+              >
+                {link.label}
+              </SocialLink>
+            ))}
           </ul>
         </PageEnter>
       </div>

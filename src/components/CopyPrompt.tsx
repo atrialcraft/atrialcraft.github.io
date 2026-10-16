@@ -17,7 +17,7 @@ export function CopyPrompt({ text, className }: CopyPromptProps) {
     <div className={cn('not-prose relative my-6', className)}>
       <CopyCodeButton
         text={text}
-        label="Copy prompt"
+        label="Скопировать промпт"
         className="absolute top-2 right-2 sm:top-3 sm:right-3"
       />
       <pre

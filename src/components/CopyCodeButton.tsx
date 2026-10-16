@@ -16,7 +16,7 @@ type CopyCodeButtonProps = {
 export function CopyCodeButton({
   text,
   className,
-  label = 'Copy code',
+  label = 'Скопировать код',
 }: CopyCodeButtonProps) {
   const [copied, setCopied] = useState(false)
   const [showCheck, setShowCheck] = useState(false)
@@ -62,7 +62,7 @@ export function CopyCodeButton({
         type="button"
         variant="ghost"
         onClick={copy}
-        aria-label={showCheck ? 'Copied' : label}
+        aria-label={showCheck ? 'Скопировано' : label}
         className="size-9 p-0 text-muted-foreground"
       >
         <span className="relative block size-5 overflow-visible">

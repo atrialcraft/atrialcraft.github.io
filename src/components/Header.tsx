@@ -17,7 +17,7 @@ import { Container } from '@/components/Container'
 import { Halo } from '@/components/Halo'
 import { PageEnter } from '@/components/PageEnter'
 import { DialogOverlay } from '@/components/Dialog'
-import avatarImage from '@/images/brian-avatar.jpg'
+import avatarImage from '@/images/avatar.jpg'
 import {
   bouncy,
   bouncySpring,
@@ -62,16 +62,16 @@ function MobileNavigation({ className }: { className?: string }) {
   let pathname = usePathname()
   let currentPage =
     pathname === '/'
-      ? 'Home'
+      ? 'Главная'
       : pathname.startsWith('/about')
-        ? 'About'
+        ? 'Обо мне'
         : pathname.startsWith('/writing')
-          ? 'Writing'
+          ? 'Записи'
           : pathname.startsWith('/projects')
-            ? 'Projects'
-            : pathname.startsWith('/gear') || pathname.startsWith('/uses')
-              ? 'Gear'
-              : 'Menu'
+            ? 'Проекты'
+            : pathname.startsWith('/gear')
+              ? 'Оборудование'
+              : 'Меню'
   let [pathnameWhenOpen, setPathnameWhenOpen] = useState(pathname)
   let reduceMotion = useReducedMotion()
   let titleId = useId()
@@ -216,7 +216,7 @@ function MobileNavigation({ className }: { className?: string }) {
           <>
             <DialogOverlay
               key="backdrop"
-              aria-label="Close menu"
+              aria-label="Закрыть меню"
               onClose={closeMenu}
               className="bg-transparent"
             />
@@ -282,7 +282,7 @@ function MobileNavigation({ className }: { className?: string }) {
                   <div className="flex flex-row-reverse items-center justify-between">
                     <button
                       type="button"
-                      aria-label="Close menu"
+                      aria-label="Закрыть меню"
                       className="-m-1 p-1"
                       onClick={closeMenu}
                     >
@@ -292,22 +292,22 @@ function MobileNavigation({ className }: { className?: string }) {
                       id={titleId}
                       className="text-sm font-medium text-muted-foreground"
                     >
-                      Navigation
+                      Навигация
                     </h2>
                   </div>
                   <nav className="mt-6">
                     <ul className="-my-2 divide-y divide-border text-base text-foreground">
                       <MobileNavItem href="/about" onNavigate={closeMenu}>
-                        About
+                        Обо мне
                       </MobileNavItem>
                       <MobileNavItem href="/writing" onNavigate={closeMenu}>
-                        Writing
+                        Записи
                       </MobileNavItem>
                       <MobileNavItem href="/projects" onNavigate={closeMenu}>
-                        Projects
+                        Проекты
                       </MobileNavItem>
                       <MobileNavItem href="/gear" onNavigate={closeMenu}>
-                        Gear
+                        Оборудование
                       </MobileNavItem>
                     </ul>
                   </nav>
@@ -337,7 +337,7 @@ function NavItem({
       <Link
         href={href}
         className={cn(
-          'relative block px-3 py-2 transition',
+          'relative block px-3 py-2 whitespace-nowrap transition',
           isActive ? 'text-accent' : 'hover:text-accent',
         )}
       >
@@ -361,10 +361,10 @@ function DesktopNavigation({
           <Halo />
         </div>
         <ul className="relative z-10 flex px-3 text-sm font-medium text-foreground">
-          <NavItem href="/about">About</NavItem>
-          <NavItem href="/writing">Writing</NavItem>
-          <NavItem href="/projects">Projects</NavItem>
-          <NavItem href="/gear">Gear</NavItem>
+          <NavItem href="/about">Обо мне</NavItem>
+          <NavItem href="/writing">Записи</NavItem>
+          <NavItem href="/projects">Проекты</NavItem>
+          <NavItem href="/gear">Оборудование</NavItem>
         </ul>
       </div>
     </nav>
@@ -414,7 +414,13 @@ function ThemeToggle() {
   return (
     <button
       type="button"
-      aria-label={mounted ? `Switch to ${otherTheme} theme` : 'Toggle theme'}
+      aria-label={
+        mounted
+          ? otherTheme === 'dark'
+            ? 'Включить тёмную тему'
+            : 'Включить светлую тему'
+          : 'Сменить тему'
+      }
       className="group relative rounded-full bg-card/90 px-3 py-2 shadow-lg ring-1 shadow-foreground/5 ring-border backdrop-blur-sm transition dark:bg-muted/90 dark:hover:ring-foreground/20"
       onClick={() => setTheme(otherTheme)}
     >
@@ -486,13 +492,13 @@ function Avatar({
   return (
     <Link
       href="/"
-      aria-label="Home"
+      aria-label="Главная"
       className={cn(className, 'pointer-events-auto')}
       {...props}
     >
       <Image
         src={avatarImage}
-        alt="Brian Ruiz"
+        alt="Daniil Kolbunov"
         quality={100}
         sizes={large ? '4rem' : '2.25rem'}
         className={cn(

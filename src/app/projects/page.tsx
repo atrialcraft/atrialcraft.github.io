@@ -10,12 +10,6 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { iconChromeClassName } from '@/lib/iconChrome'
 import { createPageMetadata } from '@/lib/metadata'
 import { cn } from '@/lib/utils'
-import logoAnimaginary from '@/images/logos/animaginary.svg'
-import logoBeam from '@/images/logos/beam-dark.png'
-import logoCosmos from '@/images/logos/cosmos.svg'
-import logoCovidDashboard from '@/images/logos/covid-dashboard.png'
-import logoOpenShuttle from '@/images/logos/open-shuttle.svg'
-
 interface Project {
   name: string
   description: string
@@ -25,63 +19,49 @@ interface Project {
 
 const projects: Array<Project> = [
   {
-    name: 'Beam',
+    name: 'Candy',
     description:
-      'A project and task manager built for iPhone first, with widgets, calendar views, Siri, and a companion Mac app.',
+      'Локальный брянский проект, для которого я делал работы в мастерской.',
     link: {
-      href: 'https://joinbeam.app',
-      label: 'joinbeam.app',
+      href: 'https://instagram.com/candy_flowers_brnsk/',
+      label: 'instagram.com/candy_flowers_brnsk',
     },
-    logo: logoBeam,
   },
   {
-    name: 'GDH App',
+    name: 'Цвети',
     description:
-      'A React Router 7 investment management and reporting app for Hines private commercial real estate.',
+      'Локальный брянский проект, для которого я делал работы в мастерской.',
     link: {
-      href: 'https://www.hines.com',
-      label: 'hines.com',
+      href: 'https://instagram.com/cveti_please/',
+      label: 'instagram.com/cveti_please',
     },
-    logo: logoAnimaginary,
   },
   {
-    name: '@hines/ui',
+    name: 'Место',
     description:
-      'The internal design system for Hines — 40+ accessible components powering our web apps.',
+      'Локальный брянский проект, для которого я делал работы в мастерской.',
     link: {
-      href: 'https://www.hines.com',
-      label: '@hines/ui',
+      href: 'https://instagram.com/mesto_stop/',
+      label: 'instagram.com/mesto_stop',
     },
-    logo: logoOpenShuttle,
   },
   {
-    name: 'COVID-19 Dashboard',
+    name: 'ЛизаАлерт',
     description:
-      'A Django and Plotly dashboard for exploring pandemic data through an interactive, data-driven interface.',
+      'Брянский поисково-спасательный отряд. Один из локальных проектов, для которых я делал работы в мастерской.',
     link: {
-      href: 'https://github.com/brianruizy/covid19-dashboard',
-      label: 'github.com/brianruizy/covid19-dashboard',
+      href: 'https://vk.ru/la_bryansk',
+      label: 'vk.ru/la_bryansk',
     },
-    logo: logoCovidDashboard,
-  },
-  {
-    name: 'Next Notion Portfolio',
-    description:
-      'A Next.js portfolio template that uses Notion as a flexible content management system.',
-    link: {
-      href: 'https://github.com/brianruizy/next-notion-portfolio',
-      label: 'github.com/brianruizy/next-notion-portfolio',
-    },
-    logo: logoCosmos,
   },
 ]
 
-const heroTitle =
-  "Side projects, work apps, and things I've shipped along the way."
+const heroTitle = 'Проекты, для которых я что-то делал в мастерской.'
 
 export const metadata = createPageMetadata({
-  title: 'Projects',
-  description: "Apps, tools, and experiments I've built.",
+  title: 'Проекты',
+  description:
+    'Проекты мастерской Atrial: для себя, для друзей и для брянских проектов.',
   heroTitle,
 })
 
@@ -91,14 +71,17 @@ export default function Projects() {
       title={heroTitle}
       intro={
         <>
-          A mix of open-source experiments and products I&apos;ve built at work,
-          across a range of frameworks and languages. You can find even more on
-          my{' '}
+          Делал для себя, для друзей и даже для локальных брянских проектов.
+          Больше работ — в{' '}
+          <a href="https://t.me/atrialcraft" className="link-underline">
+            Telegram-канале
+          </a>{' '}
+          и{' '}
           <a
-            href="https://www.github.com/brianruizy"
+            href="https://instagram.com/atrialcraft"
             className="link-underline"
           >
-            GitHub
+            Instagram
           </a>
           .
         </>

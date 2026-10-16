@@ -7,13 +7,13 @@ export default function NotFound() {
       <div className="flex flex-col items-center">
         <p className="text-base font-semibold text-muted-foreground">404</p>
         <h1 className="mt-4 text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">
-          Page not found
+          Страница не найдена
         </h1>
         <p className="mt-4 text-base text-muted-foreground">
-          Sorry, we couldn’t find the page you’re looking for.
+          Такой страницы нет. Возможно, ссылка устарела или в ней опечатка.
         </p>
         <Button href="/" variant="secondary" className="mt-4">
-          Go back home
+          На главную
         </Button>
       </div>
     </Container>

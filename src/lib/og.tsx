@@ -15,7 +15,7 @@ const ogTheme = {
   mutedForeground: '#737373',
 } as const
 
-const brandLabel = 'b-r.io'
+const brandLabel = 'atrialcraft.github.io'
 const logoPath = join(
   process.cwd(),
   'public/favicon/web-app-manifest-512x512.png',

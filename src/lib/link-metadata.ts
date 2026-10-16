@@ -34,7 +34,7 @@ function pickIcon($: cheerio.CheerioAPI, pageUrl: string) {
 
 const fetchHeaders = {
   'User-Agent':
-    'Mozilla/5.0 (compatible; BrianRuizBot/1.0; +https://brianruiz.co)',
+    'Mozilla/5.0 (compatible; KolbunovBot/1.0; +https://atrialcraft.github.io)',
   Accept: 'text/html,application/xhtml+xml',
 }
 
@@ -92,8 +92,7 @@ async function fetchLinkMetadata(url: string): Promise<LinkMetadata> {
     )
 
     const favicon =
-      pickIcon($, pageUrl) ??
-      (await getOriginFavicon(new URL(pageUrl).origin))
+      pickIcon($, pageUrl) ?? (await getOriginFavicon(new URL(pageUrl).origin))
 
     return {
       title,

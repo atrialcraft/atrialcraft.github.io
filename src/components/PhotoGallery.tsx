@@ -14,33 +14,33 @@ import empireImage from '@/images/photos/empire.jpeg'
 const photos = [
   {
     image: empireImage,
-    alt: 'Empire State Building',
-    caption: 'view from home',
+    alt: 'Эмпайр-стейт-билдинг',
+    caption: 'вид из окна',
     filename: 'empire.jpeg',
   },
   {
     image: bikingImage,
-    alt: 'Brian Ruiz on an e-bike',
-    caption: 'riding my ebike',
+    alt: 'Поездка на электровелосипеде',
+    caption: 'на велосипеде',
     filename: 'biking.jpeg',
   },
   {
     image: deskSunsetImage,
-    alt: 'Desk setup at sunset',
-    caption: 'desk setup at sunset',
+    alt: 'Рабочее место на закате',
+    caption: 'рабочее место на закате',
     filename: 'desk-sunset.jpeg',
   },
   {
     image: lilyAndMeImage,
-    alt: 'Brian Ruiz and Lily beneath a red shrine roof',
-    caption: 'exploring Kyoto <3',
+    alt: 'Двое под крышей красного храма',
+    caption: 'путешествие в Киото',
     filename: 'lily-and-me.jpeg',
     objectPosition: 'bottom',
   },
   {
     image: juneImage,
-    alt: 'Small dog holding a toy',
-    caption: 'my pup ૮ • ﻌ • ა',
+    alt: 'Маленькая собака с игрушкой',
+    caption: 'собака ૮ • ﻌ • ა',
     filename: 'june.jpeg',
   },
 ]

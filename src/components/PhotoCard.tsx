@@ -50,7 +50,7 @@ export function PhotoCard({
     <motion.div
       role="button"
       tabIndex={0}
-      aria-label={`${isFlipped ? 'Show photo' : 'Show caption'}: ${alt}`}
+      aria-label={`${isFlipped ? 'Показать фото' : 'Показать подпись'}: ${alt}`}
       aria-pressed={isFlipped}
       onPointerDownCapture={(event) => {
         pointerStart.current = { x: event.clientX, y: event.clientY }

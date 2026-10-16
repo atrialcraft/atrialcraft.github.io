@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { ContainerInner, ContainerOuter } from '@/components/Container'
+import { site } from '@/lib/site'
 
 function NavLink({
   href,
@@ -24,13 +25,13 @@ export function Footer() {
           <ContainerInner>
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm font-medium text-foreground">
-                <NavLink href="/about">About</NavLink>
-                <NavLink href="/writing">Writing</NavLink>
-                <NavLink href="/projects">Projects</NavLink>
-                <NavLink href="/gear">Gear</NavLink>
+                <NavLink href="/about">Обо мне</NavLink>
+                <NavLink href="/writing">Записи</NavLink>
+                <NavLink href="/projects">Проекты</NavLink>
+                <NavLink href="/gear">Оборудование</NavLink>
               </div>
               <p className="text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()} Brian Ruiz.
+                &copy; {new Date().getFullYear()} {site.name}.
               </p>
             </div>
           </ContainerInner>
