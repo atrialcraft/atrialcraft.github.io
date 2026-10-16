@@ -56,20 +56,21 @@ export function BuyButton({
     }
   }, [open])
 
+  // Exit first, then enter: overlapping the two states looked jumpy on phones.
   let transition = reduceMotion
     ? { duration: 0 }
-    : { type: 'spring' as const, duration: 0.3, bounce: 0.2 }
+    : { duration: 0.12, ease: 'easeOut' as const }
 
   return (
-    <div ref={rootRef} className={cn('inline-flex', className)}>
-      <AnimatePresence mode="popLayout" initial={false}>
+    <div ref={rootRef} className={cn('inline-flex h-10', className)}>
+      <AnimatePresence mode="wait" initial={false}>
         {open ? (
           <motion.div
             key="channels"
             className="flex gap-2"
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={transition}
           >
             {channels.map(({ href, label, icon: Icon }) => (
@@ -80,7 +81,7 @@ export function BuyButton({
                 rel="noopener noreferrer"
                 aria-label={`Купить «${productName}»: написать в ${label}`}
                 title={`Написать в ${label}`}
-                className={buttonClassName('primary', 'px-3')}
+                className={buttonClassName('primary', 'h-10 px-3')}
                 onClick={() => setOpen(false)}
               >
                 <Icon className="size-5 fill-current" />
@@ -92,10 +93,10 @@ export function BuyButton({
             key="buy"
             type="button"
             aria-expanded={false}
-            className={buttonClassName('primary')}
-            initial={{ opacity: 0, scale: 0.9 }}
+            className={buttonClassName('primary', 'h-10')}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={transition}
             onClick={() => setOpen(true)}
           >
