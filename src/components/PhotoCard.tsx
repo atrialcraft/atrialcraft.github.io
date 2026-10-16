@@ -87,7 +87,7 @@ export function PhotoCard({
       }}
       style={{ perspective: 1000 }}
       className={cn(
-        'group relative z-30 w-44 flex-none overflow-hidden rounded-xl bg-muted sm:w-72 sm:rounded-2xl',
+        'group relative z-30 w-44 flex-none select-none overflow-hidden rounded-xl bg-muted sm:w-72 sm:rounded-2xl',
         'cursor-pointer',
         rotationClassName,
         className,

@@ -97,7 +97,7 @@ export function PhotoGallery() {
             dragConstraints={{ right: 0, left: -width }}
             dragTransition={dragTransition}
             transition={dragSpring}
-            className="flex cursor-grab gap-5 will-change-transform active:cursor-grabbing"
+            className="flex cursor-grab gap-5 select-none will-change-transform active:cursor-grabbing"
           >
             {cards}
           </motion.div>

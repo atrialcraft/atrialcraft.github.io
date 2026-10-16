@@ -112,7 +112,7 @@ export default function Projects() {
             <ContentCard className="h-full">
               <div
                 className={cn(
-                  'relative z-20 flex size-12 items-center justify-center rounded-full text-sm font-semibold text-foreground',
+                  'relative z-10 flex size-12 items-center justify-center rounded-full text-sm font-semibold text-foreground',
                   iconChromeClassName,
                 )}
               >
@@ -139,7 +139,7 @@ export default function Projects() {
               <ContentCardDescription className="text-pretty">
                 {project.description}
               </ContentCardDescription>
-              <p className="relative z-20 mt-6 flex items-center gap-2 text-sm font-medium text-muted-foreground transition group-hover:text-accent">
+              <p className="relative z-10 mt-auto flex items-center gap-2 pt-6 text-sm font-medium text-muted-foreground transition group-hover:text-accent">
                 <LinkIcon className="size-4 flex-none" />
                 <span className="line-clamp-1">{project.link.label}</span>
               </p>
