@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { CheckIcon, Square2StackIcon } from '@heroicons/react/24/outline'
 import { motion, useReducedMotion } from 'motion/react'
 
@@ -18,41 +18,25 @@ export function CopyCodeButton({
   className,
   label = 'Скопировать код',
 }: CopyCodeButtonProps) {
-  const [copied, setCopied] = useState(false)
   const [showCheck, setShowCheck] = useState(false)
-  const iconSynced = useRef(false)
   const reduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    if (!iconSynced.current) {
-      iconSynced.current = true
-      setShowCheck(copied)
-      return
-    }
-
-    if (reduceMotion) {
-      setShowCheck(copied)
-      return
-    }
-
-    let timeout = window.setTimeout(() => {
-      setShowCheck(copied)
-    }, 120)
-
-    return () => window.clearTimeout(timeout)
-  }, [copied, reduceMotion])
 
   async function copy() {
     try {
       await navigator.clipboard.writeText(text)
-      setCopied(true)
-      window.setTimeout(() => setCopied(false), 2000)
     } catch {
-      setCopied(false)
+      return
     }
+
+    setShowCheck(true)
+    window.setTimeout(() => setShowCheck(false), 2000)
   }
 
-  let transition = motionTransition(symbolReplace(), reduceMotion)
+  // The short delay lets the press feedback land before the icon swaps.
+  let transition = motionTransition(
+    symbolReplace({ delay: 0.12 }),
+    reduceMotion,
+  )
   let hidden = { opacity: 0, scale: 0.001 }
   let visible = { opacity: 1, scale: 1 }
 

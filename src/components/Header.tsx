@@ -1,6 +1,13 @@
 'use client'
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
+import {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -371,43 +378,27 @@ function DesktopNavigation({
   )
 }
 
+function subscribeToNothing() {
+  return () => {}
+}
+
 function ThemeToggle() {
   let { resolvedTheme, setTheme } = useTheme()
   let otherTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
-  let [mounted, setMounted] = useState(false)
-  let [iconDark, setIconDark] = useState(false)
-  let iconSynced = useRef(false)
+  // The theme is only known on the client, so render a placeholder until hydrated.
+  let mounted = useSyncExternalStore(
+    subscribeToNothing,
+    () => true,
+    () => false,
+  )
+  let iconDark = resolvedTheme === 'dark'
   let reduceMotion = useReducedMotion()
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (!mounted) {
-      return
-    }
-
-    if (!iconSynced.current) {
-      iconSynced.current = true
-      setIconDark(resolvedTheme === 'dark')
-      return
-    }
-
-    if (reduceMotion) {
-      setIconDark(resolvedTheme === 'dark')
-      return
-    }
-
-    let timeout = window.setTimeout(() => {
-      setIconDark(resolvedTheme === 'dark')
-    }, 120)
-
-    return () => window.clearTimeout(timeout)
-  }, [mounted, reduceMotion, resolvedTheme])
-
-  let transition = motionTransition(symbolReplace(), reduceMotion)
+  // The short delay lets the press feedback land before the icon swaps.
+  let transition = motionTransition(
+    symbolReplace({ delay: 0.12 }),
+    reduceMotion,
+  )
   let hidden = { opacity: 0, scale: 0.001 }
   let visible = { opacity: 1, scale: 1 }
 
