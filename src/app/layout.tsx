@@ -1,4 +1,4 @@
-import { type Metadata } from 'next'
+import { type Metadata, type Viewport } from 'next'
 import { Inter, Source_Serif_4 } from 'next/font/google'
 
 import { Providers } from '@/app/providers'
@@ -61,19 +61,16 @@ export const metadata: Metadata = {
   twitter: {
     ...siteTwitterMetadata,
   },
-  icons: {
-    icon: [
-      { url: '/favicon/favicon.ico' },
-      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
-      {
-        url: '/favicon/favicon-96x96.png',
-        sizes: '96x96',
-        type: 'image/png',
-      },
-    ],
-    apple: '/favicon/apple-touch-icon.png',
-  },
-  manifest: '/favicon/site.webmanifest',
+  // Иконки подключаются сами из файлов src/app/favicon.ico, icon.png,
+  // apple-icon.png и манифеста src/app/manifest.ts
+}
+
+// Цвет адресной строки в мобильных браузерах — под фон сайта
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#161616' },
+  ],
 }
 
 export default function RootLayout({

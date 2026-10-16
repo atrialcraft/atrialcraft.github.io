@@ -1,0 +1,19 @@
+import { ProductLayout } from '@/components/ProductLayout'
+import { createProductMetadata } from '@/lib/products'
+
+export const product = {
+  name: 'Наличник «Климово»',
+  description:
+    'Наличник-зеркало из фанеры по мотивам деревянной архитектуры Климово',
+  price: 2500,
+  instruction: '/instructions/klimovo',
+  order: 2,
+}
+
+export const metadata = createProductMetadata(product)
+
+export default ({ children }) => (
+  <ProductLayout product={product}>{children}</ProductLayout>
+)
+
+Подробное описание и фото скоро появятся. Если есть вопросы — нажмите «Купить» и напишите мне в Telegram.

@@ -28,10 +28,25 @@
 | Статьи и видео | `src/app/writing/<адрес>/page.mdx` → `/writing/<адрес>` |
 | Инструкции (для QR-кодов) | `src/app/instructions/<адрес>/page.mdx` → `/instructions/<адрес>`, пример — `/instructions/kak-dobavit-zapis` |
 | Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), массив `projects` |
-| Магазин: товары, цены, фото | [src/app/market/products.ts](src/app/market/products.ts), фото в `src/images/market/` |
+| Магазин: товары | `src/app/market/<адрес>/page.mdx` → `/market/<адрес>`, фото товара `photo.jpeg` в той же папке |
 | Пункты меню | [src/components/Header.tsx](src/components/Header.tsx), [src/components/Footer.tsx](src/components/Footer.tsx) |
-| Иконка сайта | `public/favicon/` |
+| Иконки сайта (вкладка, iPhone, Android) | см. раздел «Иконки» ниже |
 | Цвета и шрифты | [src/styles/tailwind.css](src/styles/tailwind.css) |
+
+### Поля товара
+
+```js
+export const product = {
+  name: 'Наличник «Злынка»',
+  description: 'Коротко, для карточки в магазине',
+  price: 2500, // в рублях; без цены — «Цена по запросу»
+  image: photo, // import photo from './photo.jpeg'
+  instruction: '/instructions/zlynka', // необязательно: кнопка «Инструкция»
+  order: 1, // порядок в магазине
+}
+```
+
+Ниже шапки — подробное описание обычным Markdown.
 
 ### Поля записи
 
@@ -48,6 +63,23 @@ export const post = {
   showOnHome: true, // false — не показывать на главной
 }
 ```
+
+## Иконки
+
+Все иконки делаются из одного квадратного логотипа (сейчас это `src/images/avatar.png`). При замене логотипа нужно заменить все файлы из таблицы; имена и размеры должны остаться такими же.
+
+| Файл | Размер | Где видно | Требования |
+| --- | --- | --- | --- |
+| `src/app/favicon.ico` | 16×16, 32×32, 48×48 в одном файле | вкладка браузера, закладки, поиск Яндекса и Google | можно с прозрачностью |
+| `src/app/icon.png` | 512×512 | вкладка в современных браузерах | PNG, можно с прозрачностью |
+| `src/app/apple-icon.png` | 180×180 | iPhone и iPad: «На экран „Домой“» | PNG **без прозрачности**: iOS сама скругляет углы, а прозрачные места становятся чёрными |
+| `public/icons/icon-192.png` | 192×192 | Android: ярлык на главном экране | PNG, можно с прозрачностью |
+| `public/icons/icon-512.png` | 512×512 | Android: экран загрузки; превью для соцсетей и RSS | PNG, можно с прозрачностью |
+| `public/icons/icon-maskable-512.png` | 512×512 | Android: ярлык в форме круга, капли и т. д. | PNG без прозрачности, логотип в центральных 80%: края Android обрезает |
+
+Файлы в `src/app/` Next.js подключает сам, отдельно прописывать их не нужно. Название, цвета и иконки для Android задаются в [src/app/manifest.ts](src/app/manifest.ts), цвет адресной строки в мобильных браузерах — `viewport` в [src/app/layout.tsx](src/app/layout.tsx).
+
+Сгенерировать весь набор из одной картинки можно на [realfavicongenerator.net](https://realfavicongenerator.net), а потом разложить файлы по путям из таблицы.
 
 ## Деплой
 

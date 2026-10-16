@@ -1,0 +1,18 @@
+import { ProductLayout } from '@/components/ProductLayout'
+import { createProductMetadata } from '@/lib/products'
+
+export const product = {
+  name: 'Часы «Электрома»',
+  description:
+    'Часы на газоразрядных советских индикаторах ИН-12Б, каждая цифра которых формируется внутри стеклянной колбы',
+  price: 7000,
+  order: 4,
+}
+
+export const metadata = createProductMetadata(product)
+
+export default ({ children }) => (
+  <ProductLayout product={product}>{children}</ProductLayout>
+)
+
+Подробное описание и фото скоро появятся. Если есть вопросы — нажмите «Купить» и напишите мне в Telegram.

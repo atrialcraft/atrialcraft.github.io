@@ -18,7 +18,7 @@ const ogTheme = {
 const brandLabel = 'atrialcraft.github.io'
 const logoPath = join(
   process.cwd(),
-  'public/favicon/web-app-manifest-512x512.png',
+  'public/icons/icon-512.png',
 )
 const logoDisplaySize = 48
 const brandLabelFontSize = 40

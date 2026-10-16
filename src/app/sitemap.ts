@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { getListedPosts } from '@/lib/posts'
+import { getAllProducts } from '@/lib/products'
 
 export const dynamic = 'force-static'
 
@@ -9,6 +10,7 @@ const siteUrl =
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let posts = await getListedPosts()
+  let products = await getAllProducts()
 
   return [
     {
@@ -35,6 +37,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${siteUrl}/market`,
       lastModified: new Date(),
     },
+    ...products.map((product) => ({
+      url: `${siteUrl}${product.href}`,
+      lastModified: new Date(),
+    })),
     ...posts.map((post) => ({
       url: `${siteUrl}${post.href}`,
       lastModified: new Date(post.date),

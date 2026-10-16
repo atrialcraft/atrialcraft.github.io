@@ -20,8 +20,8 @@ export async function GET() {
     author,
     id: siteUrl,
     link: siteUrl,
-    image: `${siteUrl}/favicon/favicon.ico`,
-    favicon: `${siteUrl}/favicon/favicon.ico`,
+    image: `${siteUrl}/icons/icon-512.png`,
+    favicon: `${siteUrl}/favicon.ico`,
     copyright: `© ${new Date().getFullYear()} ${site.name}`,
     feedLinks: {
       rss2: `${siteUrl}/feed.xml`,

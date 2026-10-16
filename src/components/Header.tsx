@@ -337,7 +337,9 @@ function NavItem({
 }) {
   let pathname = usePathname()
   let isActive =
-    pathname === href || (href === '/writing' && isWritingPath(pathname))
+    pathname === href ||
+    pathname.startsWith(`${href}/`) ||
+    (href === '/writing' && isWritingPath(pathname))
 
   return (
     <li>
