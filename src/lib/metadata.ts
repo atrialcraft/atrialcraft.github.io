@@ -7,8 +7,9 @@ export function getSiteUrl() {
   return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 }
 
-export function createOgImageUrl(title: string) {
-  return `${getSiteUrl()}/api/og?title=${encodeURIComponent(title)}`
+// Pages are static, so every page shares one build-time image (src/app/og.png)
+export function createOgImageUrl(_title: string) {
+  return `${getSiteUrl()}/og.png`
 }
 
 export function createOpenGraphImages(title: string) {

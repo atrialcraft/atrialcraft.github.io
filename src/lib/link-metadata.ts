@@ -46,7 +46,6 @@ const getOriginFavicon = cache(async (origin: string) => {
         ...fetchHeaders,
         Accept: 'image/*,*/*',
       },
-      next: { revalidate: 60 * 60 * 24 },
       signal: AbortSignal.timeout(5000),
     })
 
@@ -71,7 +70,6 @@ async function fetchLinkMetadata(url: string): Promise<LinkMetadata> {
   try {
     const response = await fetch(url, {
       headers: fetchHeaders,
-      next: { revalidate: 60 * 60 * 24 },
       signal: AbortSignal.timeout(8000),
     })
 
