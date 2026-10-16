@@ -2,24 +2,25 @@ import { InstagramIcon, TelegramIcon, VKIcon } from '@/components/SocialIcons'
 
 export const site = {
   name: 'Daniil Kolbunov',
-  title: 'Daniil Kolbunov — мастерская Atrial',
+  /** Название сайта: заголовок вкладки на главной и в конце заголовков страниц */
+  brand: 'Atrial',
+  title: 'Atrial — Творческое убежище брянского энтузиаста',
   description:
     'Мастерская Atrial: лазерная резка, 3D-печать, Arduino и другие проекты из Брянска.',
   domain: 'atrialcraft.github.io',
   locale: 'ru_RU',
-  /** Личный Telegram: кнопки «Написать» и «Купить» */
-  telegram: 'https://t.me/kolbunov',
+}
+
+/** Куда ведёт кнопка «Купить»: личные сообщения канала и сообщества ВК */
+export const buyLinks = {
+  telegram: 'https://t.me/atrialcraft?direct',
+  vk: 'https://vk.me/atrialcraft',
 }
 
 export const homeHeroTitle =
   'Мастерская Atrial: лазерная резка, 3D-печать и Arduino.'
 
 export const socialLinks = [
-  {
-    href: site.telegram,
-    label: 'Написать в Telegram',
-    icon: TelegramIcon,
-  },
   {
     href: 'https://t.me/atrialcraft',
     label: 'Канал Atrial в Telegram',

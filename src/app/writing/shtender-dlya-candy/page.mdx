@@ -1,0 +1,42 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import image01 from './01.jpg'
+import image02 from './02.jpg'
+import image03 from './03.jpg'
+import image04 from './04.jpg'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2025-09-27',
+  title: "Уличный штендер для Candy",
+  description: "Простой сварной штендер для цветочного магазина — от идеи до готового изделия.",
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Не так часто приходится пользоваться сваркой, но когда выпадает такая возможность — всегда приятно этим заниматься. Особенно радует видеть результат своей работы от идеи до готового изделия.
+
+В этот раз сделал простой уличный штендер для ребят из [Candy](https://t.me/candy_flowers32).
+
+<figure>
+  <Image src={image01} alt="Готовый штендер" />
+  <figcaption>Готовый штендер</figcaption>
+</figure>
+
+<figure>
+  <Image src={image02} alt="Крепление вывески" />
+  <figcaption>Крепление вывески</figcaption>
+</figure>
+
+<figure>
+  <Image src={image03} alt="Фиксатор" />
+  <figcaption>Фиксатор</figcaption>
+</figure>
+
+<figure>
+  <Image src={image04} alt="Штендер у магазина" />
+  <figcaption>Штендер у магазина</figcaption>
+</figure>

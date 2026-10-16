@@ -1,0 +1,34 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import image01 from './01.jpg'
+import image02 from './02.jpg'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2025-09-17',
+  title: "Спойлер из TPU для Arrma Kraton 6S",
+  description: "Около 17 часов печати гибким пластиком и урок о том, как TPU ведёт себя на морозе.",
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Суммарно около 17 часов печати TPU A95 — очередной спойлер для RC-модели Arrma Kraton 6S.
+
+<figure>
+  <Image src={image01} alt="Спойлер на принтере" />
+  <figcaption>Спойлер на принтере</figcaption>
+</figure>
+
+Как оказалось позже, A95 дубеет даже при небольших отрицательных температурах (наверное, нормальные люди это сразу проверяют). Пришлось срочно искать более мягкую альтернативу и всем купившим отправлять замену.
+
+<figure>
+  <Image src={image02} alt="Спойлер на модели" />
+  <figcaption>Спойлер на модели</figcaption>
+</figure>
+
+## Зима
+
+Найти идеальный флекс-пластик, который сохраняет прочность и гибкость даже в мороз, было довольно тяжело. Зато теперь ребята из Краснодара на зимних праздниках вовсю пытаются убить печатные спойлеры на трамплинах, и пока безуспешно. [Видео](https://t.me/atrialcraft/74) — в Telegram-канале.

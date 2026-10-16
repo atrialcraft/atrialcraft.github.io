@@ -1,0 +1,42 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import image01 from './01.jpg'
+import image02 from './02.jpg'
+import image03 from './03.jpg'
+import image04 from './04.jpg'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2025-10-09',
+  title: "Платформа для ящиков Milwaukee Packout",
+  description: "Вместо дорогой фирменной тележки — своя платформа для модульной системы хранения.",
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+В 20 лет распределяющая шляпа в Хогвартсе выбирает для мужчины бренд инструмента на всю жизнь.
+
+Так я и остановился на Milwaukee — точнее, на их системе хранения Packout. В Штатах это вполне доступные ящики с огромным рынком апгрейдов, а в России приходится мириться с нашими ценами и искать компромиссы. В этот раз компромиссом стало решение сделать платформу для ящиков самому.
+
+<figure>
+  <Image src={image01} alt="Заготовка платформы" />
+  <figcaption>Заготовка платформы</figcaption>
+</figure>
+
+<figure>
+  <Image src={image02} alt="Примерка на ящике" />
+  <figcaption>Примерка на ящике</figcaption>
+</figure>
+
+<figure>
+  <Image src={image03} alt="Готовая платформа" />
+  <figcaption>Готовая платформа</figcaption>
+</figure>
+
+<figure>
+  <Image src={image04} alt="Ящики Packout на платформе" />
+  <figcaption>Ящики Packout на платформе</figcaption>
+</figure>

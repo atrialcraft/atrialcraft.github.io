@@ -1,0 +1,44 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import image01 from './01.jpg'
+import image02 from './02.jpg'
+import image03 from './03.jpg'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2026-02-15',
+  title: "Рамка для магнитолы по 3D-скану",
+  description: "Отсканировал установочное место в машине, смоделировал рамку и напечатал её из ABS со стекловолокном.",
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+По случаю покупки первого автомобиля решил потихоньку приводить его в порядок. Начать решил с магнитолы, которая в стоке не умела ничего, кроме как проигрывать радио и CD.
+
+Выбор пал на Teyes CC3 2K. Продавец обычно даёт переходную рамку в комплекте, но на конкретный автомобиль она подходит с нюансами: зазоры, другой цвет, несовпадающие размеры. Мириться с этим не хотелось.
+
+<figure>
+  <Image src={image01} alt="Магнитола в новой рамке" />
+  <figcaption>Магнитола в новой рамке</figcaption>
+</figure>
+
+## Скан и моделирование
+
+Вооружился приложением Polycam и отсканировал установочное место. Дальше по готовому скану смоделировал рамку и отправил в печать.
+
+<figure>
+  <Image src={image02} alt="Рамка повторяет форму панели" />
+  <figcaption>Рамка повторяет форму панели</figcaption>
+</figure>
+
+## Материал
+
+Остановился на пластике Filamentarno ABS GF-4 — это композит на основе ABS, армированный 4% рубленого стекловолокна. После печати получается очень прочная и, главное, красивая текстура, которую потом можно обработать и покрыть краской по пластику в цвет панели, чем я обязательно позже займусь.
+
+<figure>
+  <Image src={image03} alt="Вид сбоку" />
+  <figcaption>Вид сбоку</figcaption>
+</figure>

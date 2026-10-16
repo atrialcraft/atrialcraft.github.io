@@ -1,6 +1,10 @@
-import Image, { type ImageProps } from 'next/image'
 import Link from 'next/link'
-import { BriefcaseIcon } from '@heroicons/react/24/outline'
+import {
+  BuildingStorefrontIcon,
+  GlobeAltIcon,
+  MapPinIcon,
+  ShoppingBagIcon,
+} from '@heroicons/react/24/outline'
 
 import { Container } from '@/components/Container'
 import { PageEnter } from '@/components/PageEnter'
@@ -13,13 +17,10 @@ import {
 } from '@/components/ContentCard'
 import { Button } from '@/components/Button'
 import { PhotoGallery } from '@/components/PhotoGallery'
-import logoCams from '@/images/logos/cams-white.png'
-import logoHines from '@/images/logos/hines.svg'
-import logoPeriship from '@/images/logos/periship.png'
 import { formatDate } from '@/lib/formatDate'
 import { getHomePosts, type Post } from '@/lib/posts'
 import { postCtaLabel } from '@/lib/writing'
-import { homeHeroTitle, site, socialLinks } from '@/lib/site'
+import { homeHeroTitle, socialLinks } from '@/lib/site'
 
 function LatestPost({ post }: { post: Post }) {
   return (
@@ -49,133 +50,60 @@ function SocialLink({
   )
 }
 
-interface Role {
-  company: string
-  title: string
-  initials: string
-  logo?: ImageProps['src']
-  logoInset?: 'muted' | 'white'
-  logoBgClass?: string
-  logoPadding?: string
-  start: string | { label: string; dateTime: string }
-  end: string | { label: string; dateTime: string }
+interface Place {
+  name: string
+  description: string
+  href: string
+  icon: React.ComponentType<{ className?: string }>
 }
 
-function Role({ role }: { role: Role }) {
-  let startLabel =
-    typeof role.start === 'string' ? role.start : role.start.label
-  let startDate =
-    typeof role.start === 'string' ? role.start : role.start.dateTime
+const places: Array<Place> = [
+  {
+    name: 'Магазин на сайте',
+    description: 'Все изделия и наборы, заказ через Telegram или ВКонтакте',
+    href: '/market',
+    icon: ShoppingBagIcon,
+  },
+  {
+    name: '«Место»',
+    description: 'Брянск, ул. Фокина, 29: готовые изделия и наборы',
+    href: 'https://t.me/mestostop',
+    icon: MapPinIcon,
+  },
+  {
+    name: '«Мэрч»',
+    description: 'Наборы наличников с самовывозом и доставкой',
+    href: 'https://smlerch.ru/',
+    icon: GlobeAltIcon,
+  },
+]
 
-  let endLabel = typeof role.end === 'string' ? role.end : role.end.label
-  let endDate = typeof role.end === 'string' ? role.end : role.end.dateTime
-
-  return (
-    <li className="flex gap-4">
-      <div className="relative mt-1 flex size-12 flex-none items-center justify-center rounded-full bg-card text-xs font-semibold text-foreground shadow-md ring-1 shadow-foreground/5 ring-border dark:border dark:border-border dark:bg-muted dark:ring-0">
-        {role.logo ? (
-          role.logoInset || role.logoBgClass ? (
-            <div
-              className={`flex size-8 items-center justify-center rounded-full ${role.logoPadding ?? 'p-1.5'} ${role.logoInset === 'white' ? 'bg-white' : role.logoInset === 'muted' ? 'bg-muted' : ''} ${role.logoBgClass ?? ''}`}
-            >
-              <Image
-                src={role.logo}
-                alt=""
-                width={32}
-                height={32}
-                className="size-full object-contain"
-                unoptimized
-              />
-            </div>
-          ) : (
-            <Image
-              src={role.logo}
-              alt=""
-              width={32}
-              height={32}
-              className="size-8 rounded-full"
-              unoptimized
-            />
-          )
-        ) : (
-          role.initials
-        )}
-      </div>
-      <dl className="flex flex-auto flex-wrap gap-x-2">
-        <dt className="sr-only">Компания</dt>
-        <dd className="w-full flex-none text-sm font-medium text-foreground">
-          {role.company}
-        </dd>
-        <dt className="sr-only">Должность</dt>
-        <dd className="text-xs text-muted-foreground">{role.title}</dd>
-        <dt className="sr-only">Период</dt>
-        <dd
-          className="ml-auto text-xs text-muted-foreground"
-          aria-label={`${startLabel} — ${endLabel}`}
-        >
-          <time dateTime={startDate}>{startLabel}</time>{' '}
-          <span aria-hidden="true">—</span>{' '}
-          <time dateTime={endDate}>{endLabel}</time>
-        </dd>
-      </dl>
-    </li>
-  )
-}
-
-function Resume() {
-  let resume: Array<Role> = [
-    {
-      company: 'Hines',
-      title: 'Sr. Software Engineer',
-      initials: 'H',
-      logo: logoHines,
-      start: '2021',
-      end: {
-        label: 'сейчас',
-        dateTime: new Date().getFullYear().toString(),
-      },
-    },
-    {
-      company: 'PeriShip (FedEx)',
-      title: 'Software Engineer',
-      initials: 'P',
-      logo: logoPeriship,
-      logoBgClass: 'bg-neutral-100',
-      logoPadding: 'p-1',
-      start: '2020',
-      end: '2021',
-    },
-    {
-      company: 'CAMS',
-      title: 'Python Developer',
-      initials: 'C',
-      logo: logoCams,
-      logoBgClass: 'bg-sky-600',
-      logoPadding: 'p-2',
-      start: '2019',
-      end: '2020',
-    },
-  ]
-
+function WhereToBuy() {
   return (
     <div className="rounded-2xl border border-border p-6">
       <h2 className="flex text-sm font-semibold text-foreground">
-        <BriefcaseIcon className="size-6 flex-none text-muted-foreground" />
-        <span className="ml-3">Опыт</span>
+        <BuildingStorefrontIcon className="size-6 flex-none text-muted-foreground" />
+        <span className="ml-3">Где купить</span>
       </h2>
-      <ol className="mt-6 space-y-4">
-        {resume.map((role, roleIndex) => (
-          <Role key={roleIndex} role={role} />
+      <ul role="list" className="mt-6 space-y-4">
+        {places.map(({ name, description, href, icon: Icon }) => (
+          <li key={name}>
+            <Link href={href} className="group flex gap-4">
+              <div className="mt-1 flex size-10 flex-none items-center justify-center rounded-full bg-card shadow-md ring-1 shadow-foreground/5 ring-border dark:border dark:border-border dark:bg-muted dark:ring-0">
+                <Icon className="size-5 text-muted-foreground transition group-hover:text-accent" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-foreground transition group-hover:text-accent">
+                  {name}
+                </p>
+                <p className="text-xs text-muted-foreground">{description}</p>
+              </div>
+            </Link>
+          </li>
         ))}
-      </ol>
-      <Button
-        href={site.telegram}
-        target="_blank"
-        rel="noopener noreferrer"
-        variant="secondary"
-        className="mt-6 w-full"
-      >
-        Написать в Telegram
+      </ul>
+      <Button href="/market" variant="secondary" className="mt-6 w-full">
+        Перейти в магазин
       </Button>
     </div>
   )
@@ -193,8 +121,9 @@ export default async function Home() {
           </h1>
           <p className="mt-6 text-base text-muted-foreground">
             Меня зовут Даниил, я из Брянска. Atrial — моя личная мастерская на
-            окраине города. Делаю проекты для себя, для друзей и для локальных
-            брянских проектов, а здесь рассказываю о них.
+            окраине города: лазерная резка и гравировка, 3D-печать, RC-модели,
+            Arduino. Сейчас больше всего занимаюсь брянскими наличниками — делаю
+            наборы для сборки и провожу мастер-классы.
           </p>
           <div className="mt-6 flex gap-6">
             {socialLinks.map((link) => (
@@ -222,7 +151,7 @@ export default async function Home() {
             </div>
 
             <div className="space-y-10 lg:pl-16 xl:pl-24">
-              <Resume />
+              <WhereToBuy />
             </div>
           </div>
         </PageEnter>

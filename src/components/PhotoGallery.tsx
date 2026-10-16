@@ -5,43 +5,42 @@ import { motion } from 'motion/react'
 import { bouncy, dragSpring, dragTransition } from '@/lib/transitions'
 import { PhotoCard } from '@/components/PhotoCard'
 
-import bikingImage from '@/images/photos/biking.jpeg'
-import deskSunsetImage from '@/images/photos/desk-sunset.jpeg'
-import juneImage from '@/images/photos/june.jpeg'
-import lilyAndMeImage from '@/images/photos/lily-and-me-kyoto.jpeg'
-import empireImage from '@/images/photos/empire.jpeg'
+import elektromaImage from '@/images/photos/elektroma.jpg'
+import nalichnikImage from '@/images/photos/nalichnik.jpg'
+import onAirImage from '@/images/photos/on-air.jpg'
+import organajzerImage from '@/images/photos/organajzer.jpg'
+import pechkaImage from '@/images/photos/pechka.jpg'
 
 const photos = [
   {
-    image: empireImage,
-    alt: 'Эмпайр-стейт-билдинг',
-    caption: 'вид из окна',
-    filename: 'empire.jpeg',
+    image: elektromaImage,
+    alt: 'Часы на газоразрядных индикаторах ИН-12Б',
+    caption: 'часы «Электрома» на ИН-12Б',
+    filename: 'elektroma.jpg',
   },
   {
-    image: bikingImage,
-    alt: 'Поездка на электровелосипеде',
-    caption: 'на велосипеде',
-    filename: 'biking.jpeg',
+    image: pechkaImage,
+    alt: 'Сварка корпуса печки-буржуйки',
+    caption: 'буржуйка из стали 5 мм',
+    filename: 'pechka.jpg',
   },
   {
-    image: deskSunsetImage,
-    alt: 'Рабочее место на закате',
-    caption: 'рабочее место на закате',
-    filename: 'desk-sunset.jpeg',
+    image: nalichnikImage,
+    alt: 'Раскрашенный наличник-зеркало «Злынка»',
+    caption: 'наличник «Злынка»',
+    filename: 'nalichnik.jpg',
   },
   {
-    image: lilyAndMeImage,
-    alt: 'Двое под крышей красного храма',
-    caption: 'путешествие в Киото',
-    filename: 'lily-and-me.jpeg',
-    objectPosition: 'bottom',
+    image: onAirImage,
+    alt: 'Световое табло ON AIR',
+    caption: 'табло ON AIR',
+    filename: 'on-air.jpg',
   },
   {
-    image: juneImage,
-    alt: 'Маленькая собака с игрушкой',
-    caption: 'собака ૮ • ﻌ • ა',
-    filename: 'june.jpeg',
+    image: organajzerImage,
+    alt: 'Органайзер в стиле IKEA Skådis в цветочном магазине',
+    caption: 'органайзер для Candy',
+    filename: 'organajzer.jpg',
   },
 ]
 

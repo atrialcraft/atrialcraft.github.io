@@ -1,0 +1,46 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import image01 from './01.jpg'
+import image02 from './02.jpg'
+import image03 from './03.jpg'
+import image04 from './04.jpg'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2025-10-13',
+  title: "Органайзеры в стиле IKEA Skådis",
+  description: "Перфорированные панели из фанеры с напечатанными крючками и полками для цветочных магазинов Candy и Цвети.",
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Когда IKEA далеко, а организовать рабочее место надо.
+
+Органайзер в стиле IKEA Skådis: фанера 6 мм (595×480), а навесное — крючки, полки, держатели — напечатано из PLA под задачи девчонок из [Candy](https://t.me/candy_flowers32).
+
+<figure>
+  <Image src={image01} alt="Раскрой панели на лазере" />
+  <figcaption>Раскрой панели на лазере</figcaption>
+</figure>
+
+<figure>
+  <Image src={image02} alt="Готовая панель" />
+  <figcaption>Готовая панель</figcaption>
+</figure>
+
+<figure>
+  <Image src={image03} alt="Органайзер в Candy" />
+  <figcaption>Органайзер в Candy</figcaption>
+</figure>
+
+## Второй органайзер
+
+Ещё один органайзер обрёл новый дом и оказался в [Цвети](https://t.me/cvetiplease). В комплекте всё необходимое для установки: дюбели Fisher (универсальные для бетона, кирпича и даже гипсокартона), крепёжные проставки 15 мм и целая россыпь навесных аксессуаров.
+
+<figure>
+  <Image src={image04} alt="Органайзер в Цвети" />
+  <figcaption>Органайзер в Цвети</figcaption>
+</figure>

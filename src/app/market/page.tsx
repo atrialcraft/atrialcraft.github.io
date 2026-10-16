@@ -2,15 +2,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PhotoIcon } from '@heroicons/react/24/outline'
 
-import { Button } from '@/components/Button'
+import { BuyButton } from '@/components/BuyButton'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { createPageMetadata } from '@/lib/metadata'
-import {
-  buyHref,
-  formatPrice,
-  getAllProducts,
-  type Product,
-} from '@/lib/products'
+import { formatPrice, getAllProducts, type Product } from '@/lib/products'
 
 function ProductCard({ product }: { product: Product }) {
   return (
@@ -45,14 +40,7 @@ function ProductCard({ product }: { product: Product }) {
         <p className="mt-auto pt-3 text-sm font-semibold text-foreground">
           {formatPrice(product.price)}
         </p>
-        <Button
-          href={buyHref(product)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3"
-        >
-          Купить
-        </Button>
+        <BuyButton productName={product.name} className="mt-3" />
       </div>
     </li>
   )
@@ -72,7 +60,7 @@ export default async function Market() {
   return (
     <SimpleLayout
       title={heroTitle}
-      intro="Всё сделано вручную в мастерской в Брянске. Нажмите «Купить» — откроется чат со мной в Telegram, там договоримся о сроках и доставке."
+      intro="Всё сделано вручную в мастерской в Брянске. Нажмите «Купить» и выберите, где удобнее написать: в Telegram или ВКонтакте. Там договоримся о сроках и доставке."
     >
       <ul
         role="list"

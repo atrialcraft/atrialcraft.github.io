@@ -12,6 +12,17 @@ const variantStyles = {
     'hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50',
 }
 
+export function buttonClassName(
+  variant: keyof typeof variantStyles = 'primary',
+  className?: string,
+) {
+  return cn(
+    'inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium outline-offset-2 transition-all active:not-aria-[haspopup]:translate-y-px',
+    variantStyles[variant],
+    className,
+  )
+}
+
 type ButtonProps = {
   variant?: keyof typeof variantStyles
 } & (
@@ -25,22 +36,8 @@ export function Button({
   ...props
 }: ButtonProps) {
   return typeof props.href === 'undefined' ? (
-    <button
-      className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium outline-offset-2 transition-all active:not-aria-[haspopup]:translate-y-px',
-        variantStyles[variant],
-        className,
-      )}
-      {...props}
-    />
+    <button className={buttonClassName(variant, className)} {...props} />
   ) : (
-    <Link
-      className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium outline-offset-2 transition-all active:not-aria-[haspopup]:translate-y-px',
-        variantStyles[variant],
-        className,
-      )}
-      {...props}
-    />
+    <Link className={buttonClassName(variant, className)} {...props} />
   )
 }

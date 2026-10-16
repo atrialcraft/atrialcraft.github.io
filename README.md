@@ -19,12 +19,12 @@
 
 | Что | Где |
 | --- | --- |
-| Имя, заголовок и описание сайта, соцсети | [src/lib/site.ts](src/lib/site.ts) |
-| Главная: текст под заголовком, блок «Опыт» | [src/app/page.tsx](src/app/page.tsx) |
+| Название и заголовок сайта, соцсети, куда ведёт «Купить» (Telegram и ВК) | [src/lib/site.ts](src/lib/site.ts) |
+| Главная: текст под заголовком, блок «Где купить» | [src/app/page.tsx](src/app/page.tsx) |
 | Фото в карусели на главной | [src/components/PhotoGallery.tsx](src/components/PhotoGallery.tsx), файлы в `src/images/photos/` |
 | Аватар в шапке | `src/images/avatar.png` |
 | Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
-| Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpeg` |
+| Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpg` |
 | Статьи и видео | `src/app/writing/<адрес>/page.mdx` → `/writing/<адрес>` |
 | Инструкции (для QR-кодов) | `src/app/instructions/<адрес>/page.mdx` → `/instructions/<адрес>`, пример — `/instructions/kak-dobavit-zapis` |
 | Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), массив `projects` |

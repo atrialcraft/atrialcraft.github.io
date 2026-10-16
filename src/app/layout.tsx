@@ -31,7 +31,7 @@ const description = site.description
 const websiteStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: site.name,
+  name: site.brand,
   alternateName: site.domain,
   url: siteUrl,
 }
@@ -39,7 +39,7 @@ const websiteStructuredData = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    template: `%s — ${site.name}`,
+    template: `%s — ${site.brand}`,
     default: title,
   },
   description,
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: '/',
-    siteName: site.name,
+    siteName: site.brand,
     locale: site.locale,
     type: 'website',
     images: siteOpenGraphImages,

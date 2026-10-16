@@ -1,0 +1,44 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import image01 from './01.jpg'
+import image02 from './02.jpg'
+import image03 from './03.jpg'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2026-04-21',
+  title: "Физические кнопки для андроид-магнитолы",
+  description: "Крошечное устройство на XIAO RP2040, которое эмулирует клавиатуру и возвращает кнопки в машину без мультируля.",
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Продолжая тему улучшения автомобиля: покупая андроид-магнитолу, я заранее знал, что там нет физических кнопок, но смириться с этим невозможно. Я решил вернуть привычную эргономику и пошёл самым непростым путём, потому что на рынке практически нет готовых решений.
+
+## Как это работает
+
+Нужно эмулировать клавиатуру, чтобы магнитола понимала нажатия. В похожих проектах часто используют Arduino Pro Micro, так как он умеет это напрямую. Я пошёл чуть дальше и взял Seeed Studio XIAO RP2040: она маленькая, крутая и у неё есть USB-C, в отличие от Micro-USB у старых Arduino.
+
+<figure>
+  <Image src={image01} alt="Корпус устройства" />
+  <figcaption>Корпус устройства</figcaption>
+</figure>
+
+Немного кода, пайки, сканирования и печати — и получается крошечное устройство, работающее по принципу Plug and Play: достаточно подключить кабель в USB-разъём магнитолы и в само устройство.
+
+<figure>
+  <Image src={image02} alt="Установка в салоне" />
+  <figcaption>Установка в салоне</figcaption>
+</figure>
+
+Это спасение для тех, у кого нет мультируля или других физических кнопок для управления в автомобиле.
+
+<figure>
+  <Image src={image03} alt="Готовая кнопка на своём месте" />
+  <figcaption>Готовая кнопка на своём месте</figcaption>
+</figure>
+
+[Видео, как это работает](https://t.me/atrialcraft/84), — в Telegram-канале.

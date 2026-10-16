@@ -3,10 +3,11 @@ import Link from 'next/link'
 import { ArrowLeftIcon, BookOpenIcon } from '@heroicons/react/24/outline'
 
 import { Button } from '@/components/Button'
+import { BuyButton } from '@/components/BuyButton'
 import { Container } from '@/components/Container'
 import { PageEnter } from '@/components/PageEnter'
 import { Prose } from '@/components/Prose'
-import { buyHref, formatPrice, type ProductMeta } from '@/lib/products'
+import { formatPrice, type ProductMeta } from '@/lib/products'
 
 export function ProductLayout({
   product,
@@ -38,13 +39,7 @@ export function ProductLayout({
                 <p className="text-2xl font-semibold tracking-tight text-foreground">
                   {formatPrice(product.price)}
                 </p>
-                <Button
-                  href={buyHref(product)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Купить
-                </Button>
+                <BuyButton productName={product.name} />
                 {product.instruction && (
                   <Button href={product.instruction} variant="secondary">
                     <BookOpenIcon className="size-4" />

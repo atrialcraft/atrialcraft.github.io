@@ -3,7 +3,6 @@ import { type StaticImageData } from 'next/image'
 import glob from 'fast-glob'
 
 import { createOpenGraphImages } from '@/lib/metadata'
-import { site } from '@/lib/site'
 
 export interface ProductMeta {
   name: string
@@ -28,11 +27,6 @@ export function formatPrice(price?: number) {
   return price === undefined
     ? 'Цена по запросу'
     : `${price.toLocaleString('ru-RU')} ₽`
-}
-
-export function buyHref(product: ProductMeta) {
-  let text = `Здравствуйте! Хочу купить: ${product.name}`
-  return `${site.telegram}?text=${encodeURIComponent(text)}`
 }
 
 export function createProductMetadata(product: ProductMeta): Metadata {

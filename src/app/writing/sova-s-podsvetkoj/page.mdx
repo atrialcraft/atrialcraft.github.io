@@ -1,0 +1,22 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2025-11-30',
+  title: "Сова с контражурной подсветкой",
+  description: "Сова из 8-миллиметровой фанеры с контражурной подсветкой и управлением через Алису.",
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Такая вот птица приземлилась недавно в мастерскую и улетела к клиенту.
+
+За основу взята фанера 8 мм. Контражурная подсветка — с управлением через Алису. В работе часто использую краску Arton: она позволяет окрашивать фанеру без грунта, когда нужно сделать это быстро.
+
+Макет нашёлся в свободном доступе, и, как обычно бывает с бесплатными чертежами, с кучей косяков, из-за чего его пришлось почти полностью переделывать.
+
+[Видео с совой](https://t.me/atrialcraft/67) — в Telegram-канале.

@@ -1,6 +1,6 @@
 'use client'
 
-import portraitImage from '@/images/photos/me.jpeg'
+import portraitImage from '@/images/photos/me.jpg'
 import { PhotoCard } from '@/components/PhotoCard'
 
 export function Portrait() {
@@ -8,9 +8,9 @@ export function Portrait() {
     <div className="max-w-[19.25rem] px-2.5 lg:max-w-none">
       <PhotoCard
         image={portraitImage}
-        alt="Портрет"
-        caption="здесь будет моё фото"
-        filename="me.jpeg"
+        alt="Даниил Колбунов"
+        caption="Даниил, Брянск"
+        filename="me.jpg"
         sizes="(min-width: 1024px) 32rem, 18rem"
         quality={100}
         aspectClassName="aspect-[4/5]"

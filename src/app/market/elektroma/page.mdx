@@ -1,11 +1,13 @@
 import { ProductLayout } from '@/components/ProductLayout'
 import { createProductMetadata } from '@/lib/products'
+import photo from './photo.jpg'
 
 export const product = {
   name: 'Часы «Электрома»',
   description:
     'Часы на газоразрядных советских индикаторах ИН-12Б, каждая цифра которых формируется внутри стеклянной колбы',
   price: 7000,
+  image: photo,
   order: 4,
 }
 
@@ -15,4 +17,6 @@ export default ({ children }) => (
   <ProductLayout product={product}>{children}</ProductLayout>
 )
 
-Подробное описание и фото скоро появятся. Если есть вопросы — нажмите «Купить» и напишите мне в Telegram.
+Часы на советских газоразрядных индикаторах ИН-12Б. Каждая цифра — это отдельный электрод внутри стеклянной колбы, который светится тёплым оранжевым светом.
+
+Готовые часы можно посмотреть вживую в [«Месте»](https://t.me/mestostop) (Брянск, ул. Фокина, 29) или заказать здесь: нажмите «Купить» и выберите, где удобнее написать.

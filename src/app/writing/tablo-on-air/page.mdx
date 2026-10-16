@@ -1,0 +1,42 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import image01 from './01.jpg'
+import image02 from './02.jpg'
+import image03 from './03.jpg'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2025-10-25',
+  title: "Табло ON AIR для мастерской",
+  description: "Световое табло на светодиодных модулях Samsung с пультом и корпусом, напечатанным на 3D-принтере.",
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Захотелось добавить немного студийного вайба в мастерскую.
+
+<figure>
+  <Image src={image01} alt="Табло включено" />
+  <figcaption>Табло включено</figcaption>
+</figure>
+
+## Устройство
+
+Внутри — светодиодные модули Samsung, управление с пульта по радиоканалу: регулировка яркости и память режима. Питается от 12 В через разъём DC 2,1×5,5, а корпус полностью напечатан из PLA на 3D-принтере.
+
+<figure>
+  <Image src={image03} alt="Светодиодные модули внутри корпуса" />
+  <figcaption>Светодиодные модули внутри корпуса</figcaption>
+</figure>
+
+В местах крепления сделал закрытые зоны и добавил дополнительную стенку, чтобы убрать паразитные засветы наружу.
+
+<figure>
+  <Image src={image02} alt="Табло выключено" />
+  <figcaption>Табло выключено</figcaption>
+</figure>
+
+Табло в итоге уехало в Баку.

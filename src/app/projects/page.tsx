@@ -10,6 +10,8 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { iconChromeClassName } from '@/lib/iconChrome'
 import { createPageMetadata } from '@/lib/metadata'
 import { cn } from '@/lib/utils'
+import elektromaImage from '@/images/photos/elektroma.jpg'
+import nalichnikImage from '@/images/photos/nalichnik.jpg'
 interface Project {
   name: string
   description: string
@@ -19,30 +21,44 @@ interface Project {
 
 const projects: Array<Project> = [
   {
+    name: 'Брянские наличники',
+    description:
+      'Серия зеркал-наличников по мотивам деревянной архитектуры Злынки, Новозыбкова, Клинцов и Климово: наборы для сборки, инструкции и мастер-классы.',
+    link: { href: '/market', label: 'Магазин' },
+    logo: nalichnikImage,
+  },
+  {
+    name: 'Часы «Электрома»',
+    description:
+      'Часы на советских газоразрядных индикаторах ИН-12Б: каждая цифра светится внутри стеклянной колбы.',
+    link: { href: '/market/elektroma', label: 'Магазин' },
+    logo: elektromaImage,
+  },
+  {
     name: 'Candy',
     description:
-      'Локальный брянский проект, для которого я делал работы в мастерской.',
+      'Брянский цветочный магазин. Сварил для них уличный штендер и сделал органайзер в стиле IKEA Skådis.',
     link: {
-      href: 'https://instagram.com/candy_flowers_brnsk/',
-      label: 'instagram.com/candy_flowers_brnsk',
+      href: 'https://t.me/candy_flowers32',
+      label: 't.me/candy_flowers32',
     },
   },
   {
     name: 'Цвети',
     description:
-      'Локальный брянский проект, для которого я делал работы в мастерской.',
+      'Органайзер в стиле IKEA Skådis с навесными аксессуарами, напечатанными на 3D-принтере.',
     link: {
-      href: 'https://instagram.com/cveti_please/',
-      label: 'instagram.com/cveti_please',
+      href: 'https://t.me/cvetiplease',
+      label: 't.me/cvetiplease',
     },
   },
   {
     name: 'Место',
     description:
-      'Локальный брянский проект, для которого я делал работы в мастерской.',
+      'Пространство в Брянске, где проходят мои мастер-классы по сборке и росписи наличников и продаются наборы.',
     link: {
-      href: 'https://instagram.com/mesto_stop/',
-      label: 'instagram.com/mesto_stop',
+      href: 'https://t.me/mestostop',
+      label: 't.me/mestostop',
     },
   },
   {
@@ -50,13 +66,13 @@ const projects: Array<Project> = [
     description:
       'Брянский поисково-спасательный отряд. Один из локальных проектов, для которых я делал работы в мастерской.',
     link: {
-      href: 'https://vk.ru/la_bryansk',
-      label: 'vk.ru/la_bryansk',
+      href: 'https://t.me/LizaAlert_brnsk',
+      label: 't.me/LizaAlert_brnsk',
     },
   },
 ]
 
-const heroTitle = 'Проекты, для которых я что-то делал в мастерской.'
+const heroTitle = 'Собственные проекты и работы для брянских мест.'
 
 export const metadata = createPageMetadata({
   title: 'Проекты',
@@ -104,9 +120,9 @@ export default function Projects() {
                   <Image
                     src={project.logo}
                     alt=""
-                    width={32}
-                    height={32}
-                    className="size-8 rounded-full"
+                    width={48}
+                    height={48}
+                    className="size-full rounded-full object-cover"
                     unoptimized
                   />
                 ) : (
@@ -115,7 +131,7 @@ export default function Projects() {
               </div>
               <ContentCardTitle
                 href={project.link.href}
-                external
+                external={project.link.href.startsWith('http')}
                 className="mt-6"
               >
                 {project.name}
