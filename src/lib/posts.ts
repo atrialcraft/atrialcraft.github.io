@@ -104,14 +104,14 @@ type PostModule = {
   post: PostMeta
 }
 
-// Записи живут в src/app/writing/<slug>, инструкции — в src/app/instructions/<slug>
+// Записи блога живут в src/app/blog/<slug>, инструкции — в src/app/instructions/<slug>
 // (так у инструкций короткий адрес /instructions/<slug> для QR-кодов).
 // Пути в import() должны быть статическими, иначе сборщик не найдёт файлы.
 const postSections = [
   {
-    path: 'writing',
+    path: 'blog',
     load: (file: string) =>
-      import(`../app/writing/${file}`) as Promise<PostModule>,
+      import(`../app/blog/${file}`) as Promise<PostModule>,
   },
   {
     path: 'instructions',

@@ -17,8 +17,7 @@ export const buyLinks = {
   vk: 'https://vk.me/atrialcraft',
 }
 
-export const homeHeroTitle =
-  'Мастерская Atrial: лазерная резка, 3D-печать и Arduino.'
+export const homeHeroTitle = 'Творческое убежище брянского энтузиаста'
 
 export const socialLinks = [
   {

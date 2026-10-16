@@ -7,7 +7,7 @@ import {
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { createPageMetadata } from '@/lib/metadata'
 import { getListedPosts } from '@/lib/posts'
-import { postCtaLabel } from '@/lib/writing'
+import { postCtaLabel } from '@/lib/blog'
 
 const heroTitle = 'Инструкции к изделиям мастерской.'
 

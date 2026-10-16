@@ -10,7 +10,7 @@ import {
 } from '@/components/ContentCard'
 import { Button } from '@/components/Button'
 import { type Post, type PostType } from '@/lib/posts'
-import { postCtaLabel, writingHref } from '@/lib/writing'
+import { blogHref, postCtaLabel } from '@/lib/blog'
 
 type Filter = 'all' | PostType
 
@@ -26,7 +26,7 @@ function parseFilter(value: string | null): Filter {
 }
 
 function hrefFor(filter: Filter) {
-  return filter === 'all' ? writingHref() : `${writingHref()}?type=${filter}`
+  return filter === 'all' ? blogHref() : `${blogHref()}?type=${filter}`
 }
 
 function yearOf(date: string) {
@@ -79,7 +79,7 @@ export function PostsList({ posts }: { posts: Array<Post> }) {
             onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
               // Filtering is client-only, so just update the URL. Router
               // navigation breaks here in the static export: when the page is
-              // opened with ?type=…, the router treats /writing as that URL.
+              // opened with ?type=…, the router treats /blog as that URL.
               if (event.metaKey || event.ctrlKey || event.shiftKey) return
               event.preventDefault()
               window.history.pushState(null, '', hrefFor(item.value))

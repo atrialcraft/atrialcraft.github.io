@@ -49,7 +49,7 @@
 }
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-golos), ui-sans-serif, system-ui, sans-serif;
   --font-serif:
     var(--font-source-serif), ui-serif, Georgia, Cambria, 'Times New Roman',
     Times, serif;
@@ -186,4 +186,11 @@
   .link-underline:hover {
     text-decoration-color: var(--muted-foreground);
   }
+}
+
+/* Theme switch: the new theme is revealed by a circle animated from JS */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }

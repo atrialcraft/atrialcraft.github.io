@@ -32,7 +32,7 @@ import {
   symbolReplace,
 } from '@/lib/transitions'
 import { cn } from '@/lib/utils'
-import { isWritingPath } from '@/lib/writing'
+import { isBlogPath } from '@/lib/blog'
 
 type TrayBounds = {
   top: number
@@ -71,8 +71,8 @@ function MobileNavigation({ className }: { className?: string }) {
       ? 'Главная'
       : pathname.startsWith('/about')
         ? 'Обо мне'
-        : isWritingPath(pathname)
-          ? 'Записи'
+        : isBlogPath(pathname)
+          ? 'Блог'
           : pathname.startsWith('/projects')
             ? 'Проекты'
             : pathname.startsWith('/market')
@@ -306,8 +306,8 @@ function MobileNavigation({ className }: { className?: string }) {
                       <MobileNavItem href="/about" onNavigate={closeMenu}>
                         Обо мне
                       </MobileNavItem>
-                      <MobileNavItem href="/writing" onNavigate={closeMenu}>
-                        Записи
+                      <MobileNavItem href="/blog" onNavigate={closeMenu}>
+                        Блог
                       </MobileNavItem>
                       <MobileNavItem href="/projects" onNavigate={closeMenu}>
                         Проекты
@@ -338,7 +338,7 @@ function NavItem({
   let isActive =
     pathname === href ||
     pathname.startsWith(`${href}/`) ||
-    (href === '/writing' && isWritingPath(pathname))
+    (href === '/blog' && isBlogPath(pathname))
 
   return (
     <li>
@@ -370,7 +370,7 @@ function DesktopNavigation({
         </div>
         <ul className="relative z-10 flex px-3 text-sm font-medium text-foreground">
           <NavItem href="/about">Обо мне</NavItem>
-          <NavItem href="/writing">Записи</NavItem>
+          <NavItem href="/blog">Блог</NavItem>
           <NavItem href="/projects">Проекты</NavItem>
           <NavItem href="/market">Магазин</NavItem>
         </ul>
@@ -395,6 +395,49 @@ function ThemeToggle() {
   let iconDark = resolvedTheme === 'dark'
   let reduceMotion = useReducedMotion()
 
+  // New theme spreads in a circle from the toggle (View Transitions API);
+  // browsers without it, and reduced motion, switch instantly.
+  function switchTheme(button: HTMLElement) {
+    let next = otherTheme
+    if (!document.startViewTransition || reduceMotion) {
+      setTheme(next)
+      return
+    }
+
+    let { left, top, width, height } = button.getBoundingClientRect()
+    let x = left + width / 2
+    let y = top + height / 2
+    let radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    )
+
+    let transition = document.startViewTransition(() => {
+      // Apply the class synchronously so the new snapshot already has it
+      let root = document.documentElement
+      root.classList.remove('light', 'dark')
+      root.classList.add(next)
+      root.style.colorScheme = next
+      setTheme(next)
+    })
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${radius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 500,
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          pseudoElement: '::view-transition-new(root)',
+        },
+      )
+    })
+  }
+
   // The short delay lets the press feedback land before the icon swaps.
   let transition = motionTransition(
     symbolReplace({ delay: 0.12 }),
@@ -414,7 +457,7 @@ function ThemeToggle() {
           : 'Сменить тему'
       }
       className="group relative rounded-full bg-card/90 px-3 py-2 shadow-lg ring-1 shadow-foreground/5 ring-border backdrop-blur-sm transition dark:bg-muted/90 dark:hover:ring-foreground/20"
-      onClick={() => setTheme(otherTheme)}
+      onClick={(event) => switchTheme(event.currentTarget)}
     >
       <div className="absolute inset-0 overflow-hidden rounded-full max-md:hidden">
         <Halo />
@@ -533,16 +576,23 @@ export function Header() {
 
       if (top === 0 && scrollY > 0 && scrollY >= downDelay) {
         setProperty('--header-inner-position', 'fixed')
-        setProperty('--header-logo-opacity', '0')
-        setProperty('--header-logo-events', 'none')
         removeProperty('--header-top')
         removeProperty('--avatar-top')
       } else {
         removeProperty('--header-inner-position')
-        removeProperty('--header-logo-opacity')
-        removeProperty('--header-logo-events')
         setProperty('--header-top', '0px')
         setProperty('--avatar-top', '0px')
+      }
+
+      // The logo has no backdrop, so it only shows at the very top of the page:
+      // on the home page while it is still shrinking, elsewhere before scrolling.
+      let atTop = isHomePage ? scrollY < downDelay : scrollY <= 4
+      if (atTop) {
+        removeProperty('--header-logo-opacity')
+        removeProperty('--header-logo-events')
+      } else {
+        setProperty('--header-logo-opacity', '0')
+        setProperty('--header-logo-events', 'none')
       }
     }
 

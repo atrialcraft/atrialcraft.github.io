@@ -1,6 +1,6 @@
 # Daniil Kolbunov — мастерская Atrial
 
-Личный сайт [atrialcraft.github.io](https://atrialcraft.github.io): записи, инструкции, проекты и магазин мастерской.
+Личный сайт [atrialcraft.github.io](https://atrialcraft.github.io): блог, инструкции, проекты и магазин мастерской.
 
 ## Стек
 
@@ -25,7 +25,7 @@
 | Логотип в шапке (SVG, цвет меняется с темой сам) | [src/components/Logo.tsx](src/components/Logo.tsx) |
 | Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
 | Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpg` |
-| Статьи и видео | `src/app/writing/<адрес>/page.mdx` → `/writing/<адрес>` |
+| Блог: статьи и видео | `src/app/blog/<адрес>/page.mdx` → `/blog/<адрес>` |
 | Инструкции (для QR-кодов) | `src/app/instructions/<адрес>/page.mdx` → `/instructions/<адрес>`, пример — `/instructions/kak-dobavit-zapis` |
 | Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), массив `projects` |
 | Магазин: товары | `src/app/market/<адрес>/page.mdx` → `/market/<адрес>`, фото товара `photo.jpeg` в той же папке |

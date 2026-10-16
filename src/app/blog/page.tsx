@@ -8,13 +8,13 @@ import { getListedPosts } from '@/lib/posts'
 const heroTitle = 'Статьи, видео и инструкции из мастерской.'
 
 export const metadata = createPageMetadata({
-  title: 'Записи',
+  title: 'Блог',
   description:
     'Статьи, видео и инструкции о лазерной резке, 3D-печати, Arduino и других проектах мастерской Atrial.',
   heroTitle,
 })
 
-export default async function Writing() {
+export default async function Blog() {
   let posts = await getListedPosts()
 
   return (

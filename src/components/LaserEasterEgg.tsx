@@ -9,20 +9,17 @@ import {
   useReducedMotion,
 } from 'motion/react'
 
-import { logoPath, logoViewBox } from '@/components/Logo'
+import { nalichnikSegments, nalichnikViewBox } from '@/lib/nalichnik'
 
 const clicksToTrigger = 5
 const clickWindowMs = 2000
-const cutDuration = 3.6
+const cutDuration = 4.5
 const laserColor = '#ff8a3d'
-
-// Browsers restart a dash pattern at every subpath, so each subpath of the
-// logo is its own <path> and they are cut one after another.
-const logoSegments = logoPath.split(/(?=M)/).filter(Boolean)
 
 /**
  * Easter egg: five quick clicks on the wrapped element make a "laser" cut the
- * Atrial logo out over the page.
+ * Zlynka window surround out over the page. Each segment is its own <path>
+ * because browsers restart a dash pattern at every subpath.
  */
 export function LaserEasterEgg({
   children,
@@ -80,7 +77,7 @@ function LaserCut({ onDone }: { onDone: () => void }) {
     let cuts = cutRefs.current.filter((cut) => cut !== null)
     let head = headRef.current
     let sparks = sparksRef.current
-    if (cuts.length !== logoSegments.length || !head || !sparks) {
+    if (cuts.length !== nalichnikSegments.length || !head || !sparks) {
       return
     }
 
@@ -120,7 +117,7 @@ function LaserCut({ onDone }: { onDone: () => void }) {
           [
             { transform: 'translate(0, 0)', opacity: 1 },
             {
-              transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance + 15}px)`,
+              transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance + 10}px)`,
               opacity: 0,
             },
           ],
@@ -173,8 +170,8 @@ function LaserCut({ onDone }: { onDone: () => void }) {
       onClick={onDone}
     >
       <svg
-        viewBox={logoViewBox}
-        className="w-[min(80vw,640px)] overflow-visible text-foreground"
+        viewBox={nalichnikViewBox}
+        className="h-[min(75vh,560px)] w-auto max-w-[90vw] overflow-visible text-foreground"
         aria-hidden
       >
         <defs>
@@ -187,26 +184,33 @@ function LaserCut({ onDone }: { onDone: () => void }) {
           </filter>
         </defs>
 
-        <motion.path
-          d={logoPath}
-          fillRule="evenodd"
-          fill="currentColor"
+        {/* What stays after the cut: thin engraved lines in the theme colour */}
+        <motion.g
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
           initial={{ opacity: 0 }}
           animate={{ opacity: cutDone ? 1 : 0 }}
           transition={{ duration: 0.6 }}
-        />
+        >
+          {nalichnikSegments.map((segment, i) => (
+            <path key={i} d={segment} />
+          ))}
+        </motion.g>
 
         <motion.g
           fill="none"
           stroke={laserColor}
-          strokeWidth={2.5}
+          strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
           filter="url(#laser-glow)"
           animate={{ opacity: cutDone ? 0 : 1 }}
           transition={{ duration: 0.6 }}
         >
-          {logoSegments.map((segment, i) => (
+          {nalichnikSegments.map((segment, i) => (
             <path
               key={i}
               ref={(el) => {
@@ -222,7 +226,7 @@ function LaserCut({ onDone }: { onDone: () => void }) {
         {!cutDone && (
           <circle
             ref={headRef}
-            r={5}
+            r={4}
             fill="#fff4d6"
             filter="url(#laser-glow)"
           />

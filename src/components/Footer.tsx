@@ -27,7 +27,7 @@ export function Footer() {
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm font-medium text-foreground">
                 <NavLink href="/about">Обо мне</NavLink>
-                <NavLink href="/writing">Записи</NavLink>
+                <NavLink href="/blog">Блог</NavLink>
                 <NavLink href="/projects">Проекты</NavLink>
                 <NavLink href="/market">Магазин</NavLink>
               </div>

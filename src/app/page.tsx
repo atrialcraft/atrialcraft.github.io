@@ -19,7 +19,7 @@ import { Button } from '@/components/Button'
 import { PhotoGallery } from '@/components/PhotoGallery'
 import { formatDate } from '@/lib/formatDate'
 import { getHomePosts, type Post } from '@/lib/posts'
-import { postCtaLabel } from '@/lib/writing'
+import { postCtaLabel } from '@/lib/blog'
 import { homeHeroTitle, socialLinks } from '@/lib/site'
 
 function LatestPost({ post }: { post: Post }) {

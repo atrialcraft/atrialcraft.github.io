@@ -1,5 +1,5 @@
 import { type Metadata, type Viewport } from 'next'
-import { Inter, Source_Serif_4 } from 'next/font/google'
+import { Golos_Text, Source_Serif_4 } from 'next/font/google'
 
 import { Providers } from '@/app/providers'
 import { Analytics } from '@/components/Analytics'
@@ -12,9 +12,10 @@ import { site } from '@/lib/site'
 
 import '@/styles/tailwind.css'
 
-const inter = Inter({
+// Golos Text by ParaType (SIL OFL 1.1)
+const golos = Golos_Text({
   subsets: ['latin', 'cyrillic'],
-  variable: '--font-inter',
+  variable: '--font-golos',
 })
 
 const sourceSerif = Source_Serif_4({
@@ -81,7 +82,7 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${inter.className} ${inter.variable} ${sourceSerif.variable} h-full antialiased`}
+      className={`${golos.className} ${golos.variable} ${sourceSerif.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="flex h-full bg-card">

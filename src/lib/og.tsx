@@ -82,8 +82,8 @@ export async function generateOgImage({ title }: { title: string }) {
   const displayTitle = formatOgTitle(title)
 
   const [interBoldFont, interRegularFont, logoDataUrl] = await Promise.all([
-    loadGoogleFont('Inter', displayTitle, 700),
-    loadGoogleFont('Inter', brandLabel, 400),
+    loadGoogleFont('Golos+Text', displayTitle, 700),
+    loadGoogleFont('Golos+Text', brandLabel, 400),
     getLogoDataUrl(),
   ])
 
@@ -91,7 +91,7 @@ export async function generateOgImage({ title }: { title: string }) {
 
   if (interBoldFont) {
     fonts.push({
-      name: 'Inter',
+      name: 'Golos Text',
       data: interBoldFont,
       style: 'normal' as FontStyle,
       weight: 700 as Weight,
@@ -100,7 +100,7 @@ export async function generateOgImage({ title }: { title: string }) {
 
   if (interRegularFont) {
     fonts.push({
-      name: 'Inter',
+      name: 'Golos Text',
       data: interRegularFont,
       style: 'normal' as FontStyle,
       weight: 400 as Weight,
@@ -138,7 +138,7 @@ export async function generateOgImage({ title }: { title: string }) {
             style={{
               fontSize: brandLabelFontSize,
               color: ogTheme.mutedForeground,
-              fontFamily: 'Inter, system-ui, sans-serif',
+              fontFamily: '"Golos Text", system-ui, sans-serif',
               fontWeight: 400,
             }}
           >
@@ -156,7 +156,7 @@ export async function generateOgImage({ title }: { title: string }) {
             overflow: 'hidden',
             letterSpacing: titleLetterSpacing,
             lineHeight: titleLineHeight,
-            fontFamily: 'Inter, system-ui, sans-serif',
+            fontFamily: '"Golos Text", system-ui, sans-serif',
             fontWeight: 700,
           }}
         >

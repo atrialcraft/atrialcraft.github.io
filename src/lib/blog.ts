@@ -1,16 +1,16 @@
 import type { PostType } from '@/lib/posts'
 
-export const writingPath = '/writing'
+export const blogPath = '/blog'
 
-export function writingHref(slug?: string) {
-  return slug ? `${writingPath}/${slug}` : writingPath
+export function blogHref(slug?: string) {
+  return slug ? `${blogPath}/${slug}` : blogPath
 }
 
 export const instructionsPath = '/instructions'
 
-/** Инструкции тоже относятся к разделу «Записи» в меню */
-export function isWritingPath(pathname: string) {
-  return [writingPath, instructionsPath].some(
+/** Инструкции тоже относятся к разделу «Блог» в меню */
+export function isBlogPath(pathname: string) {
+  return [blogPath, instructionsPath].some(
     (path) => pathname === path || pathname.startsWith(`${path}/`),
   )
 }
