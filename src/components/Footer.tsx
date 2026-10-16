@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { ContainerInner, ContainerOuter } from '@/components/Container'
-import { site } from '@/lib/site'
+import { MadeInBryanskLogo } from '@/components/MadeInBryanskLogo'
 
 function NavLink({
   href,
@@ -30,9 +30,7 @@ export function Footer() {
                 <NavLink href="/projects">Проекты</NavLink>
                 <NavLink href="/market">Магазин</NavLink>
               </div>
-              <p className="text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()} {site.name}.
-              </p>
+              <MadeInBryanskLogo className="h-10 w-auto flex-none text-foreground" />
             </div>
           </ContainerInner>
         </div>
