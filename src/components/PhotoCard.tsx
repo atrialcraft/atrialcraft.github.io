@@ -5,7 +5,7 @@ import Image, { type StaticImageData } from 'next/image'
 import { motion } from 'motion/react'
 
 import { cn } from '@/lib/utils'
-import { bouncy, dragTransition } from '@/lib/transitions'
+import { bouncy } from '@/lib/transitions'
 import { Halo } from '@/components/Halo'
 
 type PhotoCardProps = {
@@ -19,7 +19,6 @@ type PhotoCardProps = {
   rotationClassName?: string
   sizes?: string
   quality?: number
-  isDraggable?: boolean
   index?: number
 }
 
@@ -34,7 +33,6 @@ export function PhotoCard({
   rotationClassName,
   sizes = '(min-width: 640px) 18rem, 11rem',
   quality,
-  isDraggable = true,
   index = 0,
 }: PhotoCardProps) {
   const [isFlipped, setIsFlipped] = useState(false)
@@ -79,11 +77,7 @@ export function PhotoCard({
           togglePhoto()
         }
       }}
-      drag={isDraggable}
-      dragElastic={0.15}
-      dragTransition={dragTransition}
       whileTap={{ scale: 1.06 }}
-      whileDrag={{ scale: 1.1, cursor: 'grabbing', zIndex: 40 }}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -94,7 +88,7 @@ export function PhotoCard({
       style={{ perspective: 1000 }}
       className={cn(
         'group relative z-30 w-44 flex-none overflow-hidden rounded-xl bg-muted sm:w-72 sm:rounded-2xl',
-        isDraggable ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer',
+        'cursor-pointer',
         rotationClassName,
         className,
       )}

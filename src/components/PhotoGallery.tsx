@@ -83,7 +83,6 @@ export function PhotoGallery() {
       key={photo.image.src}
       {...photo}
       index={imageIndex}
-      isDraggable={!isMobile}
       rotationClassName={rotations[imageIndex % rotations.length]}
     />
   ))
