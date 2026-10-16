@@ -8,7 +8,6 @@ import {
   useState,
   useSyncExternalStore,
 } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
@@ -22,9 +21,9 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 import { Container } from '@/components/Container'
 import { Halo } from '@/components/Halo'
+import { Logo } from '@/components/Logo'
 import { PageEnter } from '@/components/PageEnter'
 import { DialogOverlay } from '@/components/Dialog'
-import avatarImage from '@/images/avatar.png'
 import {
   bouncy,
   bouncySpring,
@@ -460,22 +459,7 @@ function clamp(number: number, a: number, b: number) {
   return Math.min(Math.max(number, min), max)
 }
 
-function AvatarContainer({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
-  return (
-    <div
-      className={cn(
-        className,
-        'h-10 w-10 rounded-full bg-card/90 p-0.5 shadow-lg ring-1 shadow-foreground/5 ring-border backdrop-blur-sm dark:bg-muted/90',
-      )}
-      {...props}
-    />
-  )
-}
-
-function Avatar({
+function HomeLink({
   large = false,
   className,
   ...props
@@ -486,20 +470,10 @@ function Avatar({
     <Link
       href="/"
       aria-label="Главная"
-      className={cn(className, 'pointer-events-auto')}
+      className={cn(className, 'pointer-events-auto block text-foreground')}
       {...props}
     >
-      <Image
-        src={avatarImage}
-        alt="Daniil Kolbunov"
-        quality={100}
-        sizes={large ? '4rem' : '2.25rem'}
-        className={cn(
-          'rounded-full bg-muted object-cover',
-          large ? 'h-16 w-16' : 'h-9 w-9',
-        )}
-        priority
-      />
+      <Logo className={cn('w-auto', large ? 'h-16' : 'h-9')} />
     </Link>
   )
 }
@@ -572,7 +546,7 @@ export function Header() {
       let fromScale = 1
       let toScale = 36 / 64
       let fromX = 0
-      let toX = 2 / 16
+      let toX = 0
 
       let scrollY = downDelay - window.scrollY
 
@@ -586,13 +560,6 @@ export function Header() {
         '--avatar-image-transform',
         `translate3d(${x}rem, 0, 0) scale(${scale})`,
       )
-
-      let borderScale = 1 / (toScale / scale)
-      let borderX = (-toX + x) * borderScale
-      let borderTransform = `translate3d(${borderX}rem, 0, 0) scale(${borderScale})`
-
-      setProperty('--avatar-border-transform', borderTransform)
-      setProperty('--avatar-border-opacity', scale === toScale ? '1' : '0')
     }
 
     function updateStyles() {
@@ -641,16 +608,9 @@ export function Header() {
                 }}
               >
                 <PageEnter className="relative">
-                  <AvatarContainer
-                    className="absolute top-3 left-0 origin-left transition-opacity"
-                    style={{
-                      opacity: 'var(--avatar-border-opacity, 0)',
-                      transform: 'var(--avatar-border-transform)',
-                    }}
-                  />
-                  <Avatar
+                  <HomeLink
                     large
-                    className="block h-16 w-16 origin-left"
+                    className="w-fit origin-left"
                     style={{ transform: 'var(--avatar-image-transform)' }}
                   />
                 </PageEnter>
@@ -676,9 +636,9 @@ export function Header() {
             <div className="relative flex gap-4">
               <div className="flex flex-1">
                 {!isHomePage && (
-                  <AvatarContainer>
-                    <Avatar />
-                  </AvatarContainer>
+                  <div className="flex h-10 items-center">
+                    <HomeLink />
+                  </div>
                 )}
               </div>
               <div className="flex flex-1 justify-end md:justify-center">

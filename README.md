@@ -22,7 +22,7 @@
 | Название и заголовок сайта, соцсети, куда ведёт «Купить» (Telegram и ВК) | [src/lib/site.ts](src/lib/site.ts) |
 | Главная: текст под заголовком, блок «Где купить» | [src/app/page.tsx](src/app/page.tsx) |
 | Фото в карусели на главной | [src/components/PhotoGallery.tsx](src/components/PhotoGallery.tsx), файлы в `src/images/photos/` |
-| Аватар в шапке | `src/images/avatar.png` |
+| Логотип в шапке (SVG, цвет меняется с темой сам) | [src/components/Logo.tsx](src/components/Logo.tsx) |
 | Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
 | Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpg` |
 | Статьи и видео | `src/app/writing/<адрес>/page.mdx` → `/writing/<адрес>` |
@@ -66,7 +66,7 @@ export const post = {
 
 ## Иконки
 
-Все иконки делаются из одного квадратного логотипа (сейчас это `src/images/avatar.png`). При замене логотипа нужно заменить все файлы из таблицы; имена и размеры должны остаться такими же.
+Все иконки делаются из одного квадратного знака (сейчас это `src/images/avatar.png`). При замене логотипа нужно заменить все файлы из таблицы; имена и размеры должны остаться такими же.
 
 | Файл | Размер | Где видно | Требования |
 | --- | --- | --- | --- |
