@@ -85,7 +85,7 @@ export default function RootLayout({
       className={`${golos.className} ${golos.variable} ${sourceSerif.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="flex h-full bg-card sm:bg-[#ededed] dark:sm:bg-[#111111]">
+      <body className="flex h-full bg-card sm:bg-background">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
