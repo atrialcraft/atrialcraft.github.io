@@ -6,14 +6,11 @@ import {
   ContentCard,
   ContentCardCta,
   ContentCardDescription,
-  ContentCardEyebrow,
   ContentCardTitle,
 } from '@/components/ContentCard'
-import { ViewsCount } from '@/components/ViewsCount'
 import { Button } from '@/components/Button'
 import { type Post, type PostType } from '@/lib/posts'
 import { blogHref, postCtaLabel } from '@/lib/blog'
-import { getViews } from '@/lib/views'
 
 type Filter = 'all' | PostType
 
@@ -56,11 +53,6 @@ function PostItem({ post }: { post: Post }) {
   return (
     <ContentCard as="article">
       <ContentCardTitle href={post.href}>{post.title}</ContentCardTitle>
-      {getViews(post.href) ? (
-        <ContentCardEyebrow>
-          <ViewsCount href={post.href} />
-        </ContentCardEyebrow>
-      ) : null}
       <ContentCardDescription className="text-pretty">
         {post.description}
       </ContentCardDescription>

@@ -17,7 +17,6 @@ import {
 } from '@/components/ContentCard'
 import { Button } from '@/components/Button'
 import { PhotoGallery } from '@/components/PhotoGallery'
-import { ViewsCount } from '@/components/ViewsCount'
 import { formatDate } from '@/lib/formatDate'
 import { getHomePosts, type Post } from '@/lib/posts'
 import { postCtaLabel } from '@/lib/blog'
@@ -27,9 +26,8 @@ function LatestPost({ post }: { post: Post }) {
   return (
     <ContentCard as="article">
       <ContentCardTitle href={post.href}>{post.title}</ContentCardTitle>
-      <ContentCardEyebrow>
-        <time dateTime={post.date}>{formatDate(post.date)}</time>
-        <ViewsCount href={post.href} className="ml-4" />
+      <ContentCardEyebrow as="time" dateTime={post.date}>
+        {formatDate(post.date)}
       </ContentCardEyebrow>
       <ContentCardDescription className="text-pretty">
         {post.description}
