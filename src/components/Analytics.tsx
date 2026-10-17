@@ -4,8 +4,6 @@ import { Suspense, useEffect } from 'react'
 import Script from 'next/script'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-import { useConsent } from '@/lib/consent'
-
 const yandexMetrikaId = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID
 const telegramPixelId = process.env.NEXT_PUBLIC_TELEGRAM_PIXEL_ID
@@ -87,14 +85,7 @@ tgp('init', ${JSON.stringify(id)});`}
   )
 }
 
-// Counters load only after the visitor accepts cookies (see CookieBanner).
-// Declining later takes effect on the next page load.
 export function Analytics() {
-  let consent = useConsent()
-  if (consent !== 'accepted') {
-    return null
-  }
-
   return (
     <>
       {yandexMetrikaId && <YandexMetrika id={Number(yandexMetrikaId)} />}
