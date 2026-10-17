@@ -532,11 +532,17 @@ function Avatar({
       {...props}
     >
       <AvatarLogo
-        className={cn('rounded-full', large ? 'h-16 w-16' : 'h-9 w-9')}
+        className={cn('rounded-full', large ? 'h-20 w-20' : 'h-9 w-9')}
       />
     </Link>
   )
 }
+
+// The big home-page avatar shrinks into the header. The origin is picked so the
+// docked 36px avatar lands where the small one sits (2px inside the 40px ring):
+// 12px offset + origin * (1 - 36 / size) = 26px.
+const largeAvatarSize = 80
+const largeAvatarOrigin = `0 ${14 / (1 - 36 / largeAvatarSize)}px`
 
 export function Header() {
   let isHomePage = usePathname() === '/'
@@ -604,7 +610,7 @@ export function Header() {
       }
 
       let fromScale = 1
-      let toScale = 36 / 64
+      let toScale = 36 / largeAvatarSize
       let fromX = 0
       let toX = 2 / 16
 
@@ -684,8 +690,11 @@ export function Header() {
                   />
                   <Avatar
                     large
-                    className="block h-16 w-16 origin-left"
-                    style={{ transform: 'var(--avatar-image-transform)' }}
+                    className="block h-20 w-20"
+                    style={{
+                      transform: 'var(--avatar-image-transform)',
+                      transformOrigin: largeAvatarOrigin,
+                    }}
                   />
                 </PageEnter>
               </div>
