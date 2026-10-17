@@ -96,3 +96,9 @@ export const post = {
 | `NEXT_PUBLIC_YANDEX_METRIKA_ID` | Номер счётчика Яндекс Метрики (переменная репозитория `YANDEX_METRIKA_ID`), необязательно |
 | `NEXT_PUBLIC_GA_ID` | ID Google Analytics 4, `G-…` (переменная репозитория `GA_ID`), необязательно |
 | `NEXT_PUBLIC_TELEGRAM_PIXEL_ID` | ID пикселя Telegram Ads, например `wc76Y9GR` (переменная репозитория `TELEGRAM_PIXEL_ID`), необязательно |
+
+### Просмотры статей
+
+Перед каждой сборкой [scripts/fetch-views.mjs](scripts/fetch-views.mjs) забирает из Яндекс Метрики число просмотров каждой страницы и сохраняет в `src/data/views.json`. Сайт показывает их рядом с датой записи. Сайт пересобирается автоматически раз в сутки (в 06:00 по Москве), так что цифры обновляются ежедневно.
+
+Нужен секрет репозитория `METRIKA_TOKEN` (**Settings → Secrets and variables → Actions → Secrets**) — OAuth-токен Яндекса с правом `metrika:read`, и переменная `YANDEX_METRIKA_ID`. Без токена сайт собирается как обычно, просто без цифр.

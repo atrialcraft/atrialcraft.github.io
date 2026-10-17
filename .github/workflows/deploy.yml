@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Daily rebuild to refresh page views from Yandex Metrika (03:00 UTC = 06:00 MSK)
+  schedule:
+    - cron: '0 3 * * *'
 
 permissions:
   contents: read
@@ -32,6 +35,12 @@ jobs:
           restore-keys: nextjs-${{ hashFiles('package-lock.json') }}-
 
       - run: npm ci
+
+      - name: Fetch page views from Yandex Metrika
+        run: npm run fetch-views
+        env:
+          METRIKA_TOKEN: ${{ secrets.METRIKA_TOKEN }}
+          YANDEX_METRIKA_ID: ${{ vars.YANDEX_METRIKA_ID }}
 
       - run: npm run build
         env:

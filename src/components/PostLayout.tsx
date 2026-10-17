@@ -2,13 +2,14 @@
 
 import { useContext } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 
 import { AppContext } from '@/app/providers'
 import { Container } from '@/components/Container'
 import { Prose } from '@/components/Prose'
 import { PageEnter } from '@/components/PageEnter'
+import { ViewsCount } from '@/components/ViewsCount'
 import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { type PostMeta } from '@/lib/posts'
 import { formatDate } from '@/lib/formatDate'
@@ -23,6 +24,7 @@ export function PostLayout({
   showDescription?: boolean
 }) {
   let router = useRouter()
+  let pathname = usePathname()
   let { previousPathname } = useContext(AppContext)
 
   return (
@@ -50,6 +52,7 @@ export function PostLayout({
               >
                 <span className="h-4 w-0.5 rounded-full bg-border/50" />
                 <span className="ml-3">{formatDate(post.date)}</span>
+                <ViewsCount href={pathname} className="ml-4" />
               </time>
               {showDescription && (
                 <p className="mt-6 text-base text-muted-foreground">
