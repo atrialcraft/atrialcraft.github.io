@@ -114,7 +114,7 @@ export default async function Home() {
 
   return (
     <>
-      <Container className="mt-9">
+      <Container className="mt-13">
         <PageEnter className="max-w-2xl">
           <h1 className="text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">
             {homeHeroTitle}
