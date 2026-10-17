@@ -1,6 +1,7 @@
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { PageTransition } from '@/components/PageTransition'
+import { CookieBanner } from '@/components/CookieBanner'
 import { ScrollToTop } from '@/components/ScrollToTop'
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -20,6 +21,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Footer />
       </div>
       <ScrollToTop />
+      <CookieBanner />
     </>
   )
 }

@@ -33,6 +33,14 @@ export function Footer() {
               <MadeInBryanskLogo className="h-10 w-auto flex-none text-foreground" />
             </div>
             <p className="mt-8 text-center text-xs text-muted-foreground md:text-left">
+              <Link
+                href="/privacy"
+                className="underline decoration-border underline-offset-4 transition hover:text-foreground"
+              >
+                Политика конфиденциальности
+              </Link>
+            </p>
+            <p className="mt-2 text-center text-xs text-muted-foreground md:text-left">
               * Instagram принадлежит компании Meta, деятельность которой
               признана экстремистской и запрещена на территории России.
             </p>

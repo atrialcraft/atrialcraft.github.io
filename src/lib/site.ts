@@ -11,6 +11,13 @@ export const site = {
   locale: 'ru_RU',
 }
 
+/** Оператор персональных данных — для политики конфиденциальности */
+export const operator = {
+  name: 'Колбунов Даниил',
+  /** Email для запросов по персональным данным */
+  email: '',
+}
+
 /** Куда ведёт кнопка «Купить»: личные сообщения канала и сообщества ВК */
 export const buyLinks = {
   telegram: 'https://t.me/atrialcraft?direct',
