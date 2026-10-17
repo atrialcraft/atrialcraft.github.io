@@ -22,12 +22,13 @@ export const homeHeroTitle = 'Творческое убежище брянско
 export const socialLinks = [
   {
     href: 'https://t.me/atrialcraft',
-    label: 'Канал Atrial в Telegram',
+    label: 'Atrial в Telegram',
     icon: TelegramIcon,
   },
   {
     href: 'https://instagram.com/atrialcraft',
-    label: 'Atrial в Instagram',
+    // * — see the Meta note in the footer
+    label: 'Atrial в Instagram*',
     icon: InstagramIcon,
   },
   {

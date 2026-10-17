@@ -5,7 +5,7 @@ import { motion } from 'motion/react'
 import { bouncy, dragSpring, dragTransition } from '@/lib/transitions'
 import { PhotoCard } from '@/components/PhotoCard'
 
-import elektromaImage from '@/images/photos/elektroma.jpg'
+import electromaImage from '@/images/photos/electroma.jpg'
 import nalichnikImage from '@/images/photos/nalichnik.jpg'
 import onAirImage from '@/images/photos/on-air.jpg'
 import organajzerImage from '@/images/photos/organajzer.jpg'
@@ -13,7 +13,7 @@ import pechkaImage from '@/images/photos/pechka.jpg'
 
 const photos = [
   {
-    image: elektromaImage,
+    image: electromaImage,
     alt: 'Часы на газоразрядных индикаторах ИН-12Б',
   },
   {

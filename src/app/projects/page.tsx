@@ -10,7 +10,7 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { iconChromeClassName } from '@/lib/iconChrome'
 import { createPageMetadata } from '@/lib/metadata'
 import { cn } from '@/lib/utils'
-import elektromaImage from '@/images/photos/elektroma.jpg'
+import electromaImage from '@/images/photos/electroma.jpg'
 import nalichnikImage from '@/images/photos/nalichnik.jpg'
 interface Project {
   name: string
@@ -31,8 +31,8 @@ const projects: Array<Project> = [
     name: 'Часы «Электрома»',
     description:
       'Часы на советских газоразрядных индикаторах ИН-12Б: каждая цифра светится внутри стеклянной колбы.',
-    link: { href: '/market/elektroma', label: 'Магазин' },
-    logo: elektromaImage,
+    link: { href: '/market/electroma', label: 'Магазин' },
+    logo: electromaImage,
   },
   {
     name: 'Candy',
@@ -97,7 +97,7 @@ export default function Projects() {
             href="https://instagram.com/atrialcraft"
             className="link-underline"
           >
-            Instagram
+            Instagram*
           </a>
           .
         </>
