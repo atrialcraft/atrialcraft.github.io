@@ -6,10 +6,10 @@ import { ScrollToTop } from '@/components/ScrollToTop'
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {/* Borders of the content column; the background stays the site colour */}
+      {/* Content column on top of the darker side background, as in the original */}
       <div className="pointer-events-none fixed inset-0 flex justify-center sm:px-8">
         <div className="flex w-full max-w-7xl lg:px-8">
-          <div className="w-full sm:ring-1 sm:ring-secondary" />
+          <div className="w-full sm:bg-card sm:ring-1 sm:ring-secondary" />
         </div>
       </div>
       <div className="relative flex w-full flex-col overflow-x-clip">
