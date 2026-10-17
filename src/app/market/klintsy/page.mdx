@@ -1,0 +1,18 @@
+import { ProductLayout } from '@/components/ProductLayout'
+import { createProductMetadata } from '@/lib/products'
+
+export const product = {
+  name: 'Наличник «Клинцы»',
+  description:
+    'Наличник-зеркало из фанеры по мотивам деревянной архитектуры Клинцов',
+  available: false,
+  order: 4,
+}
+
+export const metadata = createProductMetadata(product)
+
+export default ({ children }) => (
+  <ProductLayout product={product}>{children}</ProductLayout>
+)
+
+Наличник из серии брянских наличников. Скоро в продаже: подробное описание и фото появятся здесь, а пока за новостями можно следить в [Telegram-канале](https://t.me/atrialcraft) или [ВКонтакте](https://vk.com/atrialcraft).

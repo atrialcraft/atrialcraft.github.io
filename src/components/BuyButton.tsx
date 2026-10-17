@@ -19,9 +19,11 @@ const channels = [
  */
 export function BuyButton({
   productName,
+  available = true,
   className,
 }: {
   productName: string
+  available?: boolean
   className?: string
 }) {
   let [open, setOpen] = useState(false)
@@ -60,6 +62,24 @@ export function BuyButton({
   let transition = reduceMotion
     ? { duration: 0 }
     : { duration: 0.12, ease: 'easeOut' as const }
+
+  if (!available) {
+    return (
+      <div className={cn('inline-flex h-10', className)}>
+        <button
+          type="button"
+          disabled
+          title="Скоро в продаже"
+          className={buttonClassName(
+            'primary',
+            'h-10 cursor-not-allowed opacity-40 hover:bg-primary',
+          )}
+        >
+          Купить
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div ref={rootRef} className={cn('inline-flex h-10', className)}>

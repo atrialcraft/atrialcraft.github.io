@@ -39,7 +39,10 @@ export function ProductLayout({
                 <p className="text-2xl font-semibold tracking-tight text-foreground">
                   {formatPrice(product.price)}
                 </p>
-                <BuyButton productName={product.name} />
+                <BuyButton
+                  productName={product.name}
+                  available={product.available}
+                />
                 {product.instruction && (
                   <Button href={product.instruction} variant="secondary">
                     <BookOpenIcon className="size-4" />

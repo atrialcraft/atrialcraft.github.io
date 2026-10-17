@@ -43,6 +43,7 @@ export const product = {
   image: photo, // import photo from './photo.jpeg'
   instruction: '/instructions/zlynka', // необязательно: кнопка «Инструкция»
   order: 1, // порядок в магазине
+  available: false, // необязательно: «Купить» неактивна, пока товар не в продаже
 }
 ```
 

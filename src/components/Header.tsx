@@ -21,7 +21,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 import { Container } from '@/components/Container'
 import { Halo } from '@/components/Halo'
-import { Logo } from '@/components/Logo'
+import { RoundLogo } from '@/components/RoundLogo'
 import { PageEnter } from '@/components/PageEnter'
 import { DialogOverlay } from '@/components/Dialog'
 import {
@@ -502,6 +502,10 @@ function clamp(number: number, a: number, b: number) {
   return Math.min(Math.max(number, min), max)
 }
 
+// The logo only shows at the very top of the page (see updateHeaderStyles)
+const logoVisibilityClassName =
+  '[pointer-events:var(--header-logo-events,auto)] [opacity:var(--header-logo-opacity,1)] transition-opacity duration-200'
+
 function HomeLink({
   large = false,
   className,
@@ -513,14 +517,10 @@ function HomeLink({
     <Link
       href="/"
       aria-label="Главная"
-      className={cn(
-        className,
-        // The logo has no backdrop, so hide it while the header floats over content
-        '[pointer-events:var(--header-logo-events,auto)] block text-foreground [opacity:var(--header-logo-opacity,1)] transition-opacity duration-200',
-      )}
+      className={cn(className, logoVisibilityClassName, 'block')}
       {...props}
     >
-      <Logo className={cn('w-auto', large ? 'h-16' : 'h-9')} />
+      <RoundLogo className={large ? 'size-16' : 'size-9'} />
     </Link>
   )
 }
@@ -694,7 +694,12 @@ export function Header() {
             <div className="relative flex gap-4">
               <div className="flex flex-1">
                 {!isHomePage && (
-                  <div className="flex h-10 items-center">
+                  <div
+                    className={cn(
+                      logoVisibilityClassName,
+                      'size-10 rounded-full bg-card/90 p-0.5 shadow-lg ring-1 shadow-foreground/5 ring-border backdrop-blur-sm dark:bg-muted/90',
+                    )}
+                  >
                     <HomeLink />
                   </div>
                 )}

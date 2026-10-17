@@ -40,7 +40,11 @@ function ProductCard({ product }: { product: Product }) {
         <p className="mt-auto pt-3 text-sm font-semibold text-foreground">
           {formatPrice(product.price)}
         </p>
-        <BuyButton productName={product.name} className="mt-3" />
+        <BuyButton
+          productName={product.name}
+          available={product.available}
+          className="mt-3"
+        />
       </div>
     </li>
   )

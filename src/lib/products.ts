@@ -16,6 +16,8 @@ export interface ProductMeta {
   instruction?: string
   /** Порядок в магазине: меньше — выше. Без него товар встаёт в конец */
   order?: number
+  /** false — товар пока нельзя купить: карточка открывается, «Купить» неактивна */
+  available?: boolean
 }
 
 export type Product = ProductMeta & {
