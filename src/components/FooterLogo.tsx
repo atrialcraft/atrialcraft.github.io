@@ -1,122 +1,113 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { motion, useReducedMotion } from 'motion/react'
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from 'motion/react'
 
 import { MadeInBryanskLogo } from '@/components/MadeInBryanskLogo'
-import { partisans } from '@/lib/partisans'
 
-const runDuration = 5
-// A squad: which silhouette runs and how far behind the previous one
-const squad = [
-  { figure: 0, delay: 0 },
-  { figure: 1, delay: 0.55 },
-  { figure: 0, delay: 1.1 },
-]
+const pacmanSize = 32
+const eatDuration = 2.2
+const restoreDelay = 1000
+const pacmanColor = '#ffcc02'
 
-type Run = { id: number; width: number }
+/** Pac-Man shape with the mouth opened by `angle` degrees each way */
+function pacmanPath(angle: number) {
+  let r = pacmanSize / 2
+  let a = (angle * Math.PI) / 180
+  let x = r + r * Math.cos(a)
+  let y = r * Math.sin(a)
+  return `M${r} ${r}L${x} ${r - y}A${r} ${r} 0 1 0 ${x} ${r + y}Z`
+}
 
 /**
- * Footer logo easter egg: every click sends a squad of partisans running
- * along the top of the footer.
+ * Footer logo easter egg: a click sends Pac-Man across the logo, eating it
+ * from left to right; the logo comes back a moment later.
  */
 export function FooterLogo() {
-  let [runs, setRuns] = useState<Array<Run>>([])
-  let [footer, setFooter] = useState<HTMLElement | null>(null)
-  let wrapperRef = useRef<HTMLDivElement>(null)
-  let nextId = useRef(0)
+  let [eating, setEating] = useState(false)
+  let logoRef = useRef<HTMLButtonElement>(null)
+  let reduceMotion = useReducedMotion()
 
-  function onClick() {
-    setFooter(wrapperRef.current?.closest('footer') ?? null)
-    let run = { id: nextId.current++, width: window.innerWidth }
-    setRuns((current) => [...current, run])
-  }
+  // Pac-Man's left edge, relative to the logo
+  let x = useMotionValue(-pacmanSize)
+  // Everything left of Pac-Man's centre is eaten
+  let clipPath = useTransform(
+    x,
+    (value) => `inset(0 0 0 ${Math.max(0, value + pacmanSize / 2)}px)`,
+  )
+  let logoOpacity = useMotionValue(1)
 
-  function onRunDone(id: number) {
-    setRuns((current) => current.filter((run) => run.id !== id))
+  async function onClick() {
+    let logo = logoRef.current
+    if (eating || !logo) {
+      return
+    }
+    setEating(true)
+
+    if (reduceMotion) {
+      await animate(logoOpacity, 0, { duration: 0.2 })
+    } else {
+      let width = logo.getBoundingClientRect().width
+      x.set(-pacmanSize)
+      await animate(x, width + pacmanSize, {
+        duration: eatDuration,
+        ease: 'linear',
+      })
+      logoOpacity.set(0)
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, restoreDelay))
+    x.set(-pacmanSize)
+    await animate(logoOpacity, 1, { duration: 0.4 })
+    setEating(false)
   }
 
   return (
-    <div ref={wrapperRef}>
+    <div className="relative">
       <button
+        ref={logoRef}
         type="button"
         aria-label="Сделано брянскими в Брянске"
-        className="cursor-default"
+        className="block cursor-default"
         onClick={onClick}
       >
-        <MadeInBryanskLogo className="h-10 w-auto flex-none text-foreground" />
+        <motion.span
+          className="block"
+          style={{ clipPath, opacity: logoOpacity }}
+        >
+          <MadeInBryanskLogo className="h-10 w-auto flex-none text-foreground" />
+        </motion.span>
       </button>
-      {footer &&
-        createPortal(
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-14 -translate-y-full overflow-hidden"
-          >
-            {runs.map((run) => (
-              <Squad
-                key={run.id}
-                width={run.width}
-                onDone={() => onRunDone(run.id)}
-              />
-            ))}
-          </div>,
-          footer,
-        )}
+
+      {eating && !reduceMotion && (
+        <motion.svg
+          aria-hidden
+          width={pacmanSize}
+          height={pacmanSize}
+          viewBox={`0 0 ${pacmanSize} ${pacmanSize}`}
+          className="pointer-events-none absolute top-1/2 left-0 -mt-4"
+          style={{ x }}
+        >
+          <motion.path
+            fill={pacmanColor}
+            initial={{ d: pacmanPath(40) }}
+            animate={{ d: [pacmanPath(40), pacmanPath(2), pacmanPath(40)] }}
+            transition={{ duration: 0.3, repeat: Infinity, ease: 'linear' }}
+          />
+          <circle
+            cx={pacmanSize / 2 + 2}
+            cy={pacmanSize / 4}
+            r={2}
+            className="fill-background"
+          />
+        </motion.svg>
+      )}
     </div>
-  )
-}
-
-function Squad({ width, onDone }: { width: number; onDone: () => void }) {
-  return (
-    <>
-      {squad.map(({ figure, delay }, i) => (
-        <Runner
-          key={i}
-          figure={figure}
-          delay={delay}
-          width={width}
-          onDone={i === squad.length - 1 ? onDone : undefined}
-        />
-      ))}
-    </>
-  )
-}
-
-function Runner({
-  figure,
-  delay,
-  width,
-  onDone,
-}: {
-  figure: number
-  delay: number
-  width: number
-  onDone?: () => void
-}) {
-  let reduceMotion = useReducedMotion()
-  let { viewBox, d } = partisans[figure]
-
-  return (
-    <motion.div
-      className="absolute bottom-0 left-0 h-12 text-foreground"
-      initial={{ x: -120 }}
-      animate={{ x: width + 40 }}
-      transition={{ duration: runDuration, ease: 'linear', delay }}
-      onAnimationComplete={onDone}
-    >
-      <motion.svg
-        viewBox={viewBox}
-        className="h-full w-auto"
-        fill="currentColor"
-        // A small bounce in step with the run
-        animate={
-          reduceMotion ? undefined : { y: [0, -4, 0], rotate: [0, -3, 0] }
-        }
-        transition={{ duration: 0.32, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <path d={d} />
-      </motion.svg>
-    </motion.div>
   )
 }
