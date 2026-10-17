@@ -21,8 +21,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 import { Container } from '@/components/Container'
 import { Halo } from '@/components/Halo'
-import { RoundLogo } from '@/components/RoundLogo'
-import { PageEnter } from '@/components/PageEnter'
+import { Logo } from '@/components/Logo'
 import { DialogOverlay } from '@/components/Dialog'
 import {
   bouncy,
@@ -502,38 +501,24 @@ function clamp(number: number, a: number, b: number) {
   return Math.min(Math.max(number, min), max)
 }
 
-// The logo only shows at the very top of the page (see updateHeaderStyles)
-const logoVisibilityClassName =
-  '[pointer-events:var(--header-logo-events,auto)] [opacity:var(--header-logo-opacity,1)] transition-opacity duration-200'
-
-function HomeLink({
-  large = false,
-  className,
-  ...props
-}: Omit<React.ComponentPropsWithoutRef<typeof Link>, 'href'> & {
-  large?: boolean
-}) {
+function HomeLink() {
   return (
     <Link
       href="/"
       aria-label="Главная"
-      className={cn(className, logoVisibilityClassName, 'block')}
-      {...props}
+      // The logo has no backdrop, so it only shows at the very top of the page
+      className="[pointer-events:var(--header-logo-events,auto)] block [opacity:var(--header-logo-opacity,1)] transition-opacity duration-200"
     >
-      <RoundLogo className={large ? 'size-16' : 'size-9'} />
+      <Logo className="h-9 w-auto" />
     </Link>
   )
 }
 
 export function Header() {
-  let isHomePage = usePathname() === '/'
-
   let headerRef = useRef<React.ElementRef<'div'>>(null)
-  let avatarRef = useRef<React.ElementRef<'div'>>(null)
   let isInitial = useRef(true)
 
   useEffect(() => {
-    let downDelay = avatarRef.current?.offsetTop ?? 0
     let upDelay = 64
 
     function setProperty(property: string, value: string) {
@@ -560,11 +545,9 @@ export function Header() {
         setProperty('--header-position', 'sticky')
       }
 
-      setProperty('--content-offset', `${downDelay}px`)
-
-      if (isInitial.current || scrollY < downDelay) {
-        setProperty('--header-height', `${downDelay + height}px`)
-        setProperty('--header-mb', `${-downDelay}px`)
+      if (isInitial.current) {
+        setProperty('--header-height', `${height}px`)
+        setProperty('--header-mb', '0px')
       } else if (top + height < -upDelay) {
         let offset = Math.max(height, scrollY - upDelay)
         setProperty('--header-height', `${offset}px`)
@@ -574,20 +557,15 @@ export function Header() {
         setProperty('--header-mb', `${-scrollY}px`)
       }
 
-      if (top === 0 && scrollY > 0 && scrollY >= downDelay) {
+      if (top === 0 && scrollY > 0) {
         setProperty('--header-inner-position', 'fixed')
         removeProperty('--header-top')
-        removeProperty('--avatar-top')
       } else {
         removeProperty('--header-inner-position')
         setProperty('--header-top', '0px')
-        setProperty('--avatar-top', '0px')
       }
 
-      // The logo has no backdrop, so it only shows at the very top of the page:
-      // on the home page while it is still shrinking, elsewhere before scrolling.
-      let atTop = isHomePage ? scrollY < downDelay : scrollY <= 4
-      if (atTop) {
+      if (scrollY <= 4) {
         removeProperty('--header-logo-opacity')
         removeProperty('--header-logo-events')
       } else {
@@ -596,33 +574,8 @@ export function Header() {
       }
     }
 
-    function updateAvatarStyles() {
-      if (!isHomePage) {
-        return
-      }
-
-      let fromScale = 1
-      let toScale = 36 / 64
-      let fromX = 0
-      let toX = 0
-
-      let scrollY = downDelay - window.scrollY
-
-      let scale = (scrollY * (fromScale - toScale)) / downDelay + toScale
-      scale = clamp(scale, fromScale, toScale)
-
-      let x = (scrollY * (fromX - toX)) / downDelay + toX
-      x = clamp(x, fromX, toX)
-
-      setProperty(
-        '--avatar-image-transform',
-        `translate3d(${x}rem, 0, 0) scale(${scale})`,
-      )
-    }
-
     function updateStyles() {
       updateHeaderStyles()
-      updateAvatarStyles()
       isInitial.current = false
     }
 
@@ -634,95 +587,46 @@ export function Header() {
       window.removeEventListener('scroll', updateStyles)
       window.removeEventListener('resize', updateStyles)
     }
-  }, [isHomePage])
+  }, [])
 
   return (
-    <>
-      <header
-        className="pointer-events-none relative z-50 flex flex-none flex-col"
+    <header
+      className="pointer-events-none relative z-50 flex flex-none flex-col"
+      style={{
+        height: 'var(--header-height)',
+        marginBottom: 'var(--header-mb)',
+      }}
+    >
+      <div
+        ref={headerRef}
+        className="top-0 z-10 h-16 pt-6"
         style={{
-          height: 'var(--header-height)',
-          marginBottom: 'var(--header-mb)',
+          position: 'var(--header-position)' as React.CSSProperties['position'],
         }}
       >
-        {isHomePage && (
-          <>
-            <div
-              ref={avatarRef}
-              className="order-last mt-[calc(--spacing(16)-(--spacing(3)))]"
-            />
-            <Container
-              className="top-0 order-last -mb-3 pt-3"
-              style={{
-                position:
-                  'var(--header-position)' as React.CSSProperties['position'],
-              }}
-            >
-              <div
-                className="top-(--avatar-top,--spacing(3)) w-full"
-                style={{
-                  position:
-                    'var(--header-inner-position)' as React.CSSProperties['position'],
-                }}
-              >
-                <PageEnter className="relative">
-                  <HomeLink
-                    large
-                    className="w-fit origin-left"
-                    style={{ transform: 'var(--avatar-image-transform)' }}
-                  />
-                </PageEnter>
-              </div>
-            </Container>
-          </>
-        )}
-        <div
-          ref={headerRef}
-          className="top-0 z-10 h-16 pt-6"
+        <Container
+          className="top-(--header-top,--spacing(6)) w-full"
           style={{
             position:
-              'var(--header-position)' as React.CSSProperties['position'],
+              'var(--header-inner-position)' as React.CSSProperties['position'],
           }}
         >
-          <Container
-            className="top-(--header-top,--spacing(6)) w-full"
-            style={{
-              position:
-                'var(--header-inner-position)' as React.CSSProperties['position'],
-            }}
-          >
-            <div className="relative flex gap-4">
-              <div className="flex flex-1">
-                {!isHomePage && (
-                  <div
-                    className={cn(
-                      logoVisibilityClassName,
-                      'size-10 rounded-full bg-card/90 p-0.5 shadow-lg ring-1 shadow-foreground/5 ring-border backdrop-blur-sm dark:bg-muted/90',
-                    )}
-                  >
-                    <HomeLink />
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-1 justify-end md:justify-center">
-                <MobileNavigation className="pointer-events-auto md:hidden" />
-                <DesktopNavigation className="pointer-events-auto hidden md:block" />
-              </div>
-              <div className="flex justify-end md:flex-1">
-                <div className="pointer-events-auto">
-                  <ThemeToggle />
-                </div>
+          <div className="relative flex gap-4">
+            <div className="flex h-10 flex-1 items-center">
+              <HomeLink />
+            </div>
+            <div className="flex flex-1 justify-end md:justify-center">
+              <MobileNavigation className="pointer-events-auto md:hidden" />
+              <DesktopNavigation className="pointer-events-auto hidden md:block" />
+            </div>
+            <div className="flex justify-end md:flex-1">
+              <div className="pointer-events-auto">
+                <ThemeToggle />
               </div>
             </div>
-          </Container>
-        </div>
-      </header>
-      {isHomePage && (
-        <div
-          className="flex-none"
-          style={{ height: 'var(--content-offset)' }}
-        />
-      )}
-    </>
+          </div>
+        </Container>
+      </div>
+    </header>
   )
 }
