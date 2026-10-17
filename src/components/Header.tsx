@@ -21,7 +21,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 import { Container } from '@/components/Container'
 import { Halo } from '@/components/Halo'
-import { Logo } from '@/components/Logo'
+import { AvatarLogo } from '@/components/AvatarLogo'
 import { PageEnter } from '@/components/PageEnter'
 import { DialogOverlay } from '@/components/Dialog'
 import {
@@ -531,14 +531,9 @@ function Avatar({
       className={cn(className, 'pointer-events-auto')}
       {...props}
     >
-      <span
-        className={cn(
-          'flex items-center justify-center rounded-full bg-card ring-1 ring-border dark:bg-muted',
-          large ? 'h-16 w-16' : 'h-9 w-9',
-        )}
-      >
-        <Logo className="w-[78%]" />
-      </span>
+      <AvatarLogo
+        className={cn('rounded-full', large ? 'h-16 w-16' : 'h-9 w-9')}
+      />
     </Link>
   )
 }
