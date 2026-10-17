@@ -1,8 +1,7 @@
 import Link from 'next/link'
 
 import { ContainerInner, ContainerOuter } from '@/components/Container'
-import { LaserEasterEgg } from '@/components/LaserEasterEgg'
-import { MadeInBryanskLogo } from '@/components/MadeInBryanskLogo'
+import { FooterLogo } from '@/components/FooterLogo'
 
 function NavLink({
   href,
@@ -20,7 +19,7 @@ function NavLink({
 
 export function Footer() {
   return (
-    <footer className="mt-32 flex-none">
+    <footer className="relative mt-32 flex-none">
       <ContainerOuter>
         <div className="border-t border-border pt-10 pb-16">
           <ContainerInner>
@@ -31,9 +30,7 @@ export function Footer() {
                 <NavLink href="/projects">Проекты</NavLink>
                 <NavLink href="/market">Магазин</NavLink>
               </div>
-              <LaserEasterEgg label="Сделано брянскими в Брянске">
-                <MadeInBryanskLogo className="h-10 w-auto flex-none text-foreground" />
-              </LaserEasterEgg>
+              <FooterLogo />
             </div>
           </ContainerInner>
         </div>

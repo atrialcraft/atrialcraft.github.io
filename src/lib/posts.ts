@@ -24,7 +24,7 @@ interface BaseMeta {
   ogImage?: string
   /** По умолчанию 'public' */
   visibility?: PostVisibility
-  /** Показывать ли запись в блоке «Свежее» на главной. По умолчанию true */
+  /** Показывать ли запись в блоке «Блог» на главной. По умолчанию true */
   showOnHome?: boolean
 }
 
@@ -150,7 +150,7 @@ export async function getListedPosts() {
   return (await getAllPosts()).filter((post) => post.visibility !== 'unlisted')
 }
 
-/** Записи для блока «Свежее» на главной */
+/** Записи для блока «Блог» на главной */
 export async function getHomePosts(limit = 3) {
   return (await getListedPosts())
     .filter((post) => post.showOnHome !== false)

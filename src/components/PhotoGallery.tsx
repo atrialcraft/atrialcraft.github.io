@@ -15,32 +15,22 @@ const photos = [
   {
     image: elektromaImage,
     alt: 'Часы на газоразрядных индикаторах ИН-12Б',
-    caption: 'часы «Электрома» на ИН-12Б',
-    filename: 'elektroma.jpg',
   },
   {
     image: pechkaImage,
     alt: 'Сварка корпуса печки-буржуйки',
-    caption: 'буржуйка из стали 5 мм',
-    filename: 'pechka.jpg',
   },
   {
     image: nalichnikImage,
     alt: 'Раскрашенный наличник-зеркало «Злынка»',
-    caption: 'наличник «Злынка»',
-    filename: 'nalichnik.jpg',
   },
   {
     image: onAirImage,
     alt: 'Световое табло ON AIR',
-    caption: 'табло ON AIR',
-    filename: 'on-air.jpg',
   },
   {
     image: organajzerImage,
     alt: 'Органайзер в стиле IKEA Skådis в цветочном магазине',
-    caption: 'органайзер для Candy',
-    filename: 'organajzer.jpg',
   },
 ]
 
@@ -97,15 +87,13 @@ export function PhotoGallery() {
             dragConstraints={{ right: 0, left: -width }}
             dragTransition={dragTransition}
             transition={dragSpring}
-            className="flex cursor-grab gap-5 select-none will-change-transform active:cursor-grabbing"
+            className="flex cursor-grab gap-5 will-change-transform select-none active:cursor-grabbing"
           >
             {cards}
           </motion.div>
         </div>
       ) : (
-        <div
-          className="-my-4 flex justify-center gap-5 overflow-visible py-4 sm:gap-8"
-        >
+        <div className="-my-4 flex justify-center gap-5 overflow-visible py-4 sm:gap-8">
           {cards}
         </div>
       )}

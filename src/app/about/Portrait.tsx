@@ -9,8 +9,6 @@ export function Portrait() {
       <PhotoCard
         image={portraitImage}
         alt="Даниил Колбунов"
-        caption="Даниил, Брянск"
-        filename="me.jpg"
         sizes="(min-width: 1024px) 32rem, 18rem"
         quality={100}
         aspectClassName="aspect-[4/5]"
