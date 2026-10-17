@@ -95,3 +95,4 @@ export const post = {
 | `NEXT_PUBLIC_SITE_URL` | Адрес сайта (OG, sitemap, RSS) |
 | `NEXT_PUBLIC_YANDEX_METRIKA_ID` | Номер счётчика Яндекс Метрики (переменная репозитория `YANDEX_METRIKA_ID`), необязательно |
 | `NEXT_PUBLIC_GA_ID` | ID Google Analytics 4, `G-…` (переменная репозитория `GA_ID`), необязательно |
+| `NEXT_PUBLIC_TELEGRAM_PIXEL_ID` | ID пикселя Telegram Ads, например `wc76Y9GR` (переменная репозитория `TELEGRAM_PIXEL_ID`), необязательно |

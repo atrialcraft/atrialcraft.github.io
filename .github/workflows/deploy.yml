@@ -38,6 +38,7 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://atrial.org
           NEXT_PUBLIC_YANDEX_METRIKA_ID: ${{ vars.YANDEX_METRIKA_ID }}
           NEXT_PUBLIC_GA_ID: ${{ vars.GA_ID }}
+          NEXT_PUBLIC_TELEGRAM_PIXEL_ID: ${{ vars.TELEGRAM_PIXEL_ID }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

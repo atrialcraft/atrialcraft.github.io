@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 
 const yandexMetrikaId = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID
+const telegramPixelId = process.env.NEXT_PUBLIC_TELEGRAM_PIXEL_ID
 
 declare global {
   interface Window {
@@ -74,11 +75,22 @@ gtag('config', '${id}');`}
   )
 }
 
+// Telegram Ads pixel: counts visits that come from Telegram ad campaigns.
+function TelegramPixel({ id }: { id: string }) {
+  return (
+    <Script id="telegram-pixel" strategy="afterInteractive">
+      {`(function(t,l,g,r,m){t[g]||(g=t[g]=function(){g.run?g.run.apply(g,arguments):g.queue.push(arguments)},g.queue=[],t=l.createElement(r),t.async=!0,t.src=m,l=l.getElementsByTagName(r)[0],l.parentNode.insertBefore(t,l))})(window,document,'tgp','script','https://telegram.org/js/pixel.js');
+tgp('init', ${JSON.stringify(id)});`}
+    </Script>
+  )
+}
+
 export function Analytics() {
   return (
     <>
       {yandexMetrikaId && <YandexMetrika id={Number(yandexMetrikaId)} />}
       {googleAnalyticsId && <GoogleAnalytics id={googleAnalyticsId} />}
+      {telegramPixelId && <TelegramPixel id={telegramPixelId} />}
     </>
   )
 }
