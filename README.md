@@ -1,6 +1,6 @@
 # Daniil Kolbunov — мастерская Atrial
 
-Личный сайт [atrialcraft.github.io](https://atrialcraft.github.io): блог, инструкции, проекты и магазин мастерской.
+Личный сайт [atrial.org](https://atrial.org): блог, инструкции, проекты и магазин мастерской.
 
 ## Стек
 
@@ -86,7 +86,7 @@ export const post = {
 
 Сайт собирается в статический HTML (`output: 'export'`, папка `out/`) и выкладывается на GitHub Pages workflow-ом [.github/workflows/deploy.yml](.github/workflows/deploy.yml) при каждом push в `main`.
 
-В настройках репозитория: **Pages → Source → GitHub Actions**. ID аналитики задаются в **Settings → Secrets and variables → Actions → Variables**.
+В настройках репозитория: **Pages → Source → GitHub Actions**. Домен atrial.org привязан там же, в **Pages → Custom domain** (при деплое через Actions файл `CNAME` не нужен). DNS домена — в Cloudflare. ID аналитики задаются в **Settings → Secrets and variables → Actions → Variables**.
 
 ## Переменные окружения
 

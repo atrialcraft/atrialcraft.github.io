@@ -35,7 +35,7 @@ jobs:
 
       - run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: https://atrialcraft.github.io
+          NEXT_PUBLIC_SITE_URL: https://atrial.org
           NEXT_PUBLIC_YANDEX_METRIKA_ID: ${{ vars.YANDEX_METRIKA_ID }}
           NEXT_PUBLIC_GA_ID: ${{ vars.GA_ID }}
 

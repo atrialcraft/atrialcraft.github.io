@@ -15,7 +15,7 @@ const ogTheme = {
   mutedForeground: '#737373',
 } as const
 
-const brandLabel = 'atrialcraft.github.io'
+const brandLabel = 'atrial.org'
 const logoPath = join(
   process.cwd(),
   'public/icons/icon-512.png',

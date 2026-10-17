@@ -34,7 +34,7 @@ function pickIcon($: cheerio.CheerioAPI, pageUrl: string) {
 
 const fetchHeaders = {
   'User-Agent':
-    'Mozilla/5.0 (compatible; KolbunovBot/1.0; +https://atrialcraft.github.io)',
+    'Mozilla/5.0 (compatible; KolbunovBot/1.0; +https://atrial.org)',
   Accept: 'text/html,application/xhtml+xml',
 }
 

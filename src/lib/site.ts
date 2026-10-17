@@ -7,7 +7,7 @@ export const site = {
   title: 'Atrial — Творческое убежище брянского энтузиаста',
   description:
     'Мастерская Atrial: лазерная резка, 3D-печать, Arduino и другие проекты из Брянска.',
-  domain: 'atrialcraft.github.io',
+  domain: 'atrial.org',
   locale: 'ru_RU',
 }
 
