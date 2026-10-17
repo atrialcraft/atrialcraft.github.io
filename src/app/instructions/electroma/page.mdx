@@ -1,0 +1,19 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+
+export const post = {
+  type: 'instruction',
+  author: 'Daniil Kolbunov',
+  date: '2026-10-17',
+  title: 'Инструкция к часам на газоразрядных индикаторах «Электрома»',
+  description: 'Инструкция к часам скоро появится здесь.',
+  // Заглушка, пока нет текста: открывается по прямой ссылке, но не показывается в списках
+  visibility: 'unlisted',
+  showOnHome: false,
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+Подробная инструкция к часам скоро появится здесь. А пока за новостями можно следить в [Telegram-канале](https://t.me/atrialcraft) или [ВКонтакте](https://vk.com/atrialcraft).
