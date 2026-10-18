@@ -7,6 +7,7 @@ import { Button } from '@/components/Button'
 import { cn } from '@/lib/utils'
 import {
   buildPageMdx,
+  carouselSnippet,
   emptyDraft,
   photoSnippet,
   sectionFor,
@@ -212,6 +213,7 @@ export function Studio() {
   let [tab, setTab] = useState<Tab>('text')
   let [busy, setBusy] = useState<string | null>(null)
   let [copied, setCopied] = useState(false)
+  let [selected, setSelected] = useState<Array<string>>([])
   let textRef = useRef<HTMLTextAreaElement>(null)
 
   // Photo blobs → object URLs for the editor list and the preview
@@ -257,14 +259,21 @@ export function Studio() {
       end: number,
     ) => { text: string; start: number; end: number },
   ) {
+    // On the Preview/Code tabs there is no textarea: insert at the end
     let area = textRef.current
-    if (!area) return
-    let result = transform(draft.body, area.selectionStart, area.selectionEnd)
+    let end = draft.body.length
+    let result = transform(
+      draft.body,
+      area ? area.selectionStart : end,
+      area ? area.selectionEnd : end,
+    )
     update({ body: result.text })
-    requestAnimationFrame(() => {
-      area.focus()
-      area.setSelectionRange(result.start, result.end)
-    })
+    if (area) {
+      requestAnimationFrame(() => {
+        area.focus()
+        area.setSelectionRange(result.start, result.end)
+      })
+    }
   }
 
   function apply(action: Action) {
@@ -368,6 +377,24 @@ export function Studio() {
   async function removePhoto(name: string) {
     await deletePhoto(name)
     setPhotos((current) => current.filter((photo) => photo.name !== name))
+    setSelected((current) => current.filter((item) => item !== name))
+  }
+
+  function toggleSelected(name: string) {
+    setSelected((current) =>
+      current.includes(name)
+        ? current.filter((item) => item !== name)
+        : [...current, name],
+    )
+  }
+
+  // Photos go into the carousel in the order they were ticked
+  function insertCarousel() {
+    let chosen = selected
+      .map((name) => photos.find((photo) => photo.name === name))
+      .filter((photo) => photo !== undefined)
+    apply({ kind: 'block', text: carouselSnippet(chosen) })
+    setSelected([])
   }
 
   function reset() {
@@ -531,21 +558,38 @@ export function Studio() {
       <section>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-sm font-semibold text-foreground">Фото</h2>
-          <label
-            className={cn('cursor-pointer', 'text-sm font-medium text-accent')}
-          >
-            {busy ?? '+ Добавить фото'}
-            <input
-              type="file"
-              accept="image/*,.heic,.heif"
-              multiple
-              className="sr-only"
-              onChange={(e) => {
-                addPhotos(Array.from(e.target.files ?? []))
-                e.target.value = ''
-              }}
-            />
-          </label>
+          <div className="flex flex-wrap items-center gap-4">
+            {photos.length > 1 && (
+              <button
+                type="button"
+                disabled={selected.length < 2}
+                onClick={insertCarousel}
+                className="text-sm font-medium text-accent disabled:text-muted-foreground"
+              >
+                {selected.length < 2
+                  ? 'Отметьте 2+ фото для карусели'
+                  : `Карусель из выбранных (${selected.length})`}
+              </button>
+            )}
+            <label
+              className={cn(
+                'cursor-pointer',
+                'text-sm font-medium text-accent',
+              )}
+            >
+              {busy ?? '+ Добавить фото'}
+              <input
+                type="file"
+                accept="image/*,.heic,.heif"
+                multiple
+                className="sr-only"
+                onChange={(e) => {
+                  addPhotos(Array.from(e.target.files ?? []))
+                  e.target.value = ''
+                }}
+              />
+            </label>
+          </div>
         </div>
         <p className="mt-1 text-xs text-muted-foreground">
           Фото сами уменьшаются до 1600 px и сохраняются в JPG. Размер и
@@ -558,8 +602,23 @@ export function Studio() {
             {photos.map((photo) => (
               <li
                 key={photo.name}
-                className="overflow-hidden rounded-xl ring-1 ring-border"
+                className={cn(
+                  'relative overflow-hidden rounded-xl ring-1',
+                  selected.includes(photo.name)
+                    ? 'ring-2 ring-accent'
+                    : 'ring-border',
+                )}
               >
+                <label className="absolute top-2 left-2 flex items-center gap-1 rounded-md bg-card/90 px-1.5 py-0.5 text-xs text-foreground shadow dark:bg-muted/90">
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(photo.name)}
+                    onChange={() => toggleSelected(photo.name)}
+                  />
+                  {selected.includes(photo.name)
+                    ? selected.indexOf(photo.name) + 1
+                    : 'в карусель'}
+                </label>
                 {urls[photo.name] && (
                   <img
                     src={urls[photo.name]}

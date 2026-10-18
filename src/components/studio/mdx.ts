@@ -106,10 +106,27 @@ export function photoSnippet(photo: PhotoMeta) {
   return `<Photo src={${photoVar(photo.name)}} alt="" caption="" size="full" align="center" />`
 }
 
+export function carouselSnippet(photos: Array<PhotoMeta>) {
+  let items = photos
+    .map(
+      (photo) => `    { src: ${photoVar(photo.name)}, alt: '', caption: '' },`,
+    )
+    .join('\n')
+  return `<ImageCarousel\n  images={[\n${items}\n  ]}\n/>`
+}
+
+const carouselImport =
+  "import { ImageCarousel } from '@/components/ImageCarousel'"
+
 export function buildPageMdx(draft: Draft, photos: Array<PhotoMeta>) {
+  // The carousel needs an import; add it unless the text already has one
+  let needsCarousel =
+    draft.body.includes('<ImageCarousel') &&
+    !draft.body.includes(carouselImport)
   let lines = [
     "import { PostLayout } from '@/components/PostLayout'",
     "import { createPostMetadata } from '@/lib/posts'",
+    ...(needsCarousel ? [carouselImport] : []),
     ...photos.map(
       (photo) => `import ${photoVar(photo.name)} from './${photo.name}'`,
     ),
