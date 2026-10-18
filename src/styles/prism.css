@@ -162,3 +162,12 @@ pre:has(.line-number) .code-block-label {
 .language-css .token.function {
   color: var(--prism-string);
 }
+
+/* diff code blocks: added and removed lines */
+.code-line.inserted {
+  background-color: color-mix(in oklab, #22c55e 14%, transparent);
+}
+
+.code-line.deleted {
+  background-color: color-mix(in oklab, #ef4444 14%, transparent);
+}
