@@ -10,6 +10,7 @@ import {
   carouselSnippet,
   emptyDraft,
   photoSnippet,
+  photoVar,
   sectionFor,
   slugify,
   validate,
@@ -323,6 +324,27 @@ export function Studio() {
   }, [draft, photos])
 
   let code = useMemo(() => buildPageMdx(draft, photos), [draft, photos])
+
+  // Where each photo is already used: in a carousel and/or on its own
+  let usage = useMemo(() => {
+    let carousels = draft.body.match(/<ImageCarousel\b[\s\S]*?\/>/g) ?? []
+    let rest = carousels.reduce(
+      (text, block) => text.replace(block, ''),
+      draft.body,
+    )
+    return Object.fromEntries(
+      photos.map((photo) => {
+        let pattern = new RegExp(`\\b${photoVar(photo.name)}\\b`)
+        let places = [
+          ...(carousels.some((block) => pattern.test(block))
+            ? ['в карусели']
+            : []),
+          ...(pattern.test(rest) ? ['в тексте'] : []),
+        ]
+        return [photo.name, places]
+      }),
+    )
+  }, [draft.body, photos])
   let problems = validate(draft)
   let folder = `src/app/${sectionFor(draft.type)}/${draft.slug || '…'}`
 
@@ -722,6 +744,17 @@ export function Studio() {
                 <div className="space-y-1 p-2 text-xs">
                   <p className="text-foreground">
                     {photo.name} · {formatSize(photo.size)}
+                  </p>
+                  <p
+                    className={
+                      usage[photo.name]?.length
+                        ? 'text-green-600 dark:text-green-400'
+                        : 'text-muted-foreground'
+                    }
+                  >
+                    {usage[photo.name]?.length
+                      ? `✓ ${usage[photo.name].join(' и ')}`
+                      : 'не вставлено'}
                   </p>
                   <div className="flex gap-3">
                     <button
