@@ -170,6 +170,11 @@ export default {
           'blockquote > p:has(cite) cite': {
             paddingLeft: 0,
           },
+          // Author left empty in the studio template
+          'blockquote > cite:empty, blockquote > p:has(> cite:empty:only-child)':
+            {
+              display: 'none',
+            },
 
           // Figures
           figcaption: {

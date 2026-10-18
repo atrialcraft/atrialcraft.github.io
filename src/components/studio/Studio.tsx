@@ -42,6 +42,7 @@ type Action =
   | { kind: 'line'; prefix: string }
   | { kind: 'block'; text: string }
   | { kind: 'align'; to: 'left' | 'center' | 'right' }
+  | { kind: 'quote' }
 
 const toolbar: Array<{
   label: string
@@ -119,8 +120,8 @@ const toolbar: Array<{
   },
   {
     label: '❝ Цитата',
-    title: 'Цитата',
-    action: { kind: 'line', prefix: '> ' },
+    title: 'Цитата (автора можно вписать в <cite>, пустой не покажется)',
+    action: { kind: 'quote' },
   },
   {
     label: 'Ссылка',
@@ -190,6 +191,34 @@ const toolbar: Array<{
   },
   { label: '—', title: 'Разделитель', action: { kind: 'block', text: '---' } },
 ]
+
+/**
+ * Quote with an optional author line, like the citation field of a quote
+ * block in WordPress: an empty <cite></cite> is not shown on the site.
+ */
+function quote(text: string, start: number, end: number) {
+  let lineStart = text.lastIndexOf('\n', start - 1) + 1
+  let lineEnd = text.indexOf('\n', end)
+  if (lineEnd === -1) lineEnd = text.length
+  let lines = text.slice(lineStart, lineEnd)
+  let content = lines.trim() ? lines : 'Текст цитаты'
+  let quoted = content
+    .split('\n')
+    .map((line) => (line.trim() ? `> ${line}` : '>'))
+    .join('\n')
+  let block = `${quoted}\n>\n> <cite></cite>`
+  let next = text.slice(0, lineStart) + block + text.slice(lineEnd)
+  if (lines.trim()) {
+    // Text was there already: put the cursor into the author tag
+    let cursor = lineStart + block.length - '</cite>'.length
+    return { text: next, start: cursor, end: cursor }
+  }
+  return {
+    text: next,
+    start: lineStart + 2,
+    end: lineStart + 2 + content.length,
+  }
+}
 
 const alignWrap = (to: string) => ({
   kind: 'wrap' as const,
@@ -333,6 +362,10 @@ export function Studio() {
   }
 
   function apply(action: Action) {
+    if (action.kind === 'quote') {
+      edit(quote)
+      return
+    }
     if (action.kind === 'align') {
       edit((text, start, end) => align(text, start, end, action.to))
       return
