@@ -8,6 +8,11 @@ import { TelegramIcon, VKIcon } from '@/components/SocialIcons'
 import { buyLinks } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
+// Motion animates these buttons, so CSS may only transition colours (CSS
+// transitions on opacity fight the JS animation); no grey tap flash on iOS.
+const motionButtonClassName =
+  'h-10 px-3 transition-colors [-webkit-tap-highlight-color:transparent]'
+
 const channels = [
   { href: buyLinks.telegram, label: 'Telegram', icon: TelegramIcon },
   { href: buyLinks.vk, label: 'ВКонтакте', icon: VKIcon },
@@ -59,6 +64,7 @@ export function BuyButton({
   }, [open])
 
   // Exit first, then enter: overlapping the two states looked jumpy on phones.
+  // Opacity only: scaling together with CSS transitions glitched in iOS Safari.
   let transition = reduceMotion
     ? { duration: 0 }
     : { duration: 0.12, ease: 'easeOut' as const }
@@ -88,9 +94,9 @@ export function BuyButton({
           <motion.div
             key="channels"
             className="flex gap-2"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={transition}
           >
             {channels.map(({ href, label, icon: Icon }) => (
@@ -101,7 +107,7 @@ export function BuyButton({
                 rel="noopener noreferrer"
                 aria-label={`Купить «${productName}»: написать в ${label}`}
                 title={`Написать в ${label}`}
-                className={buttonClassName('primary', 'h-10 px-3')}
+                className={buttonClassName('primary', motionButtonClassName)}
                 onClick={() => setOpen(false)}
               >
                 <Icon className="size-5 fill-current" />
@@ -113,10 +119,10 @@ export function BuyButton({
             key="buy"
             type="button"
             aria-expanded={false}
-            className={buttonClassName('primary', 'h-10')}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
+            className={buttonClassName('primary', motionButtonClassName)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={transition}
             onClick={() => setOpen(true)}
           >

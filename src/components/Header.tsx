@@ -399,7 +399,10 @@ function ThemeToggle() {
   // browsers without it, and reduced motion, switch instantly.
   function switchTheme(button: HTMLElement) {
     let next = otherTheme
-    if (!document.startViewTransition || reduceMotion) {
+    // On touch devices Safari tints its toolbar from the real page colour,
+    // which flips at once while the circle is still growing: switch instantly.
+    let touchDevice = window.matchMedia('(pointer: coarse)').matches
+    if (!document.startViewTransition || reduceMotion || touchDevice) {
       setTheme(next)
       return
     }
