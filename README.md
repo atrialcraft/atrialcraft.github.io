@@ -26,7 +26,7 @@
 | Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
 | Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpg` |
 | Блог: статьи и видео | `src/app/blog/<адрес>/page.mdx` → `/blog/<адрес>` |
-| Инструкции (для QR-кодов) | `src/app/instructions/<адрес>/page.mdx` → `/instructions/<адрес>`, пример — `/instructions/kak-dobavit-zapis` |
+| Инструкции (для QR-кодов) | `src/app/instructions/<адрес>/page.mdx` → `/instructions/<адрес>`, пример — `/instructions/kak-pisat-stati` |
 | Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), массив `projects` |
 | Магазин: товары | `src/app/market/<адрес>/page.mdx` → `/market/<адрес>`, фото товара `photo.jpeg` в той же папке |
 | Пункты меню | [src/components/Header.tsx](src/components/Header.tsx), [src/components/Footer.tsx](src/components/Footer.tsx) |

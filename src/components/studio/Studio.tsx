@@ -585,7 +585,15 @@ export function Studio() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="ghost" onClick={reset}>
+          <Button
+            href="/instructions/kak-pisat-stati"
+            target="_blank"
+            rel="noopener"
+            variant="secondary"
+          >
+            Инструкция
+          </Button>
+          <Button variant="secondary" onClick={reset}>
             Новая статья
           </Button>
           <Button variant="secondary" onClick={copyCode}>
