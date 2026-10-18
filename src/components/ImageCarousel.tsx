@@ -219,7 +219,7 @@ export function ImageCarousel({
             </button>
           ))}
           <span className="sr-only">
-            Image {index + 1} of {count}
+            Фото {index + 1} из {count}
           </span>
         </div>
       )}

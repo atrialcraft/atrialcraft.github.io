@@ -4,10 +4,7 @@ import { Golos_Text, Source_Serif_4 } from 'next/font/google'
 import { Providers } from '@/app/providers'
 import { Analytics } from '@/components/Analytics'
 import { Layout } from '@/components/Layout'
-import {
-  siteOpenGraphImages,
-  siteTwitterMetadata,
-} from '@/lib/metadata'
+import { siteOpenGraphImages, siteTwitterMetadata } from '@/lib/metadata'
 import { site } from '@/lib/site'
 
 import '@/styles/tailwind.css'
@@ -24,8 +21,7 @@ const sourceSerif = Source_Serif_4({
   variable: '--font-source-serif',
 })
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 const title = site.title
 const description = site.description
@@ -44,8 +40,9 @@ export const metadata: Metadata = {
     default: title,
   },
   description,
+  // No canonical here: child pages inherit it, and '/' would tell search
+  // engines that every page is a copy of the home page
   alternates: {
-    canonical: '/',
     types: {
       'application/rss+xml': '/feed.xml',
     },
@@ -89,7 +86,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteStructuredData).replace(/</g, '\\u003c'),
+            __html: JSON.stringify(websiteStructuredData).replace(
+              /</g,
+              '\\u003c',
+            ),
           }}
         />
         <Providers>

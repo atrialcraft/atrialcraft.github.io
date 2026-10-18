@@ -368,9 +368,12 @@ export function Studio() {
   ) {
     // On the Preview/Code tabs there is no textarea: insert at the end
     let area = textRef.current
-    let end = draft.body.length
+    // The textarea holds the latest text even when this runs after an await
+    // (photo compression) with an older `draft` in the closure
+    let body = area ? area.value : draft.body
+    let end = body.length
     let result = transform(
-      draft.body,
+      body,
       area ? area.selectionStart : end,
       area ? area.selectionEnd : end,
     )
@@ -522,6 +525,7 @@ export function Studio() {
     clearPhotos()
     setPhotos([])
     setUrls({})
+    setSelected([])
     setDraft(emptyDraft())
     setTab('text')
   }
@@ -554,7 +558,8 @@ export function Studio() {
     )
     link.download = `${slug}.zip`
     link.click()
-    URL.revokeObjectURL(link.href)
+    // Revoking right away cancels the download in Safari
+    window.setTimeout(() => URL.revokeObjectURL(link.href), 10_000)
   }
 
   return (

@@ -86,6 +86,13 @@ tgp('init', ${JSON.stringify(id)});`}
 }
 
 export function Analytics() {
+  let pathname = usePathname()
+
+  // The writing studio is private: no stats and no Webvisor recordings of drafts
+  if (pathname.startsWith('/studio-')) {
+    return null
+  }
+
   return (
     <>
       {yandexMetrikaId && <YandexMetrika id={Number(yandexMetrikaId)} />}

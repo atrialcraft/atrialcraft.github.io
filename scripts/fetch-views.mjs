@@ -16,7 +16,12 @@ if (!token || !counterId) {
 }
 
 function normalize(path) {
-  let clean = decodeURI(path.split(/[?#]/)[0])
+  let clean = path.split(/[?#]/)[0]
+  try {
+    clean = decodeURI(clean)
+  } catch {
+    // Malformed %-escape from some bot: keep the path as is
+  }
   return clean.length > 1 ? clean.replace(/\/+$/, '') : clean
 }
 
@@ -38,6 +43,9 @@ while (true) {
 
   let response = await fetch(url, {
     headers: { Authorization: `OAuth ${token}` },
+  }).catch((error) => {
+    console.warn(`fetch-views: ${error.message}`)
+    process.exit(0)
   })
   if (!response.ok) {
     // Don't fail the deploy because of statistics; just keep the old numbers
@@ -54,7 +62,7 @@ while (true) {
   }
 
   offset += limit
-  if (offset > totalRows) {
+  if (!data.length || !(offset <= totalRows)) {
     break
   }
 }
