@@ -22,7 +22,7 @@
 | Название и заголовок сайта, соцсети, куда ведёт «Купить» (Telegram и ВК) | [src/lib/site.ts](src/lib/site.ts) |
 | Главная: текст под заголовком, блок «Где купить» | [src/app/page.tsx](src/app/page.tsx) |
 | Фото в карусели на главной | [src/components/PhotoGallery.tsx](src/components/PhotoGallery.tsx), файлы в `src/images/photos/` |
-| Логотип в шапке (SVG, цвет меняется с темой сам) | [src/components/Logo.tsx](src/components/Logo.tsx) |
+| Аватарка-логотип в шапке | [src/components/AvatarLogo.tsx](src/components/AvatarLogo.tsx), SVG — `src/images/atrial-avatar.svg` |
 | Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
 | Обо мне: портрет | [src/app/about/Portrait.tsx](src/app/about/Portrait.tsx), файл `src/images/photos/me.jpg` |
 | Блог: статьи и видео | `src/app/blog/<адрес>/page.mdx` → `/blog/<адрес>` |
@@ -67,12 +67,13 @@ export const post = {
 
 ## Иконки
 
-Все иконки делаются из одного квадратного знака (сейчас это `src/images/avatar.png`). При замене логотипа нужно заменить все файлы из таблицы; имена и размеры должны остаться такими же.
+Все иконки делаются из одного знака-сквиркла (исходник — `src/images/favicon-mark.svg`). При замене логотипа нужно заменить все файлы из таблицы; имена и размеры должны остаться такими же.
 
 | Файл | Размер | Где видно | Требования |
 | --- | --- | --- | --- |
 | `src/app/favicon.ico` | 16×16, 32×32, 48×48 в одном файле | вкладка браузера, закладки, поиск Яндекса и Google | можно с прозрачностью |
-| `src/app/icon.png` | 512×512 | вкладка в современных браузерах | PNG, можно с прозрачностью |
+| `src/app/icon.svg` | вектор | вкладка в современных браузерах, чётко при любом размере | SVG, можно с прозрачностью |
+| `src/app/icon.png` | 512×512 | вкладка, если браузер не понимает SVG | PNG, можно с прозрачностью |
 | `src/app/apple-icon.png` | 180×180 | iPhone и iPad: «На экран „Домой“» | PNG **без прозрачности**: iOS сама скругляет углы, а прозрачные места становятся чёрными |
 | `public/icons/icon-192.png` | 192×192 | Android: ярлык на главном экране | PNG, можно с прозрачностью |
 | `public/icons/icon-512.png` | 512×512 | Android: экран загрузки; превью для соцсетей и RSS | PNG, можно с прозрачностью |
