@@ -23,6 +23,10 @@ export function buttonClassName(
   )
 }
 
+// In an article the button must not pick up the prose link styles
+// (underline, colour), and MDX wraps multi-line text in <p>: unwrap it
+export const ogButtonClassName = 'not-prose my-6 no-underline [&>p]:contents'
+
 type ButtonProps = {
   variant?: keyof typeof variantStyles
 } & (

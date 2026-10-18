@@ -8,7 +8,7 @@ import rehypePrism from 'rehype-prism-plus/common'
 import remarkCodeFilename from 'remark-code-filename'
 
 import { Align } from '@/components/Align'
-import { Button } from '@/components/Button'
+import { Button, ogButtonClassName } from '@/components/Button'
 import { CodePre } from '@/components/CodePre'
 import { CopyPrompt } from '@/components/CopyPrompt'
 import { FileTree } from '@/components/FileTree'
@@ -63,6 +63,7 @@ const components = {
     <Button
       href={href}
       variant={variant}
+      className={ogButtonClassName}
       target="_blank"
       rel="noopener noreferrer"
     >

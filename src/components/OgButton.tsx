@@ -1,5 +1,6 @@
-import { Button } from '@/components/Button'
+import { Button, ogButtonClassName } from '@/components/Button'
 import { getLinkMetadata } from '@/lib/link-metadata'
+import { cn } from '@/lib/utils'
 
 type OgButtonProps = {
   href: string
@@ -8,11 +9,22 @@ type OgButtonProps = {
   className?: string
 }
 
-export async function OgButton({ href, children, ...props }: OgButtonProps) {
+export async function OgButton({
+  href,
+  children,
+  className,
+  ...props
+}: OgButtonProps) {
   const metadata = await getLinkMetadata(href)
 
   return (
-    <Button href={href} target="_blank" rel="noopener noreferrer" {...props}>
+    <Button
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(ogButtonClassName, className)}
+      {...props}
+    >
       {metadata.favicon ? (
         <img
           src={metadata.favicon}
