@@ -136,6 +136,16 @@ const toolbar: Array<{
     },
   },
   {
+    label: 'Кнопка',
+    title: 'Кнопка-ссылка с иконкой сайта: впишите адрес в href',
+    action: {
+      kind: 'wrap',
+      before: '<OgButton href="https://" variant="secondary">',
+      after: '</OgButton>',
+      placeholder: 'Текст кнопки',
+    },
+  },
+  {
     label: '`код`',
     title: 'Код в строке (Cmd+E)',
     key: 'e',
