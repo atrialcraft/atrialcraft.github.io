@@ -3,6 +3,7 @@ import { createPostMetadata } from '@/lib/posts'
 import { CopyPrompt } from '@/components/CopyPrompt'
 import { FileTree } from '@/components/FileTree'
 import { OgButton } from '@/components/OgButton'
+import demoPhoto from '../../blog/pechka-burzhujka/02.jpg'
 
 export const post = {
   type: 'instruction',
@@ -104,6 +105,38 @@ export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
 **Экранирование.** Если нужно показать сам символ, который Markdown считает разметкой (`*`, `_`, `#`, `[`, `` ` ``), поставьте перед ним обратную косую черту: `\*`, `\_`, `\#`.
 
 **Эмодзи** вставляются как обычный текст: 🔥 🪟 ⚙️.
+
+## Выравнивание
+
+По умолчанию текст выровнен по левому краю. Чтобы выровнять кусок по центру или вправо, оберните его в `<Align>` — пустые строки внутри обязательны, иначе Markdown в нём не сработает:
+
+```md
+<Align to="center">
+
+**Текст по центру**
+
+</Align>
+
+<Align to="right">
+
+Подпись справа
+
+</Align>
+```
+
+<Align to="center">
+
+**Текст по центру**
+
+</Align>
+
+<Align to="right">
+
+Подпись справа
+
+</Align>
+
+Варианты: `left`, `center`, `right`. Внутрь можно положить что угодно — несколько абзацев, список, ссылку. В студии это кнопки ⇤ ↔ ⇥.
 
 ## Списки
 
@@ -333,7 +366,52 @@ import { CopyPrompt } from '@/components/CopyPrompt'
 
 ## Фото
 
-Фото кладётся в папку записи, подключается в шапке через `import` и вставляется тегом `Image`:
+Фото кладётся в папку записи, подключается в шапке через `import` и вставляется тегом `Photo` — в нём же задаются подпись, размер и положение:
+
+```md
+import photo01 from './01.jpg'
+
+<Photo src={photo01} alt="Сварка корпуса печи" caption="Подпись под фото" />
+```
+
+| Настройка | Значения | Что делает |
+| --- | --- | --- |
+| `size` | `full` (по умолчанию), `medium`, `small` | вся ширина колонки, три четверти, половина |
+| `align` | `center` (по умолчанию), `left`, `right` | где стоит фото, если оно меньше колонки |
+| `wrap` | просто написать `wrap` | текст обтекает фото сбоку — для `small` и `medium` с `left` или `right` |
+| `caption` | любой текст | подпись под фото, можно не писать |
+
+На телефоне любое фото растягивается на всю ширину — иначе маленькое было бы не разглядеть.
+
+**Маленькое по центру:**
+
+```md
+<Photo src={photo01} alt="…" size="small" />
+```
+
+<Photo src={demoPhoto} alt="Сварка корпуса печи" size="small" caption="size=&quot;small&quot;" />
+
+**Среднее справа:**
+
+```md
+<Photo src={photo01} alt="…" size="medium" align="right" />
+```
+
+<Photo src={demoPhoto} alt="Сварка корпуса печи" size="medium" align="right" caption="size=&quot;medium&quot; align=&quot;right&quot;" />
+
+**Маленькое слева, текст обтекает:**
+
+```md
+<Photo src={photo01} alt="…" size="small" align="left" wrap />
+
+Текст статьи встанет справа от фото…
+```
+
+<Photo src={demoPhoto} alt="Сварка корпуса печи" size="small" align="left" wrap />
+
+Так фото становится частью текста, как в журнале. Абзацы обтекают его справа, пока не закончится высота фото, а следующий заголовок раздела всегда начнётся уже под ним. На телефоне фото встанет над текстом во всю ширину. Подходит для небольших деталей, схем и портретов — для главных фото статьи лучше оставить полную ширину.
+
+Старый способ — `<figure>` с тегом `Image` внутри — тоже работает:
 
 ```md
 import photo01 from './01.jpg'

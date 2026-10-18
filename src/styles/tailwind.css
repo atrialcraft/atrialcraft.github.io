@@ -197,3 +197,10 @@
   color: var(--foreground);
   background-color: var(--muted);
 }
+
+/* Only text flows around a floating photo (<Photo wrap />): headings, code,
+   tables, other photos and any other blocks always start below it */
+.prose > :not(p, ul, ol, blockquote, figure),
+.prose > figure:not([class*='float']) {
+  clear: both;
+}

@@ -7,11 +7,13 @@ import remarkGfm from 'remark-gfm'
 import rehypePrism from 'rehype-prism-plus/common'
 import remarkCodeFilename from 'remark-code-filename'
 
+import { Align } from '@/components/Align'
 import { Button } from '@/components/Button'
 import { CodePre } from '@/components/CodePre'
 import { CopyPrompt } from '@/components/CopyPrompt'
 import { FileTree } from '@/components/FileTree'
 import { ImageCarousel } from '@/components/ImageCarousel'
+import { Photo } from '@/components/Photo'
 import { Prose } from '@/components/Prose'
 import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { formatDate } from '@/lib/formatDate'
@@ -71,6 +73,8 @@ const components = {
   Image: ({ src, alt }: { src: Src; alt?: string }) => (
     <img src={srcOf(src)} alt={alt ?? ''} />
   ),
+  Photo,
+  Align,
   ImageCarousel,
   FileTree,
   CopyPrompt,

@@ -103,7 +103,7 @@ export function photoVar(name: string) {
 }
 
 export function photoSnippet(photo: PhotoMeta) {
-  return `<figure>\n  <Image src={${photoVar(photo.name)}} alt="" />\n  <figcaption></figcaption>\n</figure>`
+  return `<Photo src={${photoVar(photo.name)}} alt="" caption="" size="full" align="center" />`
 }
 
 export function buildPageMdx(draft: Draft, photos: Array<PhotoMeta>) {

@@ -171,6 +171,36 @@ const toolbar: Array<{
       placeholder: 'Cmd',
     },
   },
+  {
+    label: '⇤',
+    title: 'Выровнять по левому краю',
+    action: {
+      kind: 'wrap',
+      before: '<Align to="left">\n\n',
+      after: '\n\n</Align>',
+      placeholder: 'текст',
+    },
+  },
+  {
+    label: '↔',
+    title: 'Выровнять по центру',
+    action: {
+      kind: 'wrap',
+      before: '<Align to="center">\n\n',
+      after: '\n\n</Align>',
+      placeholder: 'текст',
+    },
+  },
+  {
+    label: '⇥',
+    title: 'Выровнять по правому краю',
+    action: {
+      kind: 'wrap',
+      before: '<Align to="right">\n\n',
+      after: '\n\n</Align>',
+      placeholder: 'текст',
+    },
+  },
   { label: '—', title: 'Разделитель', action: { kind: 'block', text: '---' } },
 ]
 
@@ -518,8 +548,10 @@ export function Studio() {
           </label>
         </div>
         <p className="mt-1 text-xs text-muted-foreground">
-          Фото сами уменьшаются до 1600 px и сохраняются в JPG. Можно перетащить
-          их прямо в текст.
+          Фото сами уменьшаются до 1600 px и сохраняются в JPG. Размер и
+          положение меняются в тексте: size — small, medium, full; align — left,
+          center, right; wrap — текст обтекает фото. Можно перетащить их прямо в
+          текст.
         </p>
         {photos.length > 0 && (
           <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
