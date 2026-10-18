@@ -41,6 +41,7 @@ type Action =
   | { kind: 'wrap'; before: string; after: string; placeholder: string }
   | { kind: 'line'; prefix: string }
   | { kind: 'block'; text: string }
+  | { kind: 'align'; to: 'left' | 'center' | 'right' }
 
 const toolbar: Array<{
   label: string
@@ -175,35 +176,90 @@ const toolbar: Array<{
   {
     label: '⇤',
     title: 'Выровнять по левому краю',
-    action: {
-      kind: 'wrap',
-      before: '<Align to="left">\n\n',
-      after: '\n\n</Align>',
-      placeholder: 'текст',
-    },
+    action: { kind: 'align', to: 'left' },
   },
   {
     label: '↔',
     title: 'Выровнять по центру',
-    action: {
-      kind: 'wrap',
-      before: '<Align to="center">\n\n',
-      after: '\n\n</Align>',
-      placeholder: 'текст',
-    },
+    action: { kind: 'align', to: 'center' },
   },
   {
     label: '⇥',
     title: 'Выровнять по правому краю',
-    action: {
-      kind: 'wrap',
-      before: '<Align to="right">\n\n',
-      after: '\n\n</Align>',
-      placeholder: 'текст',
-    },
+    action: { kind: 'align', to: 'right' },
   },
   { label: '—', title: 'Разделитель', action: { kind: 'block', text: '---' } },
 ]
+
+const alignWrap = (to: string) => ({
+  kind: 'wrap' as const,
+  before: `<Align to="${to}">\n\n`,
+  after: '\n\n</Align>',
+  placeholder: 'текст',
+})
+
+/**
+ * Photos have their own align attribute: set it instead of wrapping them in
+ * <Align>. An existing <Align> block just gets its direction changed.
+ */
+function align(text: string, start: number, end: number, to: string) {
+  // With no selection, act on the line under the cursor
+  let from = start
+  let till = end
+  if (start === end) {
+    from = text.lastIndexOf('\n', start - 1) + 1
+    let lineEnd = text.indexOf('\n', end)
+    till = lineEnd === -1 ? text.length : lineEnd
+  }
+  let part = text.slice(from, till)
+
+  let changed: string | null = null
+  if (/<Photo\b/.test(part)) {
+    changed = part.replace(/<Photo\b[\s\S]*?\/>/g, (tag) =>
+      /\balign="[^"]*"/.test(tag)
+        ? tag.replace(/\balign="[^"]*"/, `align="${to}"`)
+        : tag.replace(/\s*\/>$/, ` align="${to}" />`),
+    )
+  } else if (/<Align to="[^"]*">/.test(part)) {
+    changed = part.replace(/<Align to="[^"]*">/g, `<Align to="${to}">`)
+  } else {
+    // Cursor or selection inside an <Align> block: change that block
+    let open = text.lastIndexOf('<Align to="', start)
+    let close = text.indexOf('</Align>', end)
+    if (
+      open !== -1 &&
+      close !== -1 &&
+      text.lastIndexOf('</Align>', start) < open
+    ) {
+      let tag = text.slice(open).match(/^<Align to="[^"]*">/)
+      if (tag) {
+        let next =
+          text.slice(0, open) +
+          `<Align to="${to}">` +
+          text.slice(open + tag[0].length)
+        let shift = `<Align to="${to}">`.length - tag[0].length
+        return { text: next, start: start + shift, end: end + shift }
+      }
+    }
+  }
+  if (changed !== null) {
+    return {
+      text: text.slice(0, from) + changed + text.slice(till),
+      start: from,
+      end: from + changed.length,
+    }
+  }
+
+  let wrap = alignWrap(to)
+  let inner = text.slice(start, end) || wrap.placeholder
+  let innerStart = start + wrap.before.length
+  return {
+    text:
+      text.slice(0, start) + wrap.before + inner + wrap.after + text.slice(end),
+    start: innerStart,
+    end: innerStart + inner.length,
+  }
+}
 
 export function Studio() {
   let [saved] = useState(loadDraft)
@@ -277,6 +333,10 @@ export function Studio() {
   }
 
   function apply(action: Action) {
+    if (action.kind === 'align') {
+      edit((text, start, end) => align(text, start, end, action.to))
+      return
+    }
     edit((text, start, end) => {
       let selected = text.slice(start, end)
       if (action.kind === 'wrap') {
