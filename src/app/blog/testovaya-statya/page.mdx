@@ -1,0 +1,19 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import photo01 from './01.jpg'
+
+export const post = {
+  type: 'article',
+  author: 'Daniil Kolbunov',
+  date: '2026-10-19',
+  title: "Тестовая статья",
+  description: "Это первая тестовая статья, которую я публикую используя токен гитхаба",
+  visibility: 'unlisted',
+  showOnHome: false,
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+<Photo src={photo01} alt="" caption="" size="full" align="center" />
