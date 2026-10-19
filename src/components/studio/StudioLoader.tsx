@@ -9,7 +9,7 @@ export const StudioLoader = dynamic(
   {
     ssr: false,
     loading: () => (
-      <p className="text-sm text-muted-foreground">Загружаю студию…</p>
+      <p className="text-sm text-muted-foreground">Загружаю Верстак…</p>
     ),
   },
 )

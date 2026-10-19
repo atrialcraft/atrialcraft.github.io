@@ -5,7 +5,7 @@ import { StudioLoader } from '@/components/studio/StudioLoader'
 
 // Private writing studio: not linked anywhere, not in the sitemap, not indexed.
 export const metadata: Metadata = {
-  title: 'Студия',
+  title: 'Верстак',
   robots: { index: false, follow: false },
 }
 

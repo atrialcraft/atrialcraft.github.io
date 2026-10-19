@@ -31,6 +31,7 @@ import {
   saveDraft,
 } from '@/components/studio/storage'
 import { Preview } from '@/components/studio/Preview'
+import { PublishPanel } from '@/components/studio/PublishPanel'
 
 type Tab = 'text' | 'preview' | 'code'
 
@@ -577,10 +578,11 @@ export function Studio() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-            Студия
+            Верстак
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Черновик сохраняется в этом браузере. Готовую папку положите в{' '}
+            Черновик сохраняется в этом браузере. Опубликуйте кнопкой ниже или
+            скачайте ZIP и положите папку в{' '}
             <code className="text-foreground">{folder}</code>.
           </p>
         </div>
@@ -608,6 +610,13 @@ export function Studio() {
           Перед публикацией: {problems.join(' · ')}
         </p>
       )}
+
+      <PublishPanel
+        draft={draft}
+        photos={photos}
+        code={code}
+        problems={problems}
+      />
 
       <section className="grid gap-4 sm:grid-cols-2">
         <label className="space-y-1 text-sm sm:col-span-2">
