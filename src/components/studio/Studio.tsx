@@ -50,24 +50,29 @@ type Action =
 
 const toolbar: Array<{
   label: string
+  /** Shows on the button what it does: bold «Ж», italic «К»… */
+  labelClassName?: string
   title: string
   action: Action
   key?: string
 }> = [
   {
     label: 'Ж',
+    labelClassName: 'font-bold',
     title: 'Жирный (Cmd+B)',
     key: 'b',
     action: { kind: 'wrap', before: '**', after: '**', placeholder: 'жирный' },
   },
   {
     label: 'К',
+    labelClassName: 'italic',
     title: 'Курсив (Cmd+I)',
     key: 'i',
     action: { kind: 'wrap', before: '_', after: '_', placeholder: 'курсив' },
   },
   {
     label: 'З',
+    labelClassName: 'line-through',
     title: 'Зачёркнутый (Cmd+Shift+X)',
     action: {
       kind: 'wrap',
@@ -78,6 +83,7 @@ const toolbar: Array<{
   },
   {
     label: 'П',
+    labelClassName: 'underline underline-offset-2',
     title: 'Подчёркнутый (Cmd+U)',
     key: 'u',
     action: {
@@ -89,6 +95,7 @@ const toolbar: Array<{
   },
   {
     label: 'Маркер',
+    labelClassName: 'rounded-sm bg-yellow-300/70 px-0.5 dark:bg-yellow-400/40',
     title: 'Выделение маркером',
     action: {
       kind: 'wrap',
@@ -150,6 +157,7 @@ const toolbar: Array<{
   },
   {
     label: '`код`',
+    labelClassName: 'font-mono',
     title: 'Код в строке (Cmd+E)',
     key: 'e',
     action: { kind: 'wrap', before: '`', after: '`', placeholder: 'код' },
@@ -869,7 +877,7 @@ export function Studio() {
                   onClick={() => apply(item.action)}
                   className="rounded-md px-2.5 py-1.5 text-sm text-foreground ring-1 ring-border transition-colors hover:bg-muted"
                 >
-                  {item.label}
+                  <span className={item.labelClassName}>{item.label}</span>
                 </button>
               ))}
             </div>

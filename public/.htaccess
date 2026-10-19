@@ -1,0 +1,41 @@
+# Настройки для обычного хостинга с Apache (Beget, Timeweb, REG.RU и т. п.),
+# куда сайт загружается по FTP. На GitHub Pages этот файл ни на что не влияет.
+
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+Options -MultiViews -Indexes
+
+<IfModule mod_dir.c>
+  # /blog — это и страница blog.html, и папка blog/ со статьями:
+  # не дописывать слеш, а отдать страницу
+  DirectorySlash Off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # /blog/ → /blog (один адрес у каждой страницы)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # /blog/pechka-burzhujka → blog/pechka-burzhujka.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+)$ /$1.html [L]
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType text/plain .txt
+</IfModule>
+
+<IfModule mod_expires.c>
+  # Файлы из /_next/static/ меняют имя при каждом изменении — их можно кешировать надолго
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+<IfModule mod_headers.c>
+  <If "%{REQUEST_URI} =~ m#^/_next/static/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+</IfModule>
