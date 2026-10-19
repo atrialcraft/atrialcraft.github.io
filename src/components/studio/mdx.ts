@@ -160,18 +160,28 @@ export function buildPageMdx(draft: Draft, photos: Array<PhotoMeta>) {
   return lines.join('\n')
 }
 
+/** What has to be filled in before publishing; `ok` once it's fine */
+export function checklist(draft: Draft) {
+  return [
+    { label: 'Заголовок', ok: Boolean(draft.title.trim()) },
+    { label: 'Описание', ok: Boolean(draft.description.trim()) },
+    {
+      label: 'Адрес: латиница, цифры и дефисы',
+      ok: /^[a-z0-9]+(-[a-z0-9]+)*$/.test(draft.slug),
+    },
+    {
+      label: 'Дата в формате ГГГГ-ММ-ДД',
+      ok: /^\d{4}-\d{2}-\d{2}$/.test(draft.date),
+    },
+    ...(draft.type === 'video'
+      ? [{ label: 'Код ролика YouTube', ok: Boolean(draft.youtubeId.trim()) }]
+      : []),
+  ]
+}
+
 /** Problems that would break the build or the URL */
 export function validate(draft: Draft) {
-  let problems: Array<string> = []
-  if (!draft.title.trim()) problems.push('Нет заголовка')
-  if (!draft.description.trim()) problems.push('Нет описания')
-  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(draft.slug)) {
-    problems.push('Адрес: только латиница, цифры и дефисы')
-  }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.date))
-    problems.push('Дата в формате ГГГГ-ММ-ДД')
-  if (draft.type === 'video' && !draft.youtubeId.trim()) {
-    problems.push('Для видео нужен код ролика YouTube')
-  }
-  return problems
+  return checklist(draft)
+    .filter((item) => !item.ok)
+    .map((item) => item.label)
 }

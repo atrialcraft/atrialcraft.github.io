@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { strToU8, zipSync } from 'fflate'
+import { CheckIcon } from '@heroicons/react/24/outline'
 
 import { Button } from '@/components/Button'
 import { cn } from '@/lib/utils'
 import {
   buildPageMdx,
+  checklist,
   carouselSnippet,
   emptyDraft,
   photoSnippet,
@@ -311,6 +313,8 @@ export function Studio() {
   let [busy, setBusy] = useState<string | null>(null)
   let [copied, setCopied] = useState(false)
   let [selected, setSelected] = useState<Array<string>>([])
+  // Bumped by «Новая статья» so the publish panel forgets the last result
+  let [session, setSession] = useState(0)
   let textRef = useRef<HTMLTextAreaElement>(null)
 
   // Photo blobs → object URLs for the editor list and the preview
@@ -356,6 +360,7 @@ export function Studio() {
       }),
     )
   }, [draft.body, photos])
+  let checks = checklist(draft)
   let problems = validate(draft)
   let folder = `src/app/${sectionFor(draft.type)}/${draft.slug || '…'}`
 
@@ -537,6 +542,7 @@ export function Studio() {
     setPhotos([])
     setUrls({})
     setSelected([])
+    setSession((current) => current + 1)
     setDraft(emptyDraft())
     setTab('text')
   }
@@ -605,13 +611,26 @@ export function Studio() {
         </div>
       </div>
 
-      {problems.length > 0 && (
-        <p className="rounded-xl bg-amber-500/10 p-4 text-sm text-amber-700 dark:text-amber-300">
-          Перед публикацией: {problems.join(' · ')}
-        </p>
-      )}
+      <ul className="grid gap-x-6 gap-y-1 rounded-xl bg-muted/50 p-4 text-sm sm:grid-cols-2">
+        {checks.map((item) => (
+          <li
+            key={item.label}
+            className={cn(
+              'flex items-center gap-2 transition-colors',
+              item.ok
+                ? 'text-green-600 dark:text-green-400'
+                : 'text-muted-foreground',
+            )}
+          >
+            <CheckIcon className="size-4 flex-none" aria-hidden />
+            <span className="sr-only">{item.ok ? 'Готово:' : 'Нужно:'}</span>
+            {item.label}
+          </li>
+        ))}
+      </ul>
 
       <PublishPanel
+        key={session}
         draft={draft}
         photos={photos}
         code={code}
