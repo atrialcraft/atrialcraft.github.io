@@ -1,4 +1,4 @@
-import Image, { type ImageProps } from 'next/image'
+import { type ImageProps } from 'next/image'
 import { type MDXComponents } from 'mdx/types'
 
 import { Align } from '@/components/Align'
@@ -10,6 +10,7 @@ import { OgButton } from '@/components/OgButton'
 import { OgLink } from '@/components/OgLink'
 import { Photo } from '@/components/Photo'
 import { YouTubeEmbed } from '@/components/YouTubeEmbed'
+import { ZoomableImage } from '@/components/ZoomableImage'
 
 export function useMDXComponents(components: MDXComponents) {
   return {
@@ -24,8 +25,8 @@ export function useMDXComponents(components: MDXComponents) {
     FileTree,
     CopyPrompt,
     YouTubeEmbed,
-    // `alt` is already part of `ImageProps`
+    // A click opens the photo full screen; `alt` is part of `ImageProps`
     // eslint-disable-next-line jsx-a11y/alt-text
-    Image: (props: ImageProps) => <Image {...props} />,
+    Image: (props: ImageProps) => <ZoomableImage {...props} />,
   }
 }

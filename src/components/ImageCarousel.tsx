@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { motion, useReducedMotion, type PanInfo } from 'motion/react'
+import { Lightbox } from '@/components/Lightbox'
 import { motionTransition, snappySpring } from '@/lib/transitions'
 import { cn } from '@/lib/utils'
 
@@ -54,6 +55,17 @@ export function ImageCarousel({
   let count = images.length
   let [ownIndex, setOwnIndex] = useState(0)
   let index = controlledIndex ?? ownIndex
+  // Without an outside handler (in articles) a click opens the built-in
+  // full screen viewer; the product page passes its own
+  let [lightboxOpen, setLightboxOpen] = useState(false)
+  let lightboxImages = images.flatMap((image) =>
+    typeof image.src === 'object'
+      ? [{ src: image.src, alt: image.alt ?? image.caption ?? '' }]
+      : [],
+  )
+  // Photos given as plain URLs have no known size, so they don't open
+  let canOpen = Boolean(onImageClick) || lightboxImages.length === count
+  let openImage = onImageClick ?? (() => setLightboxOpen(true))
   let [width, setWidth] = useState(0)
   let containerRef = useRef<HTMLDivElement>(null)
   let reduceMotion = useReducedMotion()
@@ -119,20 +131,18 @@ export function ImageCarousel({
           <motion.div
             className={cn(
               'flex',
-              onImageClick
-                ? 'cursor-zoom-in'
-                : 'cursor-grab active:cursor-grabbing',
+              canOpen ? 'cursor-zoom-in' : 'cursor-grab active:cursor-grabbing',
             )}
             // Motion cancels a tap once the pointer starts dragging, so a swipe doesn't open the photo
-            onTap={onImageClick ? () => onImageClick(index) : undefined}
-            {...(onImageClick && {
+            onTap={canOpen ? () => openImage(index) : undefined}
+            {...(canOpen && {
               role: 'button',
               tabIndex: 0,
               'aria-label': 'Открыть фото на весь экран',
               onKeyDown: (event: React.KeyboardEvent) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault()
-                  onImageClick(index)
+                  openImage(index)
                 }
               },
             })}
@@ -271,6 +281,14 @@ export function ImageCarousel({
             Фото {index + 1} из {count}
           </span>
         </div>
+      )}
+      {!onImageClick && canOpen && (
+        <Lightbox
+          images={lightboxImages}
+          index={lightboxOpen ? index : null}
+          onIndexChange={goTo}
+          onClose={() => setLightboxOpen(false)}
+        />
       )}
     </figure>
   )

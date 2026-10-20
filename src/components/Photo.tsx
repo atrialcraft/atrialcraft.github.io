@@ -1,4 +1,6 @@
-import Image, { type ImageProps } from 'next/image'
+import { type ImageProps } from 'next/image'
+
+import { ZoomableImage } from '@/components/ZoomableImage'
 
 import { cn } from '@/lib/utils'
 
@@ -58,7 +60,7 @@ export function Photo({
           : blockAlign[align],
       )}
     >
-      <Image src={src} alt={alt} className="h-auto w-full" />
+      <ZoomableImage src={src} alt={alt} className="h-auto w-full" />
       {caption ? (
         <figcaption className={cn(!floating && captionAlign[align])}>
           {caption}
