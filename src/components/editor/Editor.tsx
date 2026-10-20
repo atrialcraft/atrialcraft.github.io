@@ -492,11 +492,11 @@ export function Editor() {
     for (let file of images) {
       setBusy(`Сжимаю ${file.name}…`)
       try {
-        let { blob, width, height } = await compressPhoto(file)
-        let name = nextPhotoName([
-          ...names,
-          ...added.map((photo) => photo.name),
-        ])
+        let { blob, width, height, extension } = await compressPhoto(file)
+        let name = nextPhotoName(
+          [...names, ...added.map((photo) => photo.name)],
+          extension,
+        )
         await putPhoto(name, blob)
         added.push({ name, width, height, size: blob.size })
         setUrls((current) => ({
@@ -767,7 +767,7 @@ export function Editor() {
           </div>
         </div>
         <p className="mt-1 text-xs text-muted-foreground">
-          Фото сами уменьшаются до 1600 px и сохраняются в JPG. Размер и
+          Фото сами уменьшаются до 1600 px и сохраняются в WebP. Размер и
           положение меняются в тексте: size — small, medium, full; align — left,
           center, right; wrap — текст обтекает фото. Можно перетащить их прямо в
           текст.

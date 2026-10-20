@@ -9,7 +9,7 @@ export default function NotFound() {
             video instead of a GIF: 160 KB instead of several megabytes */}
         <video
           src="/404-cat.mp4"
-          poster="/404-cat.jpg"
+          poster="/404-cat.webp"
           autoPlay
           loop
           muted

@@ -17,7 +17,7 @@ export type Draft = {
 }
 
 export type PhotoMeta = {
-  /** File name inside the post folder, e.g. 01.jpg */
+  /** File name inside the post folder, e.g. 01.webp */
   name: string
   width: number
   height: number
@@ -101,7 +101,7 @@ export function sectionFor(type: DraftType) {
       : 'blog'
 }
 
-/** 01.jpg → photo01 */
+/** 01.webp → photo01 */
 export function photoVar(name: string) {
   return 'photo' + name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9]/g, '')
 }

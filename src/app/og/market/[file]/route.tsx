@@ -1,5 +1,6 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
+import sharp from 'sharp'
 
 import { generateProductOgImage } from '@/lib/og'
 import { getAllProducts, productCover } from '@/lib/products'
@@ -14,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 /**
- * The imported photo only knows its built URL (/_next/static/media/01.<hash>.jpeg),
+ * The imported photo only knows its built URL (/_next/static/media/01.<hash>.webp),
  * so the original is found in the product folder by its name
  */
 async function readCover(slug: string, src: string) {
@@ -23,10 +24,14 @@ async function readCover(slug: string, src: string) {
   let file = (await readdir(folder)).find((f) => f.split('.')[0] === name)
   if (!file) return undefined
 
-  let extension = file.split('.').pop()!.toLowerCase()
+  // The preview renderer doesn't read WebP, so the photo goes in as JPEG
   return {
-    data: await readFile(join(folder, file)),
-    type: extension === 'png' ? 'image/png' : 'image/jpeg',
+    data: await sharp(await readFile(join(folder, file)))
+      .rotate()
+      .resize({ width: 900, withoutEnlargement: true })
+      .jpeg({ quality: 85 })
+      .toBuffer(),
+    type: 'image/jpeg',
   }
 }
 

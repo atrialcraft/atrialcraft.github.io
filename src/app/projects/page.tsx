@@ -10,8 +10,8 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { iconChromeClassName } from '@/lib/iconChrome'
 import { createPageMetadata } from '@/lib/metadata'
 import { cn } from '@/lib/utils'
-import electromaImage from '@/app/market/electroma/photo.jpg'
-import nalichnikImage from '@/app/market/zlynka/01.jpeg'
+import electromaImage from '@/app/market/electroma/photo.webp'
+import nalichnikImage from '@/app/market/zlynka/01.webp'
 interface Project {
   name: string
   description: string

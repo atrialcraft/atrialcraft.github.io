@@ -5,12 +5,12 @@ import { motion } from 'motion/react'
 import { bouncy, dragSpring, dragTransition } from '@/lib/transitions'
 import { PhotoCard } from '@/components/PhotoCard'
 
-// Photos go in src/images/home/ as 01.jpg, 02.jpg… in the order shown
-import photo01 from '@/images/home/01.jpg'
-import photo02 from '@/images/home/02.jpg'
-import photo03 from '@/images/home/03.jpg'
-import photo04 from '@/images/home/04.jpg'
-import photo05 from '@/images/home/05.jpg'
+// Photos go in src/images/home/ as 01.webp, 02.webp… in the order shown
+import photo01 from '@/images/home/01.webp'
+import photo02 from '@/images/home/02.webp'
+import photo03 from '@/images/home/03.webp'
+import photo04 from '@/images/home/04.webp'
+import photo05 from '@/images/home/05.webp'
 
 const photos = [
   {
