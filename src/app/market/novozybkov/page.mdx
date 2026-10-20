@@ -10,7 +10,7 @@ export const product = {
   order: 40,
 }
 
-export const metadata = createProductMetadata(product)
+export const metadata = createProductMetadata(product, 'novozybkov')
 
 export default ({ children }) => (
   <ProductLayout product={product}>{children}</ProductLayout>

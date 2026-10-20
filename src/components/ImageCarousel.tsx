@@ -40,6 +40,9 @@ export function ImageCarousel({
   className,
   imageClassName,
   controlsInside = false,
+  index: controlledIndex,
+  onIndexChange,
+  onImageClick,
 }: {
   images: CarouselImage[]
   caption?: string
@@ -47,9 +50,15 @@ export function ImageCarousel({
   imageClassName?: string
   /** Arrows over the photo, shown on hover, instead of in the side gutters */
   controlsInside?: boolean
+  /** Current photo, when the parent keeps it (e.g. in sync with a lightbox) */
+  index?: number
+  onIndexChange?: (index: number) => void
+  /** Click (not a swipe) on the photo, e.g. to open it full screen */
+  onImageClick?: (index: number) => void
 }) {
   let count = images.length
-  let [index, setIndex] = useState(0)
+  let [ownIndex, setOwnIndex] = useState(0)
+  let index = controlledIndex ?? ownIndex
   let [width, setWidth] = useState(0)
   let containerRef = useRef<HTMLDivElement>(null)
   let reduceMotion = useReducedMotion()
@@ -71,7 +80,9 @@ export function ImageCarousel({
   }, [])
 
   function goTo(next: number) {
-    setIndex(Math.max(0, Math.min(count - 1, next)))
+    let clamped = Math.max(0, Math.min(count - 1, next))
+    setOwnIndex(clamped)
+    onIndexChange?.(clamped)
   }
 
   function onDragEnd(_: unknown, info: PanInfo) {
@@ -112,7 +123,14 @@ export function ImageCarousel({
           className="overflow-hidden rounded-3xl bg-muted"
         >
           <motion.div
-            className="flex cursor-grab active:cursor-grabbing"
+            className={cn(
+              'flex',
+              onImageClick
+                ? 'cursor-zoom-in'
+                : 'cursor-grab active:cursor-grabbing',
+            )}
+            // Motion cancels a tap once the pointer starts dragging, so a swipe doesn't open the photo
+            onTap={onImageClick ? () => onImageClick(index) : undefined}
             animate={{ x: width ? -index * width : 0 }}
             transition={motionTransition(snappySpring, reduceMotion)}
             drag={width > 0 ? 'x' : false}

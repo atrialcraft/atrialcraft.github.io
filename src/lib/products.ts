@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { type StaticImageData } from 'next/image'
 import glob from 'fast-glob'
 
-import { createOpenGraphImages } from '@/lib/metadata'
+import { getSiteUrl } from '@/lib/metadata'
+import { ogSize } from '@/lib/og'
 
 export interface ProductMeta {
   name: string
@@ -41,11 +42,22 @@ export function productCover(product: ProductMeta) {
   return product.images?.[0] ?? product.image
 }
 
-export function createProductMetadata(product: ProductMeta): Metadata {
-  let cover = productCover(product)
-  let images = cover
-    ? [{ url: cover.src, alt: product.name }]
-    : createOpenGraphImages(product.name)
+/**
+ * `slug` is the product folder name: the preview for messengers and social
+ * networks is drawn from the product at build time (src/app/og/market)
+ */
+export function createProductMetadata(
+  product: ProductMeta,
+  slug: string,
+): Metadata {
+  let images = [
+    {
+      url: `${getSiteUrl()}/og/market/${slug}.png`,
+      width: ogSize.width,
+      height: ogSize.height,
+      alt: product.name,
+    },
+  ]
 
   return {
     title: product.name,

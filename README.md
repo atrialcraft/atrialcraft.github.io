@@ -59,7 +59,7 @@ export const product = {
   available: false, // необязательно: «Купить» неактивна, пока товар не в продаже
 }
 
-export const metadata = createProductMetadata(product)
+export const metadata = createProductMetadata(product, 'zlynka') // адрес товара, как имя папки
 
 export default ({ children }) => <ProductLayout product={product}>{children}</ProductLayout>
 ```
