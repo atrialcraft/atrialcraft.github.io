@@ -28,7 +28,7 @@ const buttonClassName =
 
 /**
  * Photos at full screen size on a dark background. `index` is the open photo,
- * null — closed. Arrows, ← → keys and a swipe change the photo, a click on it
+ * null — closed. Arrows, ← → keys and a swipe change the photo, a mouse click
  * magnifies it, Esc, the cross or a click past the photo closes it
  */
 export function Lightbox({
@@ -47,8 +47,9 @@ export function Lightbox({
   let count = images.length
   let current = index !== null ? images[index] : undefined
 
-  // Magnifier: a click zooms in at that point, then the photo follows the
-  // pointer (or finger) so any detail can be reached; another click zooms out
+  // Magnifier for the mouse: a click zooms in at that point, then the photo
+  // follows the pointer so any detail can be reached; another click zooms out.
+  // Phones and tablets zoom with their own pinch gesture instead
   let [zoomed, setZoomed] = useState(false)
   let [origin, setOrigin] = useState('50% 50%')
   let frameRef = useRef<HTMLDivElement>(null)
@@ -118,24 +119,27 @@ export function Lightbox({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={motionTransition(overlayFade, reduceMotion)}
-                  // While zoomed, moving the finger pans the photo instead of swiping
                   drag={count > 1 && !zoomed ? 'x' : false}
                   dragSnapToOrigin
                   dragElastic={0.3}
                   onDragEnd={onDragEnd}
-                  // A tap is cancelled once a swipe starts, so swiping doesn't zoom
+                  // A tap is cancelled once a drag starts, so dragging doesn't zoom
                   onTap={(event) => {
-                    pointAt(event as PointerEvent)
+                    let pointer = event as PointerEvent
+                    if (pointer.pointerType !== 'mouse') return
+                    pointAt(pointer)
                     setZoomed(!zoomed)
                   }}
-                  className="flex max-h-full max-w-full items-center justify-center px-4 py-16 sm:px-20"
+                  // Motion sets touch-action: pan-y for the swipe, which would also block
+                  // the browser's pinch zoom; !important adds pinch zoom back
+                  className="flex max-h-full max-w-full items-center justify-center px-4 py-16 [touch-action:pan-y_pinch-zoom]! sm:px-20"
                 >
                   <div
                     ref={frameRef}
                     onPointerMove={zoomed ? pointAt : undefined}
                     className={cn(
                       'overflow-hidden rounded-xl',
-                      zoomed ? 'cursor-zoom-out touch-none' : 'cursor-zoom-in',
+                      zoomed ? 'cursor-zoom-out' : 'pointer-fine:cursor-zoom-in',
                     )}
                   >
                     <Image

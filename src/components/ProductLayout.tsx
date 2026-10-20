@@ -58,10 +58,10 @@ export function ProductLayout({
                 <h1 className="text-3xl font-semibold tracking-tight text-pretty text-foreground">
                   {product.name}
                 </h1>
-                <p className="mt-4 text-sm font-semibold text-foreground">
+                <p className="mt-3.5 text-2xl leading-none font-semibold tracking-tight text-foreground">
                   {formatPrice(product.price)}
                 </p>
-                <div className="mt-4 flex flex-wrap items-center gap-2">
+                <div className="mt-5.5 flex flex-wrap items-center gap-2">
                   <BuyButton
                     productName={product.name}
                     available={product.available}
