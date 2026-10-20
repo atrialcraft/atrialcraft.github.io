@@ -221,9 +221,31 @@ export function ImageCarousel({
         )}
       </div>
 
+      {/*
+        All captions share one grid cell: the block is as tall as the longest of
+        them, so the page doesn't jump while swiping and has no empty gap
+      */}
+      {(caption || images.some((image) => image.caption)) && (
+        <div className="mt-4 grid">
+          {images.map((image, i) => (
+            <figcaption
+              key={i}
+              aria-hidden={i !== index}
+              className={cn(
+                'col-start-1 row-start-1 text-sm leading-6 text-pretty text-muted-foreground/75 transition-[opacity,filter] duration-300 motion-reduce:transition-none',
+                i === index
+                  ? 'blur-0 opacity-100'
+                  : 'invisible opacity-0 blur-[2px]',
+              )}
+            >
+              {image.caption ?? caption}
+            </figcaption>
+          ))}
+        </div>
+      )}
+
       {count > 1 && (
-        // Dots right under the photo, so it is clear what they belong to
-        <div className="mt-1.5 flex items-center justify-center">
+        <div className="mt-2 flex items-center justify-center">
           {images.map((_, i) => (
             <button
               key={i}
@@ -246,28 +268,6 @@ export function ImageCarousel({
           <span className="sr-only">
             Фото {index + 1} из {count}
           </span>
-        </div>
-      )}
-      {/*
-        All captions share one grid cell: the block is as tall as the longest of
-        them, so the page doesn't jump while swiping and has no empty gap
-      */}
-      {(caption || images.some((image) => image.caption)) && (
-        <div className={cn('grid', count > 1 ? 'mt-1' : 'mt-4')}>
-          {images.map((image, i) => (
-            <figcaption
-              key={i}
-              aria-hidden={i !== index}
-              className={cn(
-                'col-start-1 row-start-1 text-sm leading-6 text-pretty text-muted-foreground/75 transition-[opacity,filter] duration-300 motion-reduce:transition-none',
-                i === index
-                  ? 'blur-0 opacity-100'
-                  : 'invisible opacity-0 blur-[2px]',
-              )}
-            >
-              {image.caption ?? caption}
-            </figcaption>
-          ))}
         </div>
       )}
     </figure>
