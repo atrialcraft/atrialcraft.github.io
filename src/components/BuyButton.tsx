@@ -11,7 +11,11 @@ import { cn } from '@/lib/utils'
 // Motion animates these buttons, so CSS may only transition colours (CSS
 // transitions on opacity fight the JS animation); no grey tap flash on iOS.
 const motionButtonClassName =
-  'h-10 px-3 transition-colors [-webkit-tap-highlight-color:transparent]'
+  'h-10 transition-colors [-webkit-tap-highlight-color:transparent]'
+
+// «Купить» and the pair of channel buttons are exactly as wide as each other
+// (2 × 2.5rem + 0.5rem gap), so opening them doesn't push the neighbours
+const rootClassName = 'inline-flex h-10 w-[5.5rem]'
 
 const channels = [
   { href: buyLinks.telegram, label: 'Telegram', icon: TelegramIcon },
@@ -71,14 +75,14 @@ export function BuyButton({
 
   if (!available) {
     return (
-      <div className={cn('inline-flex h-10', className)}>
+      <div className={cn(rootClassName, className)}>
         <button
           type="button"
           disabled
           title="Скоро в продаже"
           className={buttonClassName(
             'primary',
-            'h-10 cursor-not-allowed opacity-40 hover:bg-primary',
+            'h-10 w-full cursor-not-allowed opacity-40 hover:bg-primary',
           )}
         >
           Купить
@@ -88,12 +92,12 @@ export function BuyButton({
   }
 
   return (
-    <div ref={rootRef} className={cn('inline-flex h-10', className)}>
+    <div ref={rootRef} className={cn(rootClassName, className)}>
       <AnimatePresence mode="wait" initial={false}>
         {open ? (
           <motion.div
             key="channels"
-            className="flex gap-2"
+            className="flex w-full gap-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -107,7 +111,10 @@ export function BuyButton({
                 rel="noopener noreferrer"
                 aria-label={`Купить «${productName}»: написать в ${label}`}
                 title={`Написать в ${label}`}
-                className={buttonClassName('primary', motionButtonClassName)}
+                className={buttonClassName(
+                  'primary',
+                  cn(motionButtonClassName, 'w-10 px-0'),
+                )}
                 onClick={() => setOpen(false)}
               >
                 <Icon className="size-5 fill-current" />
@@ -119,7 +126,10 @@ export function BuyButton({
             key="buy"
             type="button"
             aria-expanded={false}
-            className={buttonClassName('primary', motionButtonClassName)}
+            className={buttonClassName(
+              'primary',
+              cn(motionButtonClassName, 'w-full px-3'),
+            )}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

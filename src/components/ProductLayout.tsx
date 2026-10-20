@@ -11,7 +11,7 @@ import { Prose } from '@/components/Prose'
 import { formatPrice, productCover, type ProductMeta } from '@/lib/products'
 
 /**
- * Product page in the same column as articles and instructions. From tablet
+ * Product page in the same column as articles and instructions. From laptop
  * width up: photos on the left (3:4, sticky while the text scrolls), name,
  * price, buttons and the description on the right — a 3:4 photo at the full
  * column width would not fit a laptop screen. On a phone everything stacks.
@@ -37,10 +37,11 @@ export function ProductLayout({
           >
             <ArrowLeftIcon className="size-4 text-muted-foreground transition group-hover:text-foreground" />
           </Link>
-          <article className="grid gap-10 sm:grid-cols-2 sm:items-start sm:gap-8">
-            <PageEnter className="sm:sticky sm:top-[calc(var(--banner-h)+5.5rem)]">
+          <article className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-10">
+            <PageEnter className="min-w-0 lg:sticky lg:top-[calc(var(--banner-h)+5.5rem)]">
               {product.images && product.images.length > 1 ? (
                 <ImageCarousel
+                  controlsInside
                   className="my-0"
                   imageClassName="aspect-3/4"
                   images={product.images.map((src, i) => ({
@@ -55,7 +56,7 @@ export function ProductLayout({
                       src={cover}
                       alt={product.name}
                       className="aspect-3/4 h-auto w-full object-cover"
-                      sizes="(min-width: 640px) 21rem, 100vw"
+                      sizes="(min-width: 1024px) 19rem, 42rem"
                       priority
                     />
                   </div>
@@ -63,16 +64,14 @@ export function ProductLayout({
               )}
             </PageEnter>
 
-            <div>
+            {/* min-w-0: a grid item must not grow to the width of the carousel strip */}
+            <div className="min-w-0">
               <PageEnter as="header" index={1} className="flex flex-col">
                 <h1 className="text-3xl font-semibold tracking-tight text-pretty text-foreground">
                   {product.name}
                 </h1>
-                <p className="mt-4 text-base text-muted-foreground">
-                  {product.description}
-                </p>
-                <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <p className="text-2xl font-semibold tracking-tight text-foreground">
+                <div className="mt-5 flex flex-wrap items-center gap-2">
+                  <p className="mr-2 text-xl font-semibold tracking-tight text-foreground">
                     {formatPrice(product.price)}
                   </p>
                   <BuyButton
@@ -86,6 +85,9 @@ export function ProductLayout({
                     </Button>
                   )}
                 </div>
+                <p className="mt-6 text-base text-muted-foreground">
+                  {product.description}
+                </p>
               </PageEnter>
 
               <PageEnter index={2}>

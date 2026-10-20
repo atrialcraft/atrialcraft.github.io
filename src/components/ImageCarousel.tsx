@@ -29,16 +29,24 @@ function imageSize(src: StaticImageData | string) {
 const navButtonClassName =
   'absolute top-1/2 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full bg-card text-foreground shadow-md ring-1 shadow-foreground/5 ring-border transition hover:bg-muted disabled:pointer-events-none disabled:opacity-30 md:flex dark:bg-muted dark:hover:bg-muted/80'
 
+// Arrows over the photo for narrow columns: small, translucent and only
+// while the pointer is over the photo, so they don't compete with it
+const overlayButtonClassName =
+  'absolute top-1/2 z-10 hidden size-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white opacity-0 backdrop-blur-sm transition group-hover/carousel:opacity-100 hover:bg-black/55 focus-visible:opacity-100 disabled:invisible md:flex'
+
 export function ImageCarousel({
   images,
   caption,
   className,
   imageClassName,
+  controlsInside = false,
 }: {
   images: CarouselImage[]
   caption?: string
   className?: string
   imageClassName?: string
+  /** Arrows over the photo, shown on hover, instead of in the side gutters */
+  controlsInside?: boolean
 }) {
   let count = images.length
   let [index, setIndex] = useState(0)
@@ -93,7 +101,12 @@ export function ImageCarousel({
         On desktop, pull out with negative margin and pad back in so the image
         stays content-width while nav buttons sit in the side gutters (not clipped).
       */}
-      <div className="relative md:-mx-12 md:px-12">
+      <div
+        className={cn(
+          'relative',
+          controlsInside ? 'group/carousel' : 'md:-mx-12 md:px-12',
+        )}
+      >
         <div
           ref={containerRef}
           className="overflow-hidden rounded-3xl bg-muted"
@@ -160,7 +173,11 @@ export function ImageCarousel({
               onClick={() => goTo(index - 1)}
               aria-label="Предыдущее фото"
               disabled={!canGoPrev}
-              className={cn(navButtonClassName, 'left-0')}
+              className={
+                controlsInside
+                  ? cn(overlayButtonClassName, 'left-3')
+                  : cn(navButtonClassName, 'left-0')
+              }
             >
               <ChevronLeftIcon className="size-4" />
             </button>
@@ -169,7 +186,11 @@ export function ImageCarousel({
               onClick={() => goTo(index + 1)}
               aria-label="Следующее фото"
               disabled={!canGoNext}
-              className={cn(navButtonClassName, 'right-0')}
+              className={
+                controlsInside
+                  ? cn(overlayButtonClassName, 'right-3')
+                  : cn(navButtonClassName, 'right-0')
+              }
             >
               <ChevronRightIcon className="size-4" />
             </button>
