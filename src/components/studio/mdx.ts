@@ -1,6 +1,6 @@
-// Builds page.mdx for a blog post or instruction from the studio draft.
+// Builds page.mdx for a blog post, instruction or project from the studio draft.
 
-export type DraftType = 'article' | 'video' | 'instruction'
+export type DraftType = 'article' | 'video' | 'instruction' | 'project'
 
 export type Draft = {
   type: DraftType
@@ -94,7 +94,11 @@ export function slugify(text: string) {
 }
 
 export function sectionFor(type: DraftType) {
-  return type === 'instruction' ? 'instructions' : 'blog'
+  return type === 'instruction'
+    ? 'instructions'
+    : type === 'project'
+      ? 'projects'
+      : 'blog'
 }
 
 /** 01.jpg → photo01 */

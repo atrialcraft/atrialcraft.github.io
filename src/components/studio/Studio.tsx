@@ -675,6 +675,7 @@ export function Studio() {
             <option value="article">Статья</option>
             <option value="video">Видео</option>
             <option value="instruction">Инструкция</option>
+            <option value="project">Проект</option>
           </select>
         </label>
         <label className="space-y-1 text-sm">

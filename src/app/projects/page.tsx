@@ -10,8 +10,8 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { iconChromeClassName } from '@/lib/iconChrome'
 import { createPageMetadata } from '@/lib/metadata'
 import { cn } from '@/lib/utils'
-import electromaImage from '@/images/photos/electroma.jpg'
-import nalichnikImage from '@/images/photos/nalichnik.jpg'
+import electromaImage from '@/app/market/electroma/photo.jpg'
+import nalichnikImage from '@/app/market/zlynka/photo.jpeg'
 interface Project {
   name: string
   description: string
@@ -24,14 +24,14 @@ const projects: Array<Project> = [
     name: 'Брянские наличники',
     description:
       'Серия зеркал-наличников по мотивам деревянной архитектуры Злынки, Новозыбкова, Клинцов, Климово и Верхнего Судка: наборы для сборки, инструкции и мастер-классы.',
-    link: { href: '/market', label: 'Магазин' },
+    link: { href: '/projects/nalichniki', label: 'О проекте' },
     logo: nalichnikImage,
   },
   {
     name: 'Часы «Электрома»',
     description:
       'Часы на советских газоразрядных индикаторах ИН-12Б: каждая цифра светится внутри стеклянной колбы.',
-    link: { href: '/market/electroma', label: 'Магазин' },
+    link: { href: '/projects/electroma', label: 'О проекте' },
     logo: electromaImage,
   },
   {

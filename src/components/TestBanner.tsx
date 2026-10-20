@@ -1,0 +1,30 @@
+import { buyLinks } from '@/lib/site'
+
+/**
+ * Strip pinned to the top of the screen while the new site is being finished.
+ * Its height is --banner-h (src/styles/tailwind.css): the layout and the
+ * sticky header are shifted by it. To remove the strip, delete it from
+ * Layout.tsx and set --banner-h to 0px.
+ */
+export function TestBanner() {
+  return (
+    <div className="fixed inset-x-0 top-0 z-60 flex h-(--banner-h) items-center justify-center bg-[#ffcc00] px-4 text-center text-xs font-medium text-[#111111]">
+      <p className="truncate">
+        <span className="sm:hidden">Тестовая версия, возможны ошибки.</span>
+        <span className="hidden sm:inline">
+          Это тестовая версия нового сайта: он постепенно обновляется, возможны
+          ошибки и неточности.
+        </span>{' '}
+        <a
+          href={buyLinks.telegram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2"
+        >
+          <span className="sm:hidden">Напишите</span>
+          <span className="hidden sm:inline">Заметили — напишите</span>
+        </a>
+      </p>
+    </div>
+  )
+}

@@ -9,38 +9,47 @@ import {
 } from '@/components/ContentCard'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { createPageMetadata } from '@/lib/metadata'
-import { formatPrice, getAllProducts, type Product } from '@/lib/products'
+import {
+  formatPrice,
+  getAllProducts,
+  productCover,
+  type Product,
+} from '@/lib/products'
 
-// Same card as on /projects: the whole card is one link with a hover
-// highlight; the buy button sits above that link layer and works on its own.
+// Photo on top, then the name and a description of up to ~160 characters.
+// The whole card is one link with a hover highlight; the buy button sits
+// above that link layer and works on its own.
 function ProductCard({ product }: { product: Product }) {
+  let cover = productCover(product)
   return (
-    <ContentCard as="li" className="h-full flex-row gap-4">
-      <div className="relative z-10 size-28 flex-none overflow-hidden rounded-xl bg-muted sm:size-32">
-        {product.image ? (
+    <ContentCard as="li" className="h-full">
+      <div className="relative z-10 aspect-3/4 w-full overflow-hidden rounded-xl bg-muted">
+        {cover ? (
           <Image
-            src={product.image}
+            src={cover}
             alt=""
             fill
-            sizes="8rem"
+            sizes="(min-width: 1024px) 20rem, (min-width: 640px) 45vw, 100vw"
             className="object-cover"
           />
         ) : (
-          <PhotoIcon className="absolute inset-0 m-auto size-8 text-muted-foreground" />
+          <PhotoIcon className="absolute inset-0 m-auto size-10 text-muted-foreground" />
         )}
       </div>
-      <div className="flex min-w-0 flex-1 flex-col items-start self-stretch">
-        <ContentCardTitle href={product.href}>{product.name}</ContentCardTitle>
-        <ContentCardDescription className="mt-1 line-clamp-3 text-pretty">
-          {product.description}
-        </ContentCardDescription>
-        <p className="relative z-10 mt-auto pt-3 text-sm font-semibold text-foreground">
+      <ContentCardTitle href={product.href} className="mt-5">
+        {product.name}
+      </ContentCardTitle>
+      <ContentCardDescription className="line-clamp-4 text-pretty">
+        {product.description}
+      </ContentCardDescription>
+      <div className="relative z-10 mt-auto flex w-full flex-wrap items-center justify-between gap-3 pt-4">
+        <p className="text-sm font-semibold text-foreground">
           {formatPrice(product.price)}
         </p>
         <BuyButton
           productName={product.name}
           available={product.available}
-          className="relative z-30 mt-3"
+          className="relative z-30"
         />
       </div>
     </ContentCard>
@@ -65,7 +74,7 @@ export default async function Market() {
     >
       <ul
         role="list"
-        className="grid grid-cols-1 gap-x-12 gap-y-12 sm:grid-cols-2 lg:grid-cols-3"
+        className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
       >
         {products.map((product) => (
           <ProductCard key={product.href} product={product} />

@@ -19,4 +19,5 @@ export const postCtaLabel: Record<PostType, string> = {
   article: 'Читать статью',
   video: 'Смотреть видео',
   instruction: 'Открыть инструкцию',
+  project: 'Подробнее о проекте',
 }

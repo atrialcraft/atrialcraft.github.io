@@ -1,0 +1,27 @@
+import { PostLayout } from '@/components/PostLayout'
+import { createPostMetadata } from '@/lib/posts'
+import photo01 from '../../market/electroma/photo.jpg'
+
+export const post = {
+  type: 'project',
+  author: 'Daniil Kolbunov',
+  date: '2026-10-20',
+  title: 'Часы «Электрома»',
+  description:
+    'Часы на советских газоразрядных индикаторах ИН-12Б: каждая цифра светится внутри стеклянной колбы.',
+  visibility: 'unlisted',
+}
+
+export const metadata = createPostMetadata(post)
+
+export default ({ children }) => <PostLayout post={post}>{children}</PostLayout>
+
+<Photo src={photo01} alt="Часы «Электрома»" />
+
+«Электрома» — часы на советских газоразрядных индикаторах ИН-12Б. Внутри каждой стеклянной колбы стоят электроды в форме цифр, и нужная цифра светится тёплым оранжевым светом. Такие индикаторы выпускали в СССР для измерительных приборов и табло.
+
+## Где посмотреть и купить
+
+Готовые часы можно посмотреть вживую в [«Месте»](https://t.me/mestostop) (Брянск, ул. Фокина, 29) или заказать [в магазине на сайте](/market/electroma).
+
+Инструкция к часам будет [здесь, на сайте](/instructions/electroma).

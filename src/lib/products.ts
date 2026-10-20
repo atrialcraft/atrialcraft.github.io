@@ -10,8 +10,13 @@ export interface ProductMeta {
   description: string
   /** Цена в рублях. Без цены будет «Цена по запросу» */
   price?: number
-  /** Квадратное фото, лежит в папке товара */
+  /** Одно фото товара, лежит в папке товара */
   image?: StaticImageData
+  /**
+   * Несколько фото: на странице товара — карусель, в карточке магазина —
+   * первое из них. Если заданы, `image` не нужен
+   */
+  images?: Array<StaticImageData>
   /** Ссылка на инструкцию, например '/instructions/zlynka' */
   instruction?: string
   /** Порядок в магазине: меньше — выше. Без него товар встаёт в конец */
@@ -31,9 +36,15 @@ export function formatPrice(price?: number) {
     : `${price.toLocaleString('ru-RU')} ₽`
 }
 
+/** Main photo: the first one of `images`, or `image` */
+export function productCover(product: ProductMeta) {
+  return product.images?.[0] ?? product.image
+}
+
 export function createProductMetadata(product: ProductMeta): Metadata {
-  let images = product.image
-    ? [{ url: product.image.src, alt: product.name }]
+  let cover = productCover(product)
+  let images = cover
+    ? [{ url: cover.src, alt: product.name }]
     : createOpenGraphImages(product.name)
 
   return {

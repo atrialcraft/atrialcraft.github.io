@@ -572,6 +572,9 @@ export function Header() {
       }
 
       let { top, height } = headerRef.current.getBoundingClientRect()
+      // The header sticks below the «тестовая версия» strip, not at 0
+      let stuck =
+        Math.abs(top - parseFloat(getComputedStyle(headerRef.current).top)) < 1
       let scrollY = clamp(
         window.scrollY,
         0,
@@ -591,12 +594,12 @@ export function Header() {
         let offset = Math.max(height, scrollY - upDelay)
         setProperty('--header-height', `${offset}px`)
         setProperty('--header-mb', `${height - offset}px`)
-      } else if (top === 0) {
+      } else if (stuck) {
         setProperty('--header-height', `${scrollY + height}px`)
         setProperty('--header-mb', `${-scrollY}px`)
       }
 
-      if (top === 0 && scrollY > 0 && scrollY >= downDelay) {
+      if (stuck && scrollY > 0 && scrollY >= downDelay) {
         setProperty('--header-inner-position', 'fixed')
         removeProperty('--header-top')
         removeProperty('--avatar-top')
@@ -670,14 +673,14 @@ export function Header() {
               className="order-last mt-[calc(--spacing(16)-(--spacing(3)))]"
             />
             <Container
-              className="top-0 order-last -mb-3 pt-3"
+              className="top-(--banner-h) order-last -mb-3 pt-3"
               style={{
                 position:
                   'var(--header-position)' as React.CSSProperties['position'],
               }}
             >
               <div
-                className="top-(--avatar-top,--spacing(3)) w-full"
+                className="top-[calc(var(--avatar-top,--spacing(3))+var(--banner-h))] w-full"
                 style={{
                   position:
                     'var(--header-inner-position)' as React.CSSProperties['position'],
@@ -706,14 +709,14 @@ export function Header() {
         )}
         <div
           ref={headerRef}
-          className="top-0 z-10 h-16 pt-6"
+          className="top-(--banner-h) z-10 h-16 pt-6"
           style={{
             position:
               'var(--header-position)' as React.CSSProperties['position'],
           }}
         >
           <Container
-            className="top-(--header-top,--spacing(6)) w-full"
+            className="top-[calc(var(--header-top,--spacing(6))+var(--banner-h))] w-full"
             style={{
               position:
                 'var(--header-inner-position)' as React.CSSProperties['position'],

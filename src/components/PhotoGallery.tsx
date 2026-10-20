@@ -5,31 +5,32 @@ import { motion } from 'motion/react'
 import { bouncy, dragSpring, dragTransition } from '@/lib/transitions'
 import { PhotoCard } from '@/components/PhotoCard'
 
-import electromaImage from '@/images/photos/electroma.jpg'
-import nalichnikImage from '@/images/photos/nalichnik.jpg'
-import onAirImage from '@/images/photos/on-air.jpg'
-import organajzerImage from '@/images/photos/organajzer.jpg'
-import pechkaImage from '@/images/photos/pechka.jpg'
+// Photos go in src/images/home/ as 01.jpg, 02.jpg… in the order shown
+import photo01 from '@/images/home/01.jpg'
+import photo02 from '@/images/home/02.jpg'
+import photo03 from '@/images/home/03.jpg'
+import photo04 from '@/images/home/04.jpg'
+import photo05 from '@/images/home/05.jpg'
 
 const photos = [
   {
-    image: electromaImage,
+    image: photo01,
     alt: 'Часы на газоразрядных индикаторах ИН-12Б',
   },
   {
-    image: pechkaImage,
+    image: photo02,
     alt: 'Сварка корпуса печки-буржуйки',
   },
   {
-    image: nalichnikImage,
+    image: photo03,
     alt: 'Раскрашенный наличник-зеркало «Злынка»',
   },
   {
-    image: onAirImage,
+    image: photo04,
     alt: 'Световое табло ON AIR',
   },
   {
-    image: organajzerImage,
+    image: photo05,
     alt: 'Органайзер в стиле IKEA Skådis в цветочном магазине',
   },
 ]

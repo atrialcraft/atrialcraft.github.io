@@ -7,7 +7,7 @@ import {
   createTwitterMetadata,
 } from '@/lib/metadata'
 
-export type PostType = 'article' | 'video' | 'instruction'
+export type PostType = 'article' | 'video' | 'instruction' | 'project'
 
 /**
  * public   — запись видна в списках, RSS и sitemap
@@ -36,12 +36,17 @@ interface InstructionMeta extends BaseMeta {
   type: 'instruction'
 }
 
+/** Статья о проекте: живёт в src/app/projects/<slug>, на неё ведёт карточка на /projects */
+interface ProjectMeta extends BaseMeta {
+  type: 'project'
+}
+
 interface VideoMeta extends BaseMeta {
   type: 'video'
   youtubeId: string
 }
 
-export type PostMeta = ArticleMeta | InstructionMeta | VideoMeta
+export type PostMeta = ArticleMeta | InstructionMeta | ProjectMeta | VideoMeta
 
 export type Post = PostMeta & {
   slug: string
@@ -105,7 +110,8 @@ type PostModule = {
 }
 
 // Записи блога живут в src/app/blog/<slug>, инструкции — в src/app/instructions/<slug>
-// (так у инструкций короткий адрес /instructions/<slug> для QR-кодов).
+// (так у инструкций короткий адрес /instructions/<slug> для QR-кодов),
+// статьи о проектах — в src/app/projects/<slug>.
 // Пути в import() должны быть статическими, иначе сборщик не найдёт файлы.
 const postSections = [
   {
@@ -117,6 +123,11 @@ const postSections = [
     path: 'instructions',
     load: (file: string) =>
       import(`../app/instructions/${file}`) as Promise<PostModule>,
+  },
+  {
+    path: 'projects',
+    load: (file: string) =>
+      import(`../app/projects/${file}`) as Promise<PostModule>,
   },
 ]
 

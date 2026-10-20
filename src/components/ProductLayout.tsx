@@ -6,8 +6,9 @@ import { Button } from '@/components/Button'
 import { BuyButton } from '@/components/BuyButton'
 import { Container } from '@/components/Container'
 import { PageEnter } from '@/components/PageEnter'
+import { ImageCarousel } from '@/components/ImageCarousel'
 import { Prose } from '@/components/Prose'
-import { formatPrice, type ProductMeta } from '@/lib/products'
+import { formatPrice, productCover, type ProductMeta } from '@/lib/products'
 
 export function ProductLayout({
   product,
@@ -53,16 +54,27 @@ export function ProductLayout({
             </PageEnter>
 
             <PageEnter index={1}>
-              {product.image && (
-                <div className="mt-8 overflow-hidden rounded-2xl bg-muted">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    className="h-auto w-full object-cover"
-                    sizes="(min-width: 768px) 42rem, 100vw"
-                    priority
-                  />
-                </div>
+              {product.images && product.images.length > 1 ? (
+                <ImageCarousel
+                  className="mt-8"
+                  imageClassName="aspect-3/4"
+                  images={product.images.map((src, i) => ({
+                    src,
+                    alt: `${product.name}, фото ${i + 1}`,
+                  }))}
+                />
+              ) : (
+                productCover(product) && (
+                  <div className="mt-8 overflow-hidden rounded-2xl bg-muted">
+                    <Image
+                      src={productCover(product)!}
+                      alt={product.name}
+                      className="h-auto w-full object-cover"
+                      sizes="(min-width: 768px) 42rem, 100vw"
+                      priority
+                    />
+                  </div>
+                )
               )}
 
               <Prose className="mt-8">{children}</Prose>
