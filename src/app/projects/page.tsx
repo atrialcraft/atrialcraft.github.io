@@ -11,7 +11,7 @@ import { iconChromeClassName } from '@/lib/iconChrome'
 import { createPageMetadata } from '@/lib/metadata'
 import { cn } from '@/lib/utils'
 import electromaImage from '@/app/market/electroma/photo.jpg'
-import nalichnikImage from '@/app/market/zlynka/photo.jpeg'
+import nalichnikImage from '@/app/market/zlynka/01.jpeg'
 interface Project {
   name: string
   description: string

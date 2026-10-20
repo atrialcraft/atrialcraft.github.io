@@ -1,13 +1,17 @@
 import { ProductLayout } from '@/components/ProductLayout'
 import { createProductMetadata } from '@/lib/products'
-import photo from './photo.jpeg'
+import photo1 from './01.jpeg'
+import photo2 from './02.jpeg'
+import photo3 from './03.jpeg'
+import photo4 from './04.jpeg'
 
 export const product = {
   name: 'Наличник «Злынка»',
   description:
     'Набор для сборки уменьшенной копии злынковского наличника в виде зеркала с открывающимися ставнями',
   price: 2500,
-  image: photo,
+  // Первое фото — обложка в магазине. Два фото и больше — карусель
+  images: [photo1, photo2, photo3, photo4],
   instruction: '/instructions/zlynka',
   order: 20,
 }
