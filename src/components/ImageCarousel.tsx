@@ -131,6 +131,17 @@ export function ImageCarousel({
             )}
             // Motion cancels a tap once the pointer starts dragging, so a swipe doesn't open the photo
             onTap={onImageClick ? () => onImageClick(index) : undefined}
+            {...(onImageClick && {
+              role: 'button',
+              tabIndex: 0,
+              'aria-label': 'Открыть фото на весь экран',
+              onKeyDown: (event: React.KeyboardEvent) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  onImageClick(index)
+                }
+              },
+            })}
             animate={{ x: width ? -index * width : 0 }}
             transition={motionTransition(snappySpring, reduceMotion)}
             drag={width > 0 ? 'x' : false}

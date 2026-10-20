@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
-import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
 
 import { ImageCarousel } from '@/components/ImageCarousel'
 import { Lightbox } from '@/components/Lightbox'
@@ -28,7 +27,7 @@ export function ProductGallery({
   }
 
   return (
-    <div className="group/carousel relative">
+    <div>
       {photos.length > 1 ? (
         <ImageCarousel
           controlsInside
@@ -54,16 +53,6 @@ export function ProductGallery({
           />
         </button>
       )}
-
-      {/* For the keyboard and as a hint; a click on the photo does the same */}
-      <button
-        type="button"
-        onClick={() => openAt(index)}
-        aria-label="Открыть фото на весь экран"
-        className="absolute top-3 right-3 z-10 hidden size-8 items-center justify-center rounded-full bg-black/35 text-white opacity-0 backdrop-blur-sm transition group-hover/carousel:opacity-100 hover:bg-black/55 focus-visible:opacity-100 md:flex"
-      >
-        <ArrowsPointingOutIcon className="size-4" />
-      </button>
 
       <Lightbox
         images={photos}

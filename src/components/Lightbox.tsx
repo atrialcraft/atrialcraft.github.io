@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import {
@@ -20,13 +20,16 @@ import { cn } from '@/lib/utils'
 
 export type LightboxImage = { src: StaticImageData; alt: string }
 
+// How much a click on the open photo magnifies it
+const zoomScale = 2
+
 const buttonClassName =
   'absolute z-10 flex size-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-white disabled:invisible'
 
 /**
  * Photos at full screen size on a dark background. `index` is the open photo,
- * null — closed. Arrows, ← → keys and a swipe change the photo, Esc, the cross
- * or a click past the photo closes it
+ * null — closed. Arrows, ← → keys and a swipe change the photo, a click on it
+ * magnifies it, Esc, the cross or a click past the photo closes it
  */
 export function Lightbox({
   images,
@@ -44,8 +47,31 @@ export function Lightbox({
   let count = images.length
   let current = index !== null ? images[index] : undefined
 
+  // Magnifier: a click zooms in at that point, then the photo follows the
+  // pointer (or finger) so any detail can be reached; another click zooms out
+  let [zoomed, setZoomed] = useState(false)
+  let [origin, setOrigin] = useState('50% 50%')
+  let frameRef = useRef<HTMLDivElement>(null)
+
   let goTo = (next: number) => {
-    if (next >= 0 && next < count) onIndexChange(next)
+    if (next >= 0 && next < count) {
+      setZoomed(false)
+      onIndexChange(next)
+    }
+  }
+
+  function pointAt(event: { clientX: number; clientY: number }) {
+    let rect = frameRef.current?.getBoundingClientRect()
+    if (!rect) return
+    let x = ((event.clientX - rect.left) / rect.width) * 100
+    let y = ((event.clientY - rect.top) / rect.height) * 100
+    let clamp = (value: number) => Math.min(100, Math.max(0, value))
+    setOrigin(`${clamp(x)}% ${clamp(y)}%`)
+  }
+
+  function close() {
+    setZoomed(false)
+    onClose()
   }
 
   useEffect(() => {
@@ -66,7 +92,7 @@ export function Lightbox({
 
   return (
     // `static` keeps the tree mounted so AnimatePresence can play the exit
-    <Dialog static open={open} onClose={onClose} className="relative z-70">
+    <Dialog static open={open} onClose={close} className="relative z-70">
       <AnimatePresence>
         {index !== null && current && (
           <motion.div
@@ -80,7 +106,7 @@ export function Lightbox({
             <DialogPanel
               className="flex size-full items-center justify-center"
               onClick={(event) => {
-                if (event.target === event.currentTarget) onClose()
+                if (event.target === event.currentTarget) close()
               }}
             >
               <DialogTitle className="sr-only">{current.alt}</DialogTitle>
@@ -92,25 +118,44 @@ export function Lightbox({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={motionTransition(overlayFade, reduceMotion)}
-                  drag={count > 1 ? 'x' : false}
+                  // While zoomed, moving the finger pans the photo instead of swiping
+                  drag={count > 1 && !zoomed ? 'x' : false}
                   dragSnapToOrigin
                   dragElastic={0.3}
                   onDragEnd={onDragEnd}
+                  // A tap is cancelled once a swipe starts, so swiping doesn't zoom
+                  onTap={(event) => {
+                    pointAt(event as PointerEvent)
+                    setZoomed(!zoomed)
+                  }}
                   className="flex max-h-full max-w-full items-center justify-center px-4 py-16 sm:px-20"
                 >
-                  <Image
-                    src={current.src}
-                    alt={current.alt}
-                    sizes="100vw"
-                    draggable={false}
-                    className="h-auto max-h-[calc(100dvh-8rem)] w-auto max-w-full rounded-xl object-contain select-none"
-                  />
+                  <div
+                    ref={frameRef}
+                    onPointerMove={zoomed ? pointAt : undefined}
+                    className={cn(
+                      'overflow-hidden rounded-xl',
+                      zoomed ? 'cursor-zoom-out touch-none' : 'cursor-zoom-in',
+                    )}
+                  >
+                    <Image
+                      src={current.src}
+                      alt={current.alt}
+                      sizes="100vw"
+                      draggable={false}
+                      style={{
+                        transform: `scale(${zoomed ? zoomScale : 1})`,
+                        transformOrigin: origin,
+                      }}
+                      className="h-auto max-h-[calc(100dvh-8rem)] w-auto max-w-full object-contain transition-transform duration-300 ease-out select-none motion-reduce:transition-none"
+                    />
+                  </div>
                 </motion.div>
               </AnimatePresence>
 
               <button
                 type="button"
-                onClick={onClose}
+                onClick={close}
                 aria-label="Закрыть"
                 className={cn(buttonClassName, 'top-4 right-4')}
               >
