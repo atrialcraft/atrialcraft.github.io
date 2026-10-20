@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeftIcon, BookOpenIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, BookOpenIcon, PhotoIcon } from '@heroicons/react/24/outline'
 
 import { Button } from '@/components/Button'
 import { BuyButton } from '@/components/BuyButton'
@@ -49,18 +49,21 @@ export function ProductLayout({
                     alt: `${product.name}, фото ${i + 1}`,
                   }))}
                 />
+              ) : cover ? (
+                <div className="overflow-hidden rounded-3xl bg-muted">
+                  <Image
+                    src={cover}
+                    alt={product.name}
+                    className="aspect-3/4 h-auto w-full object-cover"
+                    sizes="(min-width: 1024px) 19rem, 42rem"
+                    priority
+                  />
+                </div>
               ) : (
-                cover && (
-                  <div className="overflow-hidden rounded-3xl bg-muted">
-                    <Image
-                      src={cover}
-                      alt={product.name}
-                      className="aspect-3/4 h-auto w-full object-cover"
-                      sizes="(min-width: 1024px) 19rem, 42rem"
-                      priority
-                    />
-                  </div>
-                )
+                // No photo yet: the same placeholder as on the market card
+                <div className="relative aspect-3/4 rounded-3xl bg-muted">
+                  <PhotoIcon className="absolute inset-0 m-auto size-12 text-muted-foreground" />
+                </div>
               )}
             </PageEnter>
 
@@ -70,10 +73,10 @@ export function ProductLayout({
                 <h1 className="text-3xl font-semibold tracking-tight text-pretty text-foreground">
                   {product.name}
                 </h1>
-                <div className="mt-5 flex flex-wrap items-center gap-2">
-                  <p className="mr-2 text-xl font-semibold tracking-tight text-foreground">
-                    {formatPrice(product.price)}
-                  </p>
+                <p className="mt-4 text-xl font-semibold tracking-tight text-foreground">
+                  {formatPrice(product.price)}
+                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-2">
                   <BuyButton
                     productName={product.name}
                     available={product.available}
