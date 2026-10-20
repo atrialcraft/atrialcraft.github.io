@@ -167,7 +167,11 @@ export function buildPageMdx(draft: Draft, photos: Array<PhotoMeta>) {
 /** What has to be filled in before publishing; `ok` once it's fine */
 export function checklist(draft: Draft) {
   return [
-    { label: 'Заголовок', ok: Boolean(draft.title.trim()) },
+    // Russian typography: no full stop after a heading
+    {
+      label: 'Заголовок без точки в конце',
+      ok: Boolean(draft.title.trim()) && !/[^.]\.$/.test(draft.title.trim()),
+    },
     { label: 'Описание', ok: Boolean(draft.description.trim()) },
     {
       label: 'Адрес: латиница, цифры и дефисы',

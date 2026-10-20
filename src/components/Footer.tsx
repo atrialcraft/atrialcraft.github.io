@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { ContainerInner, ContainerOuter } from '@/components/Container'
 import { MadeInBryanskLogo } from '@/components/MadeInBryanskLogo'
+import { typografChildren } from '@/lib/typography'
 
 function NavLink({
   href,
@@ -33,8 +34,9 @@ export function Footer() {
               <MadeInBryanskLogo className="h-10 w-auto flex-none text-foreground" />
             </div>
             <p className="mt-8 text-center text-xs text-muted-foreground md:text-left">
-              * Instagram принадлежит компании Meta, деятельность которой
-              признана экстремистской и запрещена на территории России.
+              {typografChildren(
+                '* Instagram принадлежит компании Meta, деятельность которой признана экстремистской и запрещена на территории России.',
+              )}
             </p>
           </ContainerInner>
         </div>

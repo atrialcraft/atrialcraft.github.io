@@ -13,6 +13,7 @@ import { ViewsCount } from '@/components/ViewsCount'
 import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { type PostMeta } from '@/lib/posts'
 import { formatDate } from '@/lib/formatDate'
+import { typografChildren } from '@/lib/typography'
 
 export function PostLayout({
   post,
@@ -44,7 +45,7 @@ export function PostLayout({
           <article>
             <PageEnter as="header" className="flex flex-col">
               <h1 className="mt-6 text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">
-                {post.title}
+                {typografChildren(post.title)}
               </h1>
               <time
                 dateTime={post.date}
@@ -56,7 +57,7 @@ export function PostLayout({
               </time>
               {showDescription && (
                 <p className="mt-6 text-base text-muted-foreground">
-                  {post.description}
+                  {typografChildren(post.description)}
                 </p>
               )}
             </PageEnter>

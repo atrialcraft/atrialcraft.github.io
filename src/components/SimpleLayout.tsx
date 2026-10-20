@@ -1,5 +1,6 @@
 import { Container } from '@/components/Container'
 import { PageEnter } from '@/components/PageEnter'
+import { typografChildren } from '@/lib/typography'
 
 export function SimpleLayout({
   title,
@@ -17,9 +18,11 @@ export function SimpleLayout({
       <div className="contents">
         <PageEnter as="header" className="max-w-2xl">
           <h1 className="text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">
-            {title}
+            {typografChildren(title)}
           </h1>
-          <p className="mt-6 text-base text-muted-foreground">{intro}</p>
+          <p className="mt-6 text-base text-muted-foreground">
+            {typografChildren(intro)}
+          </p>
         </PageEnter>
         {children && animateChildren && (
           <PageEnter className="mt-16 sm:mt-20" index={1}>

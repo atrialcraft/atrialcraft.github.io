@@ -3,6 +3,7 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { cn } from '@/lib/utils'
 
 import { Halo } from '@/components/Halo'
+import { typografChildren } from '@/lib/typography'
 
 export function ContentCard({
   as: Component = 'div',
@@ -53,7 +54,7 @@ export function ContentCardTitle({
             rel={external ? 'noopener noreferrer' : undefined}
           >
             <span className="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
-            <span className="relative z-10">{children}</span>
+            <span className="relative z-10">{typografChildren(children)}</span>
           </Link>
         </>
       ) : (
@@ -77,7 +78,7 @@ export function ContentCardDescription({
         className,
       )}
     >
-      {children}
+      {typografChildren(children)}
     </p>
   )
 }

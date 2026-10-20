@@ -72,7 +72,7 @@ const projects: Array<Project> = [
   },
 ]
 
-const heroTitle = 'Собственные проекты и работы для брянских мест.'
+const heroTitle = 'Собственные проекты и работы для брянских мест'
 
 export const metadata = createPageMetadata({
   title: 'Проекты',
@@ -88,11 +88,11 @@ export default function Projects() {
       intro={
         <>
           Делал для себя, для друзей и даже для локальных брянских проектов.
-          Больше работ — в{' '}
+          Больше работ — в{'\u00A0'}
           <a href="https://t.me/atrialcraft" className="link-underline">
             Telegram-канале
           </a>{' '}
-          и{' '}
+          и{'\u00A0'}
           <a
             href="https://instagram.com/atrialcraft"
             className="link-underline"

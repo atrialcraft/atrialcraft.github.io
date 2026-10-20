@@ -53,7 +53,7 @@ function ProductCard({ product }: { product: Product }) {
   )
 }
 
-const heroTitle = 'Изделия, доступные к покупке.'
+const heroTitle = 'Изделия, доступные к покупке'
 
 export const metadata = createPageMetadata({
   title: 'Магазин',

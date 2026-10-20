@@ -5,7 +5,7 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { createPageMetadata } from '@/lib/metadata'
 import { getListedPosts } from '@/lib/posts'
 
-const heroTitle = 'Статьи, видео и инструкции из мастерской.'
+const heroTitle = 'Статьи, видео и инструкции из мастерской'
 
 export const metadata = createPageMetadata({
   title: 'Блог',

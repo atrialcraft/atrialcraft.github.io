@@ -18,6 +18,7 @@ import { Prose } from '@/components/Prose'
 import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { formatDate } from '@/lib/formatDate'
 import { photoVar, type Draft, type PhotoMeta } from '@/components/editor/mdx'
+import remarkTypograf from '@/lib/remark-typograf.mjs'
 
 type Src = string | { src: string }
 const srcOf = (src: Src) => (typeof src === 'string' ? src : src.src)
@@ -118,7 +119,8 @@ export function Preview({
           `${photoExports}\n\n${body}`,
           {
             ...runtime,
-            remarkPlugins: [remarkGfm, remarkCodeFilename],
+            // The same typography as on the site (next.config.mjs)
+            remarkPlugins: [remarkGfm, remarkCodeFilename, remarkTypograf],
             rehypePlugins: [[rehypePrism, { ignoreMissing: true }]],
           },
         )

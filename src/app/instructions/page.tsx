@@ -9,7 +9,7 @@ import { createPageMetadata } from '@/lib/metadata'
 import { getListedPosts } from '@/lib/posts'
 import { postCtaLabel } from '@/lib/blog'
 
-const heroTitle = 'Инструкции к изделиям мастерской.'
+const heroTitle = 'Инструкции к изделиям мастерской'
 
 export const metadata = createPageMetadata({
   title: 'Инструкции',

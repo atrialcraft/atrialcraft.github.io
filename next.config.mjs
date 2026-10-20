@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url'
+
 import nextMDX from '@next/mdx'
 
 /** @type {import('next').NextConfig} */
@@ -14,7 +16,12 @@ const nextConfig = {
 const withMDX = nextMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: ['remark-gfm', 'remark-code-filename'],
+    remarkPlugins: [
+      'remark-gfm',
+      'remark-code-filename',
+      // Non-breaking spaces after short words, before dashes, in numbers
+      fileURLToPath(new URL('./src/lib/remark-typograf.mjs', import.meta.url)),
+    ],
     rehypePlugins: ['rehype-prism-plus'],
   },
 })

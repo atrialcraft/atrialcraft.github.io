@@ -106,7 +106,7 @@ export default function Privacy() {
           {operator.email && (
             <>
               {' '}
-              Для этого напишите на{' '}
+              Для этого напишите на{'\u00A0'}
               <a href={`mailto:${operator.email}`}>{operator.email}</a>.
             </>
           )}{' '}

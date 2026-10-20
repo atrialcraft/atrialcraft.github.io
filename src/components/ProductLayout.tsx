@@ -1,5 +1,9 @@
 import Link from 'next/link'
-import { ArrowLeftIcon, BookOpenIcon, PhotoIcon } from '@heroicons/react/24/outline'
+import {
+  ArrowLeftIcon,
+  BookOpenIcon,
+  PhotoIcon,
+} from '@heroicons/react/24/outline'
 
 import { Button } from '@/components/Button'
 import { BuyButton } from '@/components/BuyButton'
@@ -8,6 +12,7 @@ import { PageEnter } from '@/components/PageEnter'
 import { ProductGallery } from '@/components/ProductGallery'
 import { Prose } from '@/components/Prose'
 import { formatPrice, productCover, type ProductMeta } from '@/lib/products'
+import { typografChildren } from '@/lib/typography'
 
 /**
  * Product page in the same column as articles and instructions. From laptop
@@ -56,7 +61,7 @@ export function ProductLayout({
             <div className="min-w-0">
               <PageEnter as="header" index={1} className="flex flex-col">
                 <h1 className="text-3xl font-semibold tracking-tight text-pretty text-foreground">
-                  {product.name}
+                  {typografChildren(product.name)}
                 </h1>
                 <p className="mt-3.5 text-2xl leading-none font-semibold tracking-tight text-foreground">
                   {formatPrice(product.price)}
@@ -74,7 +79,7 @@ export function ProductLayout({
                   )}
                 </div>
                 <p className="mt-6 text-base text-muted-foreground">
-                  {product.description}
+                  {typografChildren(product.description)}
                 </p>
               </PageEnter>
 

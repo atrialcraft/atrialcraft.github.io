@@ -21,6 +21,7 @@ import { formatDate } from '@/lib/formatDate'
 import { getHomePosts, type Post } from '@/lib/posts'
 import { postCtaLabel } from '@/lib/blog'
 import { homeHeroTitle, socialLinks } from '@/lib/site'
+import { typografChildren } from '@/lib/typography'
 
 function LatestPost({ post }: { post: Post }) {
   return (
@@ -96,7 +97,9 @@ function WhereToBuy() {
                 <p className="text-sm font-medium text-foreground transition group-hover:text-accent">
                   {name}
                 </p>
-                <p className="text-xs text-muted-foreground">{description}</p>
+                <p className="text-xs text-muted-foreground">
+                  {typografChildren(description)}
+                </p>
               </div>
             </Link>
           </li>
@@ -117,13 +120,12 @@ export default async function Home() {
       <Container className="mt-13">
         <PageEnter className="max-w-2xl">
           <h1 className="text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">
-            {homeHeroTitle}
+            {typografChildren(homeHeroTitle)}
           </h1>
           <p className="mt-6 text-base text-muted-foreground">
-            Меня зовут Даниил, я из Брянска. Atrial — моя личная мастерская на
-            окраине города: лазерная резка и гравировка, 3D-печать, RC-модели,
-            Arduino. Сейчас больше всего занимаюсь брянскими наличниками — делаю
-            наборы для сборки и провожу мастер-классы.
+            {typografChildren(
+              'Меня зовут Даниил, я из Брянска. Atrial — моя личная мастерская на окраине города: лазерная резка и гравировка, 3D-печать, RC-модели, Arduino. Сейчас больше всего занимаюсь брянскими наличниками — делаю наборы для сборки и провожу мастер-классы.',
+            )}
           </p>
           <div className="mt-6 flex gap-6">
             {socialLinks.map((link) => (
