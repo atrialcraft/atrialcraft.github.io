@@ -245,7 +245,7 @@ export function ImageCarousel({
       )}
 
       {count > 1 && (
-        <div className="mt-2 flex items-center justify-center">
+        <div className="mt-4 flex items-center justify-center">
           {images.map((_, i) => (
             <button
               key={i}
