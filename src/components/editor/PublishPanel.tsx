@@ -13,14 +13,14 @@ import {
   publish,
   repoUrl,
   saveToken,
-} from '@/components/studio/github'
+} from '@/components/editor/github'
 import {
   photoVar,
   sectionFor,
   type Draft,
   type PhotoMeta,
-} from '@/components/studio/mdx'
-import { getPhoto } from '@/components/studio/storage'
+} from '@/components/editor/mdx'
+import { getPhoto } from '@/components/editor/storage'
 
 const inputClass =
   'w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-foreground outline-offset-2 dark:bg-muted'

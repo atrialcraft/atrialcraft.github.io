@@ -42,15 +42,12 @@ function ProductCard({ product }: { product: Product }) {
       <ContentCardDescription className="line-clamp-4 text-pretty">
         {product.description}
       </ContentCardDescription>
-      <div className="relative z-10 mt-auto flex w-full flex-wrap items-center justify-between gap-3 pt-4">
+      {/* z-30: above the card-wide link (z-20), otherwise «Купить» opens the product page */}
+      <div className="relative z-30 mt-auto flex w-full flex-wrap items-center justify-between gap-3 pt-4">
         <p className="text-sm font-semibold text-foreground">
           {formatPrice(product.price)}
         </p>
-        <BuyButton
-          productName={product.name}
-          available={product.available}
-          className="relative z-30"
-        />
+        <BuyButton productName={product.name} available={product.available} />
       </div>
     </ContentCard>
   )

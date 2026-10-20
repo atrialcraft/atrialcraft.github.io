@@ -1,4 +1,4 @@
-// Builds page.mdx for a blog post, instruction or project from the studio draft.
+// Builds page.mdx for a blog post, instruction or project from the Верстак draft.
 
 export type DraftType = 'article' | 'video' | 'instruction' | 'project'
 

@@ -2,10 +2,10 @@
 
 import dynamic from 'next/dynamic'
 
-// The studio reads its draft from browser storage, so it renders only in the
+// Верстак reads its draft from browser storage, so it renders only in the
 // browser — nothing to prerender at build time.
-export const StudioLoader = dynamic(
-  () => import('@/components/studio/Studio').then((module) => module.Studio),
+export const EditorLoader = dynamic(
+  () => import('@/components/editor/Editor').then((module) => module.Editor),
   {
     ssr: false,
     loading: () => (

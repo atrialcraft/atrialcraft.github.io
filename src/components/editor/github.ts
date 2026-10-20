@@ -6,13 +6,21 @@ const owner = 'atrialcraft'
 const repo = 'atrialcraft.github.io'
 const branch = 'main'
 const api = `https://api.github.com/repos/${owner}/${repo}`
-const tokenKey = 'atrial-studio-github-token'
+const tokenKey = 'atrial-editor-github-token'
+// TEMPORARY, remove after the first visit to the editor following the rename:
+// the token saved under the old name is moved to tokenKey by loadToken()
+const oldTokenKey = 'atrial-studio-github-token'
 
 export const repoUrl = `https://github.com/${owner}/${repo}`
 
 export function loadToken() {
   try {
-    return window.localStorage.getItem(tokenKey) ?? ''
+    let token = window.localStorage.getItem(tokenKey)
+    if (token) return token
+    // One-time move from the old name: after the first visit only tokenKey is left
+    let old = window.localStorage.getItem(oldTokenKey) ?? ''
+    if (old) saveToken(old)
+    return old
   } catch {
     return ''
   }
@@ -22,6 +30,7 @@ export function saveToken(token: string) {
   try {
     if (token) window.localStorage.setItem(tokenKey, token)
     else window.localStorage.removeItem(tokenKey)
+    window.localStorage.removeItem(oldTokenKey)
   } catch {
     // Private mode: the token will have to be pasted again next time
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import portraitImage from '@/images/photos/me.jpg'
+import portraitImage from '@/images/me.jpg'
 import { PhotoCard } from '@/components/PhotoCard'
 
 export function Portrait() {

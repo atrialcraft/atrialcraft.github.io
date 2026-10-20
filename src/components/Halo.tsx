@@ -15,7 +15,7 @@ type HaloProps = {
 }
 
 /**
- * Mouse-following spotlight.
+ * Mouse-following highlight behind a hovered card.
  * Opacity is driven by a parent `group-hover:` so it still works when the
  * card’s stretched link sits above this surface.
  */

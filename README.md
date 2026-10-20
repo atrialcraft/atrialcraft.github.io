@@ -76,7 +76,7 @@ export default ({ children }) => <ProductLayout product={product}>{children}</Pr
 | Главная: текст под заголовком, блок «Где купить» | [src/app/page.tsx](src/app/page.tsx) |
 | Фото в ленте на главной | файлы `src/images/home/01.jpg`…`05.jpg` по порядку, подписи — в [src/components/PhotoGallery.tsx](src/components/PhotoGallery.tsx) |
 | Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
-| Обо мне: портрет | `src/images/photos/me.jpg` |
+| Обо мне: портрет | `src/images/me.jpg` |
 | Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), список `projects` |
 | Пункты меню | [src/components/Header.tsx](src/components/Header.tsx) и [src/components/Footer.tsx](src/components/Footer.tsx) |
 | Аватарка-логотип в шапке | `src/images/atrial-avatar.svg` |

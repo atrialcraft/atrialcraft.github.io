@@ -17,7 +17,7 @@ import { Photo } from '@/components/Photo'
 import { Prose } from '@/components/Prose'
 import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { formatDate } from '@/lib/formatDate'
-import { photoVar, type Draft, type PhotoMeta } from '@/components/studio/mdx'
+import { photoVar, type Draft, type PhotoMeta } from '@/components/editor/mdx'
 
 type Src = string | { src: string }
 const srcOf = (src: Src) => (typeof src === 'string' ? src : src.src)

@@ -18,12 +18,12 @@ import {
   validate,
   type Draft,
   type PhotoMeta,
-} from '@/components/studio/mdx'
+} from '@/components/editor/mdx'
 import {
   compressPhoto,
   formatSize,
   nextPhotoName,
-} from '@/components/studio/images'
+} from '@/components/editor/images'
 import {
   clearPhotos,
   deletePhoto,
@@ -31,9 +31,9 @@ import {
   loadDraft,
   putPhoto,
   saveDraft,
-} from '@/components/studio/storage'
-import { Preview } from '@/components/studio/Preview'
-import { PublishPanel } from '@/components/studio/PublishPanel'
+} from '@/components/editor/storage'
+import { Preview } from '@/components/editor/Preview'
+import { PublishPanel } from '@/components/editor/PublishPanel'
 
 type Tab = 'text' | 'preview' | 'code'
 
@@ -312,7 +312,7 @@ function align(text: string, start: number, end: number, to: string) {
   }
 }
 
-export function Studio() {
+export function Editor() {
   let [saved] = useState(loadDraft)
   let [draft, setDraft] = useState<Draft>(saved.draft)
   let [photos, setPhotos] = useState<Array<PhotoMeta>>(saved.photos)

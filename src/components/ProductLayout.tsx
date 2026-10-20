@@ -10,6 +10,9 @@ import { ImageCarousel } from '@/components/ImageCarousel'
 import { Prose } from '@/components/Prose'
 import { formatPrice, productCover, type ProductMeta } from '@/lib/products'
 
+// Screen height minus the test-version strip, the header and some air
+const photoMaxHeight = 'calc(100svh - var(--banner-h) - 7rem)'
+
 export function ProductLayout({
   product,
   children,
@@ -54,22 +57,30 @@ export function ProductLayout({
             </PageEnter>
 
             <PageEnter index={1}>
+              {/* Photos never get taller than the screen (minus the header):
+                  on a laptop a 3:4 photo at full column width would not fit */}
               {product.images && product.images.length > 1 ? (
-                <ImageCarousel
-                  className="mt-8"
-                  imageClassName="aspect-3/4"
-                  images={product.images.map((src, i) => ({
-                    src,
-                    alt: `${product.name}, фото ${i + 1}`,
-                  }))}
-                />
+                <div
+                  className="mx-auto mt-8"
+                  style={{ maxWidth: `calc(${photoMaxHeight} * 3 / 4)` }}
+                >
+                  <ImageCarousel
+                    className="my-0"
+                    imageClassName="aspect-3/4"
+                    images={product.images.map((src, i) => ({
+                      src,
+                      alt: `${product.name}, фото ${i + 1}`,
+                    }))}
+                  />
+                </div>
               ) : (
                 productCover(product) && (
-                  <div className="mt-8 overflow-hidden rounded-2xl bg-muted">
+                  <div className="mx-auto mt-8 w-fit max-w-full overflow-hidden rounded-2xl bg-muted">
                     <Image
                       src={productCover(product)!}
                       alt={product.name}
-                      className="h-auto w-full object-cover"
+                      className="h-auto w-auto max-w-full object-contain"
+                      style={{ maxHeight: photoMaxHeight }}
                       sizes="(min-width: 768px) 42rem, 100vw"
                       priority
                     />
