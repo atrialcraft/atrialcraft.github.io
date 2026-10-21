@@ -80,7 +80,8 @@ export default ({ children }) => <ProductLayout product={product}>{children}</Pr
 | Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), список `projects` |
 | Пункты меню | [src/components/Header.tsx](src/components/Header.tsx) и [src/components/Footer.tsx](src/components/Footer.tsx) |
 | Аватарка-логотип в шапке | `src/images/atrial-avatar.svg` |
-| Плашка «тестовая версия» вверху | [src/components/TestBanner.tsx](src/components/TestBanner.tsx). Убрать: удалить `<TestBanner />` из [src/components/Layout.tsx](src/components/Layout.tsx) и поставить `--banner-h: 0px` в [src/styles/tailwind.css](src/styles/tailwind.css) |
+| Плашка «тестовая версия» вверху | включается и выключается `showTestBanner` в [src/lib/site.ts](src/lib/site.ts) |
+| Фото в превью ссылок на разделы | `src/images/og/<раздел>.webp`: `index` (главная), `about`, `blog`, `projects`, `market`, `instructions`, `privacy`, `editor`. Нет файла — превью без фото. У статей, инструкций и товаров в превью первое фото записи |
 | Политика конфиденциальности | [src/app/privacy/page.tsx](src/app/privacy/page.tsx) (открывается по `/privacy`, в меню её нет) |
 | Цвета и шрифты | [src/styles/tailwind.css](src/styles/tailwind.css), шрифт — в [src/app/layout.tsx](src/app/layout.tsx) |
 | Оформление текста статей | [typography.ts](typography.ts) |
@@ -97,6 +98,7 @@ export default ({ children }) => <ProductLayout product={product}>{children}</Pr
 | Товар (одно фото или карусель `images`) | **3:4** вертикально, все фото одинаковые | 1200 × 1600 | 150–350 КБ |
 | Лента на главной | вертикальное 4:5 | 800 × 1000 | до 200 КБ |
 | Портрет «Обо мне» | вертикальное 4:5 | 1024 × 1280 | до 300 КБ |
+| Фото для превью раздела (`src/images/og`) | любые, обрежется до 3:4 по центру | от 900 px по ширине | любой |
 | Обложка записи для соцсетей (`ogImage`) | 1.91:1 | 1200 × 630 | до 300 КБ |
 
 Почему так:

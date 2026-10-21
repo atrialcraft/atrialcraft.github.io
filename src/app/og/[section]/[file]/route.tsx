@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises'
+import { readdir, readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Metadata } from 'next'
 
@@ -11,34 +11,28 @@ export const dynamicParams = false
 
 /**
  * Previews of the site sections, /og/page/<id>.png. Title and description
- * come from the page's own metadata, the photo is picked here
+ * come from the page's own metadata. The photo is src/images/og/<id>.webp
+ * (or .jpg, .png); without a file the text takes the whole width
  */
-const pages: Record<
-  string,
-  { load?: () => Promise<{ metadata: Metadata }>; photo?: string }
-> = {
-  index: { photo: 'src/images/home/03.webp' },
-  about: {
-    load: () => import('@/app/about/page'),
-    photo: 'src/images/me.webp',
-  },
-  blog: {
-    load: () => import('@/app/blog/page'),
-    photo: 'src/images/home/02.webp',
-  },
-  projects: {
-    load: () => import('@/app/projects/page'),
-    photo: 'src/images/home/01.webp',
-  },
-  market: {
-    load: () => import('@/app/market/page'),
-    photo: 'src/app/market/zlynka/01.webp',
-  },
-  instructions: {
-    load: () => import('@/app/instructions/page'),
-    photo: 'src/app/instructions/zlynka/64.webp',
-  },
-  privacy: { load: () => import('@/app/privacy/page') },
+const pages: Record<string, (() => Promise<{ metadata: Metadata }>) | null> = {
+  index: null, // home: the site title and description
+  about: () => import('@/app/about/page'),
+  blog: () => import('@/app/blog/page'),
+  projects: () => import('@/app/projects/page'),
+  market: () => import('@/app/market/page'),
+  instructions: () => import('@/app/instructions/page'),
+  privacy: () => import('@/app/privacy/page'),
+  editor: () => import('@/app/editor-k7f3x9q2/page'),
+}
+
+const pagePhotosFolder = 'src/images/og'
+
+async function pagePhoto(id: string) {
+  let folder = join(/*turbopackIgnore: true*/ process.cwd(), pagePhotosFolder)
+  let file = (await readdir(folder)).find((name) =>
+    new RegExp(`^${id}\\.(webp|jpe?g|png)$`, 'i').test(name),
+  )
+  return file ? join(folder, file) : undefined
 }
 
 // Article previews: /og/<blog|instructions|projects>/<slug>.png
@@ -79,16 +73,13 @@ export async function GET(
   let id = file.replace(/\.png$/, '')
 
   if (section === 'page') {
-    let page = pages[id]
-    let metadata = page.load ? (await page.load()).metadata : undefined
+    let load = pages[id]
+    let metadata = load ? (await load()).metadata : undefined
+    let photo = await pagePhoto(id)
     return generateCardOgImage({
       title: metadata ? String(metadata.title) : homeHeroTitle,
       description: String(metadata?.description ?? site.description),
-      photo: page.photo
-        ? await readOgPhoto(
-            join(/*turbopackIgnore: true*/ process.cwd(), page.photo),
-          )
-        : undefined,
+      photo: photo ? await readOgPhoto(photo) : undefined,
     })
   }
 
