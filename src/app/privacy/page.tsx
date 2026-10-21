@@ -8,6 +8,7 @@ const updated = '17 октября 2026 года'
 export const metadata = createPageMetadata({
   title: 'Политика конфиденциальности',
   description: `Как сайт ${site.domain} обрабатывает данные посетителей.`,
+  page: 'privacy',
 })
 
 export default function Privacy() {

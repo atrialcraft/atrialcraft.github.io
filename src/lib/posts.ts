@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import glob from 'fast-glob'
 
 import {
   createCoverOpenGraphImages,
+  createOgImageUrl,
   createOpenGraphImages,
   createTwitterMetadata,
 } from '@/lib/metadata'
@@ -76,12 +79,35 @@ function getPostShareImage(post: PostMeta) {
   return null
 }
 
+/**
+ * 'blog/pechka-burzhujka' for the post with this title. The post object
+ * doesn't know its own folder, so it is found among the MDX files
+ */
+function postPath(title: string) {
+  let files = glob.sync('{blog,instructions,projects}/*/page.mdx', {
+    cwd: './src/app',
+  })
+  let escaped = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  let titleLine = new RegExp(`^\\s*title:\\s*['"]${escaped}['"]`, 'm')
+  let file = files.find((f) =>
+    titleLine.test(
+      readFileSync(
+        join(/*turbopackIgnore: true*/ process.cwd(), 'src/app', f),
+        'utf8',
+      ),
+    ),
+  )
+  return file?.replace(/\/page\.mdx$/, '')
+}
+
 export function createPostMetadata(post: PostMeta): Metadata {
   const shareImage = getPostShareImage(post)
+  const path = postPath(post.title)
   const openGraphImages = shareImage
     ? createCoverOpenGraphImages(shareImage.url, post.title, shareImage.size)
-    : createOpenGraphImages(post.title)
-  const twitterImage = shareImage?.url
+    : createOpenGraphImages(post.title, path ?? 'page/index')
+  const twitterImage =
+    shareImage?.url ?? (path ? createOgImageUrl(path) : undefined)
 
   return {
     title: post.title,

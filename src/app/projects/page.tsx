@@ -78,7 +78,7 @@ export const metadata = createPageMetadata({
   title: 'Проекты',
   description:
     'Проекты мастерской Atrial: для себя, для друзей и для брянских проектов.',
-  heroTitle,
+  page: 'projects',
 })
 
 export default function Projects() {

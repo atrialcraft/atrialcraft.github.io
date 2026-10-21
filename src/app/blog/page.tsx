@@ -11,7 +11,7 @@ export const metadata = createPageMetadata({
   title: 'Блог',
   description:
     'Статьи, видео и инструкции о лазерной резке, 3D-печати, Arduino и других проектах мастерской Atrial.',
-  heroTitle,
+  page: 'blog',
 })
 
 export default async function Blog() {

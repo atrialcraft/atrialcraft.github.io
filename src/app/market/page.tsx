@@ -58,7 +58,7 @@ const heroTitle = 'Изделия, доступные к покупке'
 export const metadata = createPageMetadata({
   title: 'Магазин',
   description: 'Изделия мастерской Atrial: наличники, часы и другое.',
-  heroTitle,
+  page: 'market',
 })
 
 export default async function Market() {

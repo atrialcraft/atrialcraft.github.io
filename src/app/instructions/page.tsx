@@ -14,7 +14,7 @@ const heroTitle = 'Инструкции к изделиям мастерской
 export const metadata = createPageMetadata({
   title: 'Инструкции',
   description: 'Инструкции к изделиям мастерской Atrial.',
-  heroTitle,
+  page: 'instructions',
 })
 
 export default async function Instructions() {

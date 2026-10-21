@@ -38,7 +38,7 @@ export const metadata = createPageMetadata({
   title: 'Обо мне',
   description:
     'Даниил Колбунов и мастерская Atrial в Брянске: лазерная резка, 3D-печать, электроника и брянские наличники.',
-  heroTitle,
+  page: 'about',
 })
 
 export default function About() {
