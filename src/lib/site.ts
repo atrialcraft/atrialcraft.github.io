@@ -24,6 +24,12 @@ export const buyLinks = {
   vk: 'https://vk.me/atrialcraft',
 }
 
+/**
+ * Yellow «тестовая версия» strip at the top of every page.
+ * true — show it, false — hide it (the layout shifts back by itself)
+ */
+export const showTestBanner = false
+
 export const homeHeroTitle = 'Творческое убежище брянского энтузиаста'
 
 export const socialLinks = [

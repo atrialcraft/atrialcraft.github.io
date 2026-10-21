@@ -2,9 +2,8 @@ import { buyLinks } from '@/lib/site'
 
 /**
  * Strip pinned to the top of the screen while the new site is being finished.
- * Its height is --banner-h (src/styles/tailwind.css): the layout and the
- * sticky header are shifted by it. To remove the strip, delete it from
- * Layout.tsx and set --banner-h to 0px.
+ * Its height is --banner-h: the layout and the sticky header are shifted by
+ * it. Switched on and off with showTestBanner in src/lib/site.ts.
  */
 export function TestBanner() {
   return (

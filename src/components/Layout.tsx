@@ -3,11 +3,18 @@ import { Header } from '@/components/Header'
 import { PageTransition } from '@/components/PageTransition'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { TestBanner } from '@/components/TestBanner'
+import { showTestBanner } from '@/lib/site'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <TestBanner />
+    // --banner-h shifts the header and content below the strip; 0 without it
+    <div
+      className="contents"
+      style={
+        { '--banner-h': showTestBanner ? '2rem' : '0px' } as React.CSSProperties
+      }
+    >
+      {showTestBanner && <TestBanner />}
       {/* Content column on top of the darker side background, as in the original */}
       <div className="pointer-events-none fixed inset-0 flex justify-center sm:px-8">
         <div className="flex w-full max-w-7xl lg:px-8">
@@ -22,6 +29,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Footer />
       </div>
       <ScrollToTop />
-    </>
+    </div>
   )
 }
