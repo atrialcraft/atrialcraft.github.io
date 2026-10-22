@@ -235,10 +235,10 @@ export function ImageCarousel({
         All captions share one grid cell: the block is as tall as the longest of
         them, so the page doesn't jump while swiping. Like the original template
         it keeps a few empty lines under short captions, but fewer of them:
-        4 lines on a phone, 3 on a tablet, 2 on a laptop
+        two lines on every screen
       */}
       {(caption || images.some((image) => image.caption)) && (
-        <div className="mt-4 grid min-h-24 content-start sm:min-h-18 lg:min-h-12">
+        <div className="mt-4 grid min-h-12 content-start">
           {images.map((image, i) => (
             <figcaption
               key={i}
