@@ -67,19 +67,19 @@ const places: Array<Place> = [
   },
   {
     name: '«Место»',
-    description: 'Брянск, ул. Фокина, 29: готовые изделия и наборы',
+    description: 'Брянск, ул. Фокина, 29',
     href: 'https://t.me/mestostop',
     icon: MapPinIcon,
   },
   {
     name: '«Пространство»',
-    description: 'Брянск, ул. Дуки, 86: изделия мастерской',
+    description: 'Брянск, ул. Дуки, 86',
     href: 'https://yandex.ru/maps/org/prostranstvo/235955667196/',
     icon: MapPinIcon,
   },
   {
     name: '«Ретрушка»',
-    description: 'Брянск, ул. 3-го Интернационала, 4: изделия мастерской',
+    description: 'Брянск, ул. 3-го Интернационала, 4',
     href: 'https://yandex.ru/maps/org/retrushka/188804613712/',
     icon: MapPinIcon,
   },
