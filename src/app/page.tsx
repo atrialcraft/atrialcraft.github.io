@@ -72,6 +72,18 @@ const places: Array<Place> = [
     icon: MapPinIcon,
   },
   {
+    name: '«Пространство»',
+    description: 'Брянск, ул. Дуки, 86: изделия мастерской',
+    href: 'https://yandex.ru/maps/org/prostranstvo/235955667196/',
+    icon: MapPinIcon,
+  },
+  {
+    name: '«Ретрушка»',
+    description: 'Брянск, ул. 3-го Интернационала, 4: изделия мастерской',
+    href: 'https://yandex.ru/maps/org/retrushka/188804613712/',
+    icon: MapPinIcon,
+  },
+  {
     name: '«Мэрч»',
     description: 'Наборы наличников с самовывозом и доставкой',
     href: 'https://smlerch.ru/',
