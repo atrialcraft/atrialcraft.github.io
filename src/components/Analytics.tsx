@@ -88,8 +88,9 @@ tgp('init', ${JSON.stringify(id)});`}
 export function Analytics() {
   let pathname = usePathname()
 
-  // Верстак, the article editor (/editor-…), is private: no stats and no Webvisor recordings of drafts
-  if (pathname.startsWith('/editor-')) {
+  // Private tools — Верстак (/editor-…) and the box generator (/boxes-…):
+  // no stats and no Webvisor recordings
+  if (pathname.startsWith('/editor-') || pathname.startsWith('/boxes-')) {
     return null
   }
 
