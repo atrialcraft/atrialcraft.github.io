@@ -1,10 +1,6 @@
 import Link from 'next/link'
-import {
-  BuildingStorefrontIcon,
-  GlobeAltIcon,
-  MapPinIcon,
-  ShoppingBagIcon,
-} from '@heroicons/react/24/outline'
+import Image, { type StaticImageData } from 'next/image'
+import { BuildingStorefrontIcon } from '@heroicons/react/24/outline'
 
 import { Container } from '@/components/Container'
 import { PageEnter } from '@/components/PageEnter'
@@ -22,6 +18,12 @@ import { getHomePosts, type Post } from '@/lib/posts'
 import { postCtaLabel } from '@/lib/blog'
 import { homeHeroTitle, socialLinks } from '@/lib/site'
 import { typografChildren } from '@/lib/typography'
+// Logos of the places, 96 × 96 px, in src/images/places
+import atrialLogo from '@/images/places/atrial.webp'
+import merchLogo from '@/images/places/merch.webp'
+import mestoLogo from '@/images/places/mesto.webp'
+import prostranstvoLogo from '@/images/places/prostranstvo.webp'
+import retrushkaLogo from '@/images/places/retrushka.webp'
 
 function LatestPost({ post }: { post: Post }) {
   return (
@@ -54,8 +56,11 @@ function SocialLink({
 interface Place {
   name: string
   description: string
+  /** The place's own site or channel: the logo and the name lead here */
   href: string
-  icon: React.ComponentType<{ className?: string }>
+  /** Yandex Maps: the address leads here */
+  map?: string
+  logo: StaticImageData
 }
 
 const places: Array<Place> = [
@@ -63,33 +68,42 @@ const places: Array<Place> = [
     name: 'Магазин на сайте',
     description: 'Все изделия и наборы, заказ через Telegram или ВКонтакте',
     href: '/market',
-    icon: ShoppingBagIcon,
-  },
-  {
-    name: '«Место»',
-    description: 'Брянск, ул. Фокина, 29',
-    href: 'https://t.me/mestostop',
-    icon: MapPinIcon,
-  },
-  {
-    name: '«Пространство»',
-    description: 'Брянск, ул. Дуки, 86',
-    href: 'https://yandex.ru/maps/org/prostranstvo/235955667196/',
-    icon: MapPinIcon,
-  },
-  {
-    name: '«Ретрушка»',
-    description: 'Брянск, ул. 3-го Интернационала, 4',
-    href: 'https://yandex.ru/maps/org/retrushka/188804613712/',
-    icon: MapPinIcon,
+    logo: atrialLogo,
   },
   {
     name: '«Мэрч»',
     description: 'Наборы наличников с самовывозом и доставкой',
     href: 'https://smlerch.ru/',
-    icon: GlobeAltIcon,
+    logo: merchLogo,
+  },
+  {
+    name: '«Место»',
+    description: 'Брянск, ул. Фокина, 29',
+    href: 'https://t.me/mestostop',
+    map: 'https://yandex.ru/maps/org/mesto/82750835163/',
+    logo: mestoLogo,
+  },
+  {
+    name: '«Пространство»',
+    description: 'Брянск, ул. Дуки, 86',
+    href: 'https://t.me/prostranstvo_brk',
+    map: 'https://yandex.ru/maps/org/prostranstvo/235955667196/',
+    logo: prostranstvoLogo,
+  },
+  {
+    name: '«Ретрушка»',
+    description: 'Брянск, ул. 3-го Интернационала, 4',
+    href: 'https://www.retrushka.ru/',
+    map: 'https://yandex.ru/maps/org/retrushka/188804613712/',
+    logo: retrushkaLogo,
   },
 ]
+
+function externalProps(href: string) {
+  return href.startsWith('http')
+    ? { target: '_blank', rel: 'noopener noreferrer' }
+    : {}
+}
 
 function WhereToBuy() {
   return (
@@ -99,21 +113,45 @@ function WhereToBuy() {
         <span className="ml-3">Где купить</span>
       </h2>
       <ul role="list" className="mt-6 space-y-4">
-        {places.map(({ name, description, href, icon: Icon }) => (
-          <li key={name}>
-            <Link href={href} className="group flex gap-4">
-              <div className="mt-1 flex size-10 flex-none items-center justify-center rounded-full bg-card shadow-md ring-1 shadow-foreground/5 ring-border dark:border dark:border-border dark:bg-muted dark:ring-0">
-                <Icon className="size-5 text-muted-foreground transition group-hover:text-accent" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-foreground transition group-hover:text-accent">
-                  {name}
-                </p>
+        {places.map(({ name, description, href, map, logo }) => (
+          <li key={name} className="flex gap-4">
+            <Link
+              href={href}
+              {...externalProps(href)}
+              tabIndex={-1}
+              aria-hidden
+              className="mt-1 flex size-10 flex-none items-center justify-center rounded-full bg-card shadow-md ring-1 shadow-foreground/5 ring-border dark:border dark:border-border dark:bg-muted dark:ring-0"
+            >
+              <Image
+                src={logo}
+                alt=""
+                className="size-7 rounded-full object-cover"
+                sizes="1.75rem"
+              />
+            </Link>
+            <div>
+              <Link
+                href={href}
+                {...externalProps(href)}
+                className="text-sm font-medium text-foreground transition hover:text-accent"
+              >
+                {name}
+              </Link>
+              {/* The address opens the place on Yandex Maps */}
+              {map ? (
+                <Link
+                  href={map}
+                  {...externalProps(map)}
+                  className="block text-xs text-muted-foreground transition hover:text-accent"
+                >
+                  {typografChildren(description)}
+                </Link>
+              ) : (
                 <p className="text-xs text-muted-foreground">
                   {typografChildren(description)}
                 </p>
-              </div>
-            </Link>
+              )}
+            </div>
           </li>
         ))}
       </ul>
