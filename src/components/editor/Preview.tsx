@@ -17,7 +17,10 @@ import { Photo } from '@/components/Photo'
 import { Prose } from '@/components/Prose'
 import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { formatDate } from '@/lib/formatDate'
-import { photoVar, type Draft, type PhotoMeta } from '@/components/editor/mdx'
+import { varOf, type Draft, type PhotoMeta } from '@/components/editor/mdx'
+import { BuyButton } from '@/components/BuyButton'
+import { ProductGallery } from '@/components/ProductGallery'
+import { formatPrice } from '@/lib/price'
 import remarkTypograf from '@/lib/remark-typograf.mjs'
 
 type Src = string | { src: string }
@@ -107,7 +110,7 @@ export function Preview({
       let photoExports = ready
         .map(
           (photo) =>
-            `export const ${photoVar(photo.name)} = ${JSON.stringify({
+            `export const ${varOf(photo)} = ${JSON.stringify({
               src: urls[photo.name],
               width: photo.width,
               height: photo.height,
@@ -145,13 +148,73 @@ export function Preview({
     }
   }, [draft.body, photos, urls])
 
+  let errorBox = error && (
+    <p className="mb-8 rounded-xl bg-red-500/10 p-4 text-sm text-red-600 dark:text-red-400">
+      Ошибка в тексте — так страница не соберётся. {error}
+    </p>
+  )
+
+  if (draft.type === 'product') {
+    let gallery = draft.gallery
+      .map((name) => photos.find((photo) => photo.name === name))
+      .filter((photo) => photo !== undefined && urls[photo.name])
+      .map((photo) => ({
+        src: urls[photo!.name],
+        width: photo!.width,
+        height: photo!.height,
+      }))
+    let price = parseFloat(draft.price.replace(/\s/g, '').replace(',', '.'))
+    // The same layout as ProductLayout on the site
+    return (
+      <div className="mx-auto max-w-2xl">
+        {errorBox}
+        <div className="grid gap-10 lg:grid-cols-2">
+          <div className="min-w-0">
+            {gallery.length ? (
+              <ProductGallery images={gallery} name={draft.title} />
+            ) : (
+              <div className="flex aspect-3/4 items-center justify-center rounded-3xl bg-muted text-sm text-muted-foreground">
+                Нет фото в галерее
+              </div>
+            )}
+          </div>
+          <div className="min-w-0">
+            <h1 className="text-3xl font-semibold tracking-tight text-pretty text-foreground">
+              {draft.title || 'Без названия'}
+            </h1>
+            <p className="mt-3.5 text-2xl leading-none font-semibold tracking-tight text-foreground">
+              {formatPrice(Number.isFinite(price) ? price : undefined)}
+            </p>
+            <div className="mt-5.5 flex flex-wrap items-center gap-2">
+              <BuyButton
+                productName={draft.title}
+                available={draft.available}
+              />
+              {draft.instruction && (
+                <Button
+                  href={draft.instruction}
+                  variant="secondary"
+                  target="_blank"
+                >
+                  Инструкция
+                </Button>
+              )}
+            </div>
+            <p className="mt-6 text-base text-muted-foreground">
+              {draft.description}
+            </p>
+            <Prose className="mt-10">
+              {Content && <Content components={components} />}
+            </Prose>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <article className="mx-auto max-w-2xl">
-      {error && (
-        <p className="mb-8 rounded-xl bg-red-500/10 p-4 text-sm text-red-600 dark:text-red-400">
-          Ошибка в тексте — так статья не соберётся. {error}
-        </p>
-      )}
+      {errorBox}
       <header className="flex flex-col">
         <h1 className="mt-6 text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">
           {draft.title || 'Без заголовка'}

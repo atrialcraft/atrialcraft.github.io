@@ -12,8 +12,8 @@ import {
   carouselSnippet,
   emptyDraft,
   photoSnippet,
-  photoVar,
   sectionFor,
+  varOf,
   slugify,
   validate,
   type Draft,
@@ -312,7 +312,16 @@ function align(text: string, start: number, end: number, to: string) {
   }
 }
 
-export function Editor() {
+export type InstructionOption = { href: string; title: string }
+
+export function Editor({
+  token,
+  instructions,
+}: {
+  token: string
+  /** Instructions on the site, for the product's «Инструкция» button */
+  instructions: Array<InstructionOption>
+}) {
   let [saved] = useState(loadDraft)
   let [draft, setDraft] = useState<Draft>(saved.draft)
   let [photos, setPhotos] = useState<Array<PhotoMeta>>(saved.photos)
@@ -357,20 +366,24 @@ export function Editor() {
     )
     return Object.fromEntries(
       photos.map((photo) => {
-        let pattern = new RegExp(`\\b${photoVar(photo.name)}\\b`)
+        let pattern = new RegExp(`\\b${varOf(photo)}\\b`)
         let places = [
           ...(carousels.some((block) => pattern.test(block))
             ? ['в карусели']
             : []),
           ...(pattern.test(rest) ? ['в тексте'] : []),
+          ...(draft.type === 'product' && draft.gallery.includes(photo.name)
+            ? ['в галерее товара']
+            : []),
         ]
         return [photo.name, places]
       }),
     )
-  }, [draft.body, photos])
+  }, [draft.body, draft.type, draft.gallery, photos])
   let checks = checklist(draft)
   let problems = validate(draft)
   let folder = `src/app/${sectionFor(draft.type)}/${draft.slug || '…'}`
+  let isProduct = draft.type === 'product'
 
   function update(patch: Partial<Draft>) {
     setDraft((current) => {
@@ -512,7 +525,15 @@ export function Editor() {
     setBusy(null)
     if (added.length) {
       setPhotos((current) => [...current, ...added])
-      apply({ kind: 'block', text: added.map(photoSnippet).join('\n\n') })
+      if (draft.type === 'product') {
+        // Product photos go to its gallery, not into the text
+        setDraft((current) => ({
+          ...current,
+          gallery: [...current.gallery, ...added.map((photo) => photo.name)],
+        }))
+      } else {
+        apply({ kind: 'block', text: added.map(photoSnippet).join('\n\n') })
+      }
     }
   }
 
@@ -520,6 +541,19 @@ export function Editor() {
     await deletePhoto(name)
     setPhotos((current) => current.filter((photo) => photo.name !== name))
     setSelected((current) => current.filter((item) => item !== name))
+    setDraft((current) => ({
+      ...current,
+      gallery: current.gallery.filter((item) => item !== name),
+    }))
+  }
+
+  function toggleGallery(name: string) {
+    setDraft((current) => ({
+      ...current,
+      gallery: current.gallery.includes(name)
+        ? current.gallery.filter((item) => item !== name)
+        : [...current.gallery, name],
+    }))
   }
 
   function toggleSelected(name: string) {
@@ -542,7 +576,7 @@ export function Editor() {
   function reset() {
     if (
       !window.confirm(
-        'Начать новую статью? Текущий черновик и его фото будут удалены.',
+        'Начать новую запись? Текущий черновик и его фото будут удалены из этого браузера. На сайте ничего не изменится.',
       )
     )
       return
@@ -551,7 +585,7 @@ export function Editor() {
     setUrls({})
     setSelected([])
     setSession((current) => current + 1)
-    setDraft(emptyDraft())
+    setDraft({ ...emptyDraft(), type: draft.type })
     setTab('text')
   }
 
@@ -590,16 +624,10 @@ export function Editor() {
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-            Верстак
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Черновик сохраняется в этом браузере. Опубликуйте кнопкой ниже или
-            скачайте ZIP и положите папку в{' '}
-            <code className="text-foreground">{folder}</code>.
-          </p>
-        </div>
+        <p className="text-sm text-muted-foreground">
+          Черновик сохраняется в этом браузере. Папка на сайте:{' '}
+          <code className="text-foreground">{folder}</code>
+        </p>
         <div className="flex flex-wrap gap-2">
           <Button
             href="/instructions/kak-pisat-stati"
@@ -610,7 +638,7 @@ export function Editor() {
             Инструкция
           </Button>
           <Button variant="secondary" onClick={reset}>
-            Новая статья
+            Новая запись
           </Button>
           <Button variant="secondary" onClick={copyCode}>
             {copied ? 'Скопировано' : 'Скопировать код'}
@@ -639,15 +667,20 @@ export function Editor() {
 
       <PublishPanel
         key={session}
+        token={token}
         draft={draft}
         photos={photos}
         code={code}
         problems={problems}
+        onPublished={(origin) => update({ origin })}
+        onDeleted={() => update({ origin: null })}
       />
 
       <section className="grid gap-4 sm:grid-cols-2">
         <label className="space-y-1 text-sm sm:col-span-2">
-          <span className="text-muted-foreground">Заголовок</span>
+          <span className="text-muted-foreground">
+            {isProduct ? 'Название товара' : 'Заголовок'}
+          </span>
           <input
             className={inputClass}
             value={draft.title}
@@ -655,8 +688,21 @@ export function Editor() {
           />
         </label>
         <label className="space-y-1 text-sm sm:col-span-2">
-          <span className="text-muted-foreground">
-            Описание — для списка записей и превью ссылки
+          <span className="flex justify-between gap-4 text-muted-foreground">
+            <span>
+              {isProduct
+                ? 'Описание для карточки в магазине и превью ссылки'
+                : 'Описание — для списка записей и превью ссылки'}
+            </span>
+            {isProduct && (
+              <span
+                className={
+                  draft.description.length > 160 ? 'text-red-600' : undefined
+                }
+              >
+                {draft.description.length} / 160
+              </span>
+            )}
           </span>
           <textarea
             className={cn(inputClass, 'resize-y')}
@@ -676,16 +722,8 @@ export function Editor() {
             <option value="video">Видео</option>
             <option value="instruction">Инструкция</option>
             <option value="project">Проект</option>
+            <option value="product">Товар</option>
           </select>
-        </label>
-        <label className="space-y-1 text-sm">
-          <span className="text-muted-foreground">Дата</span>
-          <input
-            type="date"
-            className={inputClass}
-            value={draft.date}
-            onChange={(e) => update({ date: e.target.value })}
-          />
         </label>
         <label className="space-y-1 text-sm">
           <span className="text-muted-foreground">
@@ -699,35 +737,105 @@ export function Editor() {
             }
           />
         </label>
-        {draft.type === 'video' ? (
-          <label className="space-y-1 text-sm">
-            <span className="text-muted-foreground">Код ролика YouTube</span>
-            <input
-              className={inputClass}
-              placeholder="dQw4w9WgXcQ"
-              value={draft.youtubeId}
-              onChange={(e) => update({ youtubeId: e.target.value })}
-            />
-          </label>
+        {isProduct ? (
+          <>
+            <label className="space-y-1 text-sm">
+              <span className="text-muted-foreground">
+                Цена, ₽ (пусто — «Цена по запросу»)
+              </span>
+              <input
+                className={inputClass}
+                inputMode="decimal"
+                value={draft.price}
+                onChange={(e) => update({ price: e.target.value })}
+              />
+            </label>
+            <label className="space-y-1 text-sm">
+              <span className="text-muted-foreground">
+                Место в магазине (меньше — выше)
+              </span>
+              <input
+                className={inputClass}
+                inputMode="numeric"
+                value={draft.order}
+                onChange={(e) => update({ order: e.target.value })}
+              />
+            </label>
+            <label className="space-y-1 text-sm">
+              <span className="text-muted-foreground">Инструкция</span>
+              <select
+                className={inputClass}
+                value={draft.instruction}
+                onChange={(e) => update({ instruction: e.target.value })}
+              >
+                <option value="">Без инструкции</option>
+                {/* An address typed by hand that isn't in the list */}
+                {draft.instruction &&
+                  !instructions.some((i) => i.href === draft.instruction) && (
+                    <option value={draft.instruction}>
+                      {draft.instruction}
+                    </option>
+                  )}
+                {instructions.map((i) => (
+                  <option key={i.href} value={i.href}>
+                    {i.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex items-center gap-2 self-end pb-2 text-sm text-foreground">
+              <input
+                type="checkbox"
+                checked={draft.available}
+                onChange={(e) => update({ available: e.target.checked })}
+              />
+              В продаже (иначе кнопка «Купить» неактивна)
+            </label>
+          </>
         ) : (
-          <div />
+          <>
+            <label className="space-y-1 text-sm">
+              <span className="text-muted-foreground">Дата</span>
+              <input
+                type="date"
+                className={inputClass}
+                value={draft.date}
+                onChange={(e) => update({ date: e.target.value })}
+              />
+            </label>
+            {draft.type === 'video' ? (
+              <label className="space-y-1 text-sm">
+                <span className="text-muted-foreground">
+                  Код ролика YouTube
+                </span>
+                <input
+                  className={inputClass}
+                  placeholder="dQw4w9WgXcQ"
+                  value={draft.youtubeId}
+                  onChange={(e) => update({ youtubeId: e.target.value })}
+                />
+              </label>
+            ) : (
+              <div />
+            )}
+            <label className="flex items-center gap-2 text-sm text-foreground">
+              <input
+                type="checkbox"
+                checked={draft.unlisted}
+                onChange={(e) => update({ unlisted: e.target.checked })}
+              />
+              Только по прямой ссылке (не показывать в списках)
+            </label>
+            <label className="flex items-center gap-2 text-sm text-foreground">
+              <input
+                type="checkbox"
+                checked={draft.showOnHome}
+                onChange={(e) => update({ showOnHome: e.target.checked })}
+              />
+              Показывать на главной
+            </label>
+          </>
         )}
-        <label className="flex items-center gap-2 text-sm text-foreground">
-          <input
-            type="checkbox"
-            checked={draft.unlisted}
-            onChange={(e) => update({ unlisted: e.target.checked })}
-          />
-          Только по прямой ссылке (не показывать в списках)
-        </label>
-        <label className="flex items-center gap-2 text-sm text-foreground">
-          <input
-            type="checkbox"
-            checked={draft.showOnHome}
-            onChange={(e) => update({ showOnHome: e.target.checked })}
-          />
-          Показывать на главной
-        </label>
       </section>
 
       <section>
@@ -766,6 +874,13 @@ export function Editor() {
             </label>
           </div>
         </div>
+        {isProduct && (
+          <p className="mt-1 text-xs text-muted-foreground">
+            Фото товара: отмеченные «в галерею» идут в карусель на странице
+            товара в порядке отметки, первое — обложка в магазине. Лучше
+            вертикальные 3:4.
+          </p>
+        )}
         <p className="mt-1 text-xs text-muted-foreground">
           Фото сами уменьшаются до 1600 px и сохраняются в WebP. Размер и
           положение меняются в тексте: size — small, medium, full; align — left,
@@ -816,6 +931,18 @@ export function Editor() {
                       ? `✓ ${usage[photo.name].join(' и ')}`
                       : 'не вставлено'}
                   </p>
+                  {isProduct && (
+                    <label className="flex items-center gap-1.5 text-foreground">
+                      <input
+                        type="checkbox"
+                        checked={draft.gallery.includes(photo.name)}
+                        onChange={() => toggleGallery(photo.name)}
+                      />
+                      {draft.gallery.includes(photo.name)
+                        ? `В галерее, ${draft.gallery.indexOf(photo.name) + 1}-е`
+                        : 'В галерею товара'}
+                    </label>
+                  )}
                   <div className="flex gap-3">
                     <button
                       type="button"
@@ -824,7 +951,7 @@ export function Editor() {
                         apply({ kind: 'block', text: photoSnippet(photo) })
                       }
                     >
-                      Вставить
+                      В текст
                     </button>
                     <button
                       type="button"

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image, { type StaticImageData } from 'next/image'
+import Image from 'next/image'
 import { BuildingStorefrontIcon } from '@heroicons/react/24/outline'
 
 import { Container } from '@/components/Container'
@@ -18,12 +18,8 @@ import { getHomePosts, type Post } from '@/lib/posts'
 import { postCtaLabel } from '@/lib/blog'
 import { homeHeroTitle, socialLinks } from '@/lib/site'
 import { typografChildren } from '@/lib/typography'
-// Logos of the places, 96 × 96 px, in src/images/places
-import atrialLogo from '@/images/places/atrial.webp'
-import merchLogo from '@/images/places/merch.webp'
-import mestoLogo from '@/images/places/mesto.webp'
-import prostranstvoLogo from '@/images/places/prostranstvo.webp'
-import retrushkaLogo from '@/images/places/retrushka.webp'
+import { InlineText } from '@/components/RichText'
+import { homeContent } from '@/lib/content'
 
 function LatestPost({ post }: { post: Post }) {
   return (
@@ -53,52 +49,6 @@ function SocialLink({
   )
 }
 
-interface Place {
-  name: string
-  description: string
-  /** The place's own site or channel: the logo and the name lead here */
-  href: string
-  /** Yandex Maps: the address leads here */
-  map?: string
-  logo: StaticImageData
-}
-
-const places: Array<Place> = [
-  {
-    name: 'Магазин на сайте',
-    description: 'Все изделия и наборы, заказ через Telegram или ВКонтакте',
-    href: '/market',
-    logo: atrialLogo,
-  },
-  {
-    name: '«Мэрч»',
-    description: 'Наборы наличников с самовывозом и доставкой',
-    href: 'https://smlerch.ru/',
-    logo: merchLogo,
-  },
-  {
-    name: '«Место»',
-    description: 'Брянск, ул. Фокина, 29',
-    href: 'https://t.me/mestostop',
-    map: 'https://yandex.ru/maps/org/mesto/82750835163/',
-    logo: mestoLogo,
-  },
-  {
-    name: '«Пространство»',
-    description: 'Брянск, ул. Дуки, 86',
-    href: 'https://t.me/prostranstvo_brk',
-    map: 'https://yandex.ru/maps/org/prostranstvo/235955667196/',
-    logo: prostranstvoLogo,
-  },
-  {
-    name: '«Ретрушка»',
-    description: 'Брянск, ул. 3-го Интернационала, 4',
-    href: 'https://www.retrushka.ru/',
-    map: 'https://yandex.ru/maps/org/retrushka/188804613712/',
-    logo: retrushkaLogo,
-  },
-]
-
 function externalProps(href: string) {
   return href.startsWith('http')
     ? { target: '_blank', rel: 'noopener noreferrer' }
@@ -113,7 +63,7 @@ function WhereToBuy() {
         <span className="ml-3">Где купить</span>
       </h2>
       <ul role="list" className="mt-6 space-y-4">
-        {places.map(({ name, description, href, map, logo }) => (
+        {homeContent.places.map(({ name, description, href, map, logo }) => (
           <li key={name} className="flex gap-4">
             <Link
               href={href}
@@ -122,11 +72,13 @@ function WhereToBuy() {
               aria-hidden
               className="mt-1 flex size-10 flex-none items-center justify-center rounded-full bg-card shadow-md ring-1 shadow-foreground/5 ring-border dark:border dark:border-border dark:bg-muted dark:ring-0"
             >
+              {/* Logos, 128 × 128 px, in public/images/places */}
               <Image
-                src={logo}
+                src={`/images/places/${logo}`}
                 alt=""
+                width={56}
+                height={56}
                 className="size-7 rounded-full object-cover"
-                sizes="1.75rem"
               />
             </Link>
             <div>
@@ -173,9 +125,7 @@ export default async function Home() {
             {typografChildren(homeHeroTitle)}
           </h1>
           <p className="mt-6 text-base text-muted-foreground">
-            {typografChildren(
-              'Меня зовут Даниил, я из Брянска. Atrial — моя личная мастерская на окраине города: лазерная резка и гравировка, 3D-печать, RC-модели, Arduino. Сейчас больше всего занимаюсь брянскими наличниками — делаю наборы для сборки и провожу мастер-классы.',
-            )}
+            <InlineText text={homeContent.intro} />
           </p>
           <div className="mt-6 flex gap-6">
             {socialLinks.map((link) => (

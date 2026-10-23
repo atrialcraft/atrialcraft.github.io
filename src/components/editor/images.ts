@@ -52,6 +52,55 @@ export async function compressPhoto(file: File) {
   return { blob, width, height, extension: webp ? 'webp' : 'jpg' }
 }
 
+/**
+ * A picture for a fixed place on the site: cropped from the centre to
+ * `width` × `height` (cover), or, without a height, scaled down so the
+ * longer side is at most `width`. Always WebP where the browser can
+ */
+export async function fitPhoto(
+  file: Blob,
+  width: number,
+  height?: number,
+  quality = 0.85,
+) {
+  let bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' })
+  let w: number
+  let h: number
+  let sx = 0
+  let sy = 0
+  let sw = bitmap.width
+  let sh = bitmap.height
+  if (height) {
+    w = width
+    h = height
+    let scale = Math.max(width / bitmap.width, height / bitmap.height)
+    sw = width / scale
+    sh = height / scale
+    sx = (bitmap.width - sw) / 2
+    sy = (bitmap.height - sh) / 2
+  } else {
+    let scale = Math.min(1, width / Math.max(bitmap.width, bitmap.height))
+    w = Math.round(bitmap.width * scale)
+    h = Math.round(bitmap.height * scale)
+  }
+  let canvas = document.createElement('canvas')
+  canvas.width = w
+  canvas.height = h
+  let context = canvas.getContext('2d')!
+  context.imageSmoothingQuality = 'high'
+  context.drawImage(bitmap, sx, sy, sw, sh, 0, 0, w, h)
+  bitmap.close()
+  let blob = await new Promise<Blob>((resolve, reject) =>
+    canvas.toBlob(
+      (result) =>
+        result ? resolve(result) : reject(new Error('Encoding failed')),
+      canEncodeWebp() ? 'image/webp' : 'image/jpeg',
+      quality,
+    ),
+  )
+  return { blob, width: w, height: h }
+}
+
 /** Next free name: 01.webp, 02.webp… */
 export function nextPhotoName(existing: Array<string>, extension = 'webp') {
   let numbers = existing

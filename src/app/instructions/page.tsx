@@ -8,12 +8,11 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { createPageMetadata } from '@/lib/metadata'
 import { getListedPosts } from '@/lib/posts'
 import { postCtaLabel } from '@/lib/blog'
-
-const heroTitle = 'Инструкции к изделиям мастерской'
+import { sectionsContent } from '@/lib/content'
 
 export const metadata = createPageMetadata({
   title: 'Инструкции',
-  description: 'Инструкции к изделиям мастерской Atrial.',
+  description: sectionsContent.instructions.description,
   page: 'instructions',
 })
 
@@ -24,8 +23,8 @@ export default async function Instructions() {
 
   return (
     <SimpleLayout
-      title={heroTitle}
-      intro="Как собрать, настроить и ухаживать. На изделиях есть QR-код, который ведёт прямо на нужную инструкцию."
+      title={sectionsContent.instructions.title}
+      intro={sectionsContent.instructions.intro}
     >
       <div className="flex max-w-3xl flex-col space-y-16">
         {instructions.length === 0 && (

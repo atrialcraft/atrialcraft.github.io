@@ -18,34 +18,31 @@ export const operator = {
   email: '',
 }
 
+// Links and switches edited in the admin: src/content/site.json
+import { homeContent, settings } from '@/lib/content'
+
 /** Куда ведёт кнопка «Купить»: личные сообщения канала и сообщества ВК */
-export const buyLinks = {
-  telegram: 'https://t.me/atrialcraft?direct',
-  vk: 'https://vk.me/atrialcraft',
-}
+export const buyLinks = settings.buyLinks
 
-/**
- * Yellow «тестовая версия» strip at the top of every page.
- * true — show it, false — hide it (the layout shifts back by itself)
- */
-export const showTestBanner = false
+/** Yellow «тестовая версия» strip at the top of every page */
+export const showTestBanner = settings.testBanner
 
-export const homeHeroTitle = 'Творческое убежище брянского энтузиаста'
+export const homeHeroTitle = homeContent.title
 
 export const socialLinks = [
   {
-    href: 'https://t.me/atrialcraft',
+    href: settings.social.telegram,
     label: 'Atrial в Telegram',
     icon: TelegramIcon,
   },
   {
-    href: 'https://instagram.com/atrialcraft',
+    href: settings.social.instagram,
     // * — see the Meta note in the footer
     label: 'Atrial в Instagram*',
     icon: InstagramIcon,
   },
   {
-    href: 'https://vk.com/atrialcraft',
+    href: settings.social.vk,
     label: 'Atrial во ВКонтакте',
     icon: VKIcon,
   },

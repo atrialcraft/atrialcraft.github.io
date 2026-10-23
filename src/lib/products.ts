@@ -3,7 +3,7 @@ import { type StaticImageData } from 'next/image'
 import glob from 'fast-glob'
 
 import { getSiteUrl } from '@/lib/metadata'
-import { ogSize } from '@/lib/og'
+import { ogSize } from '@/lib/ogSize'
 
 export interface ProductMeta {
   name: string
@@ -31,11 +31,7 @@ export type Product = ProductMeta & {
   href: string
 }
 
-export function formatPrice(price?: number) {
-  return price === undefined
-    ? 'Цена по запросу'
-    : `${price.toLocaleString('ru-RU')} ₽`
-}
+export { formatPrice } from '@/lib/price'
 
 /** Main photo: the first one of `images`, or `image` */
 export function productCover(product: ProductMeta) {

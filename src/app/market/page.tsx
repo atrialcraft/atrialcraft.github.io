@@ -9,6 +9,7 @@ import {
 } from '@/components/ContentCard'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { createPageMetadata } from '@/lib/metadata'
+import { sectionsContent } from '@/lib/content'
 import {
   formatPrice,
   getAllProducts,
@@ -53,11 +54,9 @@ function ProductCard({ product }: { product: Product }) {
   )
 }
 
-const heroTitle = 'Изделия, доступные к покупке'
-
 export const metadata = createPageMetadata({
   title: 'Магазин',
-  description: 'Изделия мастерской Atrial: наличники, часы и другое.',
+  description: sectionsContent.market.description,
   page: 'market',
 })
 
@@ -66,8 +65,8 @@ export default async function Market() {
 
   return (
     <SimpleLayout
-      title={heroTitle}
-      intro="Всё сделано вручную в мастерской в Брянске. Нажмите «Купить» и выберите, где удобнее написать: в Telegram или ВКонтакте. Там договоримся о сроках и доставке."
+      title={sectionsContent.market.title}
+      intro={sectionsContent.market.intro}
     >
       <ul
         role="list"

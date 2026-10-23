@@ -113,20 +113,53 @@ export async function existingFiles(token: string, folder: string) {
   }
 }
 
-export async function publish({
-  token,
-  folder,
-  files,
-  remove,
-  message,
-}: {
-  token: string
-  folder: string
-  files: Array<PublishFile>
-  /** Old files in the folder that are no longer part of the article */
-  remove: Array<string>
-  message: string
-}) {
+export type TreeEntry = { path: string; type: 'blob' | 'tree'; sha: string }
+
+/** Every file of the repository on the main branch, with its blob sha */
+export async function getTree(token: string) {
+  let ref = await request<{ object: { sha: string } }>(
+    token,
+    `/git/ref/heads/${branch}`,
+  )
+  let tree = await request<{ tree: TreeEntry[] }>(
+    token,
+    `/git/trees/${ref.object.sha}?recursive=1`,
+  )
+  return tree.tree
+}
+
+function fromBase64(text: string) {
+  let binary = atob(text.replace(/\s/g, ''))
+  let bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
+  return bytes
+}
+
+/** Contents of a file by its blob sha (works for files of any size) */
+export async function readBlob(token: string, sha: string) {
+  let blob = await request<{ content: string }>(token, `/git/blobs/${sha}`)
+  return fromBase64(blob.content)
+}
+
+export async function readText(token: string, sha: string) {
+  return new TextDecoder().decode(await readBlob(token, sha))
+}
+
+/** Reads a file by its path; null when there is no such file */
+export async function readFile(token: string, tree: TreeEntry[], path: string) {
+  let entry = tree.find((e) => e.path === path && e.type === 'blob')
+  return entry ? readBlob(token, entry.sha) : null
+}
+
+/** A file to write (bytes) or to delete (null), path from the repository root */
+export type Change = { path: string; bytes: Uint8Array | null }
+
+/** One commit with all the changes; GitHub Actions then rebuilds the site */
+export async function commitChanges(
+  token: string,
+  changes: Change[],
+  message: string,
+) {
   let ref = await request<{ object: { sha: string } }>(
     token,
     `/git/ref/heads/${branch}`,
@@ -137,38 +170,72 @@ export async function publish({
     `/git/commits/${parent}`,
   )
 
-  let blobs = []
-  for (let file of files) {
+  let entries = []
+  for (let change of changes) {
+    if (change.bytes === null) {
+      entries.push({
+        path: change.path,
+        mode: '100644',
+        type: 'blob',
+        sha: null,
+      })
+      continue
+    }
     let blob = await request<{ sha: string }>(token, '/git/blobs', {
       method: 'POST',
-      body: { content: toBase64(file.bytes), encoding: 'base64' },
+      body: { content: toBase64(change.bytes), encoding: 'base64' },
     })
-    blobs.push({
-      path: `${folder}/${file.name}`,
+    entries.push({
+      path: change.path,
       mode: '100644',
       type: 'blob',
       sha: blob.sha,
     })
   }
-  let deletions = remove.map((name) => ({
-    path: `${folder}/${name}`,
-    mode: '100644',
-    type: 'blob',
-    sha: null,
-  }))
 
   let tree = await request<{ sha: string }>(token, '/git/trees', {
     method: 'POST',
-    body: { base_tree: commit.tree.sha, tree: [...blobs, ...deletions] },
+    body: { base_tree: commit.tree.sha, tree: entries },
   })
   let created = await request<{ sha: string; html_url: string }>(
     token,
     '/git/commits',
-    { method: 'POST', body: { message, tree: tree.sha, parents: [parent] } },
+    {
+      method: 'POST',
+      body: { message, tree: tree.sha, parents: [parent] },
+    },
   )
   await request(token, `/git/refs/heads/${branch}`, {
     method: 'PATCH',
     body: { sha: created.sha },
   })
   return { commitUrl: created.html_url, actionsUrl: `${repoUrl}/actions` }
+}
+
+/** Writes the files into a folder and deletes the listed old ones */
+export async function publish({
+  token,
+  folder,
+  files,
+  remove,
+  message,
+}: {
+  token: string
+  folder: string
+  files: Array<PublishFile>
+  /** Paths (from the repository root) of old files that are no longer needed */
+  remove: Array<string>
+  message: string
+}) {
+  return commitChanges(
+    token,
+    [
+      ...files.map((file) => ({
+        path: `${folder}/${file.name}`,
+        bytes: file.bytes,
+      })),
+      ...remove.map((path) => ({ path, bytes: null })),
+    ],
+    message,
+  )
 }

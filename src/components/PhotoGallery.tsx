@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion } from 'motion/react'
 import { bouncy, dragSpring, dragTransition } from '@/lib/transitions'
 import { PhotoCard } from '@/components/PhotoCard'
+import { homeContent } from '@/lib/content'
 
 // Photos go in src/images/home/ as 01.webp, 02.webp… in the order shown
 import photo01 from '@/images/home/01.webp'
@@ -12,28 +13,13 @@ import photo03 from '@/images/home/03.webp'
 import photo04 from '@/images/home/04.webp'
 import photo05 from '@/images/home/05.webp'
 
-const photos = [
-  {
-    image: photo01,
-    alt: 'Брянский деревянный дом с резными наличниками',
-  },
-  {
-    image: photo02,
-    alt: 'Белый наличник-зеркало в окне старого дома',
-  },
-  {
-    image: photo03,
-    alt: 'Кот на завалинке бревенчатого дома с наличниками',
-  },
-  {
-    image: photo04,
-    alt: 'Белый наличник-зеркало в цветах',
-  },
-  {
-    image: photo05,
-    alt: 'Старое окно с наличником в зарослях',
-  },
-]
+// Descriptions of the photos are edited in the admin: src/content/home.json
+const photos = [photo01, photo02, photo03, photo04, photo05].map(
+  (image, i) => ({
+    image,
+    alt: homeContent.gallery[i] ?? '',
+  }),
+)
 
 const rotations = ['rotate-2', '-rotate-2', 'rotate-2', 'rotate-2', '-rotate-2']
 

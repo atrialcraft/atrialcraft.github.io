@@ -6,10 +6,8 @@ import sharp from 'sharp'
 
 import { typograf } from '@/lib/typograf.mjs'
 
-export const ogSize = {
-  width: 1200,
-  height: 630,
-} as const
+export { ogSize } from '@/lib/ogSize'
+import { ogSize } from '@/lib/ogSize'
 
 // Light theme of the site (src/styles/tailwind.css) on the #ededed brand grey
 const ogTheme = {

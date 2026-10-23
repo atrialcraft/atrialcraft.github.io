@@ -70,17 +70,21 @@ export default ({ children }) => <ProductLayout product={product}>{children}</Pr
 
 ## Что где редактируется
 
+Почти всё содержимое сайта меняется в **Верстаке** (`atrial.org/editor-k7f3x9q2`) без кода: статьи, инструкции, проекты, товары, главная, «Обо мне», тексты разделов, превью ссылок, соцсети и кнопка «Купить». Верстак сохраняет изменения прямо в репозиторий через GitHub, сайт пересобирается сам. Для этого один раз подключается токен GitHub (как его создать — в инструкции «Как писать статьи»).
+
+Верстак хранит тексты в файлах `src/content/*.json`, их можно править и вручную:
+
 | Что | Где |
 | --- | --- |
-| Название сайта, описание, соцсети, ссылки кнопки «Купить» | [src/lib/site.ts](src/lib/site.ts) |
-| Главная: текст под заголовком, блок «Где купить» | [src/app/page.tsx](src/app/page.tsx) |
-| Фото в ленте на главной | файлы `src/images/home/01.webp`…`05.webp` по порядку, подписи — в [src/components/PhotoGallery.tsx](src/components/PhotoGallery.tsx) |
-| Обо мне: текст | [src/app/about/page.tsx](src/app/about/page.tsx) |
-| Обо мне: портрет | `src/images/me.webp` |
-| Проекты | [src/app/projects/page.tsx](src/app/projects/page.tsx), список `projects` |
+| Главная: заголовок, текст, подписи к фото, «Где купить» | [src/content/home.json](src/content/home.json), логотипы мест — `public/images/places/` |
+| Фото в ленте на главной | `src/images/home/01.webp`…`05.webp` |
+| Обо мне: заголовок и текст | [src/content/about.json](src/content/about.json), портрет — `src/images/me.webp` |
+| Проекты | [src/content/projects.json](src/content/projects.json), логотипы — `public/images/projects/` |
+| Заголовки и тексты блога, инструкций, магазина | [src/content/sections.json](src/content/sections.json) |
+| Соцсети, ссылки кнопки «Купить», плашка «тестовая версия» | [src/content/site.json](src/content/site.json) |
+| Название и описание сайта, оператор данных | [src/lib/site.ts](src/lib/site.ts) |
 | Пункты меню | [src/components/Header.tsx](src/components/Header.tsx) и [src/components/Footer.tsx](src/components/Footer.tsx) |
 | Аватарка-логотип в шапке | `src/images/atrial-avatar.svg` |
-| Плашка «тестовая версия» вверху | включается и выключается `showTestBanner` в [src/lib/site.ts](src/lib/site.ts) |
 | Фото в превью ссылок на разделы | `src/images/og/<раздел>.webp`: `index` (главная), `about`, `blog`, `projects`, `market`, `instructions`, `privacy`, `editor`. Нет файла — превью без фото. У статей, инструкций и товаров в превью первое фото записи |
 | Политика конфиденциальности | [src/app/privacy/page.tsx](src/app/privacy/page.tsx) (открывается по `/privacy`, в меню её нет) |
 | Цвета и шрифты | [src/styles/tailwind.css](src/styles/tailwind.css), шрифт — в [src/app/layout.tsx](src/app/layout.tsx) |

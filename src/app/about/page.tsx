@@ -7,8 +7,8 @@ import { Portrait } from '@/app/about/Portrait'
 import { createPageMetadata } from '@/lib/metadata'
 import { socialLinks } from '@/lib/site'
 import { typografChildren } from '@/lib/typography'
-
-const heroTitle = 'Я Даниил, делаю вещи в своей мастерской в Брянске'
+import { RichText } from '@/components/RichText'
+import { aboutContent } from '@/lib/content'
 
 function SocialLink({
   className,
@@ -36,8 +36,7 @@ function SocialLink({
 
 export const metadata = createPageMetadata({
   title: 'Обо мне',
-  description:
-    'Даниил Колбунов и мастерская Atrial в Брянске: лазерная резка, 3D-печать, электроника и брянские наличники.',
+  description: aboutContent.description,
   page: 'about',
 })
 
@@ -50,44 +49,10 @@ export default function About() {
         </div>
         <PageEnter className="lg:order-first lg:row-span-2">
           <h1 className="text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">
-            {typografChildren(heroTitle)}
+            {typografChildren(aboutContent.title)}
           </h1>
           <div className="mt-6 space-y-7 text-base text-muted-foreground">
-            {typografChildren(
-              <>
-                <p>
-                  Atrial — моя мастерская на окраине Брянска. Здесь я режу и
-                  гравирую на лазерном станке, печатаю на 3D-принтере, собираю
-                  электронику на Arduino, а когда выпадает случай — варю металл.
-                  Мне нравится самому проходить весь путь от идеи и чертежа до
-                  готовой вещи.
-                </p>
-                <p>
-                  Любовь к ремеслу у меня из детства. Я вырос в селе Лобановка
-                  Климовского района, и дома всегда пахло стружкой: отец
-                  занимался резьбой по дереву, а учился он у брянского мастера
-                  Владимира Акулова.
-                </p>
-                <p>
-                  Поэтому мой главный проект сейчас — серия брянских наличников.
-                  Я беру детали обычных домов Злынки, Новозыбкова, Клинцов,
-                  Климово и Верхнего Судка и превращаю их в небольшие зеркала со
-                  ставнями. Их можно купить готовыми или собрать самому из
-                  набора, а ещё мы собираем и расписываем их на мастер-классах в
-                  {'\u00A0'}
-                  <a href="https://t.me/mestostop" className="link-underline">
-                    «Месте»
-                  </a>
-                  .
-                </p>
-                <p>
-                  Кроме этого делаю вещи на заказ и для брянских проектов: от
-                  органайзеров и уличных штендеров до часов на советских
-                  газоразрядных индикаторах. Если хотите что-то обсудить, пишите
-                  в Telegram или ВКонтакте.
-                </p>
-              </>,
-            )}
+            <RichText text={aboutContent.text} />
           </div>
         </PageEnter>
         <PageEnter className="lg:pl-20">

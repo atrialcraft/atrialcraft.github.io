@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { ogSize } from '@/lib/og'
+import { ogSize } from '@/lib/ogSize'
 import { homeHeroTitle, site } from '@/lib/site'
 
 export function getSiteUrl() {
