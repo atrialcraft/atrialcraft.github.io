@@ -23,16 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # No npm or Next.js caches: the site builds fast without them, and
+      # restoring them used up the account's Actions cache traffic limit
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-
-      - uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**') }}
-          restore-keys: nextjs-${{ hashFiles('package-lock.json') }}-
 
       - run: npm ci
 
