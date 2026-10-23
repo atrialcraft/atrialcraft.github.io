@@ -1,7 +1,7 @@
 import { type Metadata } from 'next'
 
-import { BoxGenerator } from '@/components/boxes/BoxGenerator'
-import { Container } from '@/components/Container'
+import { ContainerOuter } from '@/components/Container'
+import { BoxGeneratorLoader } from '@/components/boxes/BoxGeneratorLoader'
 
 // Box net generator for the workshop: not linked anywhere, not in the sitemap, not indexed
 export const metadata: Metadata = {
@@ -11,8 +11,11 @@ export const metadata: Metadata = {
 
 export default function BoxesPage() {
   return (
-    <Container className="mt-16 sm:mt-32">
-      <BoxGenerator />
-    </Container>
+    // Wider than the usual text column: settings, dieline and 3D side by side
+    <ContainerOuter className="mt-10 sm:mt-16">
+      <div className="px-4 sm:px-6">
+        <BoxGeneratorLoader />
+      </div>
+    </ContainerOuter>
   )
 }
