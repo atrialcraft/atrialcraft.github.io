@@ -9,6 +9,14 @@ import { socialLinks } from '@/lib/site'
 import { typografChildren } from '@/lib/typography'
 import { RichText } from '@/components/RichText'
 import { aboutContent } from '@/lib/content'
+import { PhoneIcon } from '@/components/SocialIcons'
+
+// Временно: телефон для подтверждения сайта в Яндексе, потом убрать
+const phone = {
+  href: 'tel:+79997054545',
+  label: '+7 999 705-45-45',
+  icon: PhoneIcon,
+}
 
 function SocialLink({
   className,
@@ -57,7 +65,7 @@ export default function About() {
         </PageEnter>
         <PageEnter className="lg:pl-20">
           <ul role="list">
-            {socialLinks.map((link, index) => (
+            {[...socialLinks, phone].map((link, index) => (
               <SocialLink
                 key={link.href}
                 href={link.href}
