@@ -75,7 +75,7 @@ export function PostLayout({
                     width={1200}
                     height={630}
                     className="h-auto w-full object-cover"
-                    sizes="(min-width: 1024px) 55rem, (min-width: 768px) 42rem, 100vw"
+                    sizes="(min-width: 768px) 42rem, 100vw"
                     priority
                   />
                 </div>

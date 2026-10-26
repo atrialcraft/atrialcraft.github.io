@@ -166,7 +166,7 @@ export function Preview({
     let price = parseFloat(draft.price.replace(/\s/g, '').replace(',', '.'))
     // The same layout as ProductLayout on the site
     return (
-      <div className="mx-auto max-w-2xl xl:max-w-188">
+      <div className="mx-auto max-w-2xl">
         {errorBox}
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="min-w-0">
@@ -213,7 +213,7 @@ export function Preview({
   }
 
   return (
-    <article className="mx-auto max-w-2xl xl:max-w-188">
+    <article className="mx-auto max-w-2xl">
       {errorBox}
       <header className="flex flex-col">
         <h1 className="mt-6 text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">

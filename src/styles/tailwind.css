@@ -183,27 +183,25 @@
 }
 
 /*
- * Column of articles, instructions and products from laptop width up. The
- * back button stands under the avatar in the header, and the column keeps
- * the same gap to its right as the avatar has from the edge of the page
- * card: 48px, more on wide screens where the header content (1024px at
- * most) is centered. The column is 752px on wide screens. 100cqw is the
- * width of the Container (with @container) without the scrollbar. Outside the
- * layers so that it beats max-w-2xl.
+ * The back button of articles, instructions and products (laptop width and
+ * up) stands under the avatar in the header: 48px from the edge of the page
+ * card, more on wide screens where the header content (1024px at most) is
+ * centered. The 672px column is centered too, so the button is placed from
+ * the column. 100cqw is the width of the Container (with @container)
+ * without the scrollbar.
  */
 @media (width >= 64rem) {
   .article-column {
     --card: calc(min(100cqw, 1280px) - 64px);
-    --back-gap: max(48px, calc((var(--card) - 1024px) / 2));
+    --avatar-gap: max(48px, calc((var(--card) - 1024px) / 2));
     position: relative;
-    max-width: calc(var(--card) - 80px - 4 * var(--back-gap));
   }
 
   .article-back {
     position: absolute;
     top: -0.375rem;
     right: 100%;
-    margin-right: var(--back-gap);
+    margin-right: calc((var(--card) - 672px) / 2 - var(--avatar-gap) - 40px);
   }
 }
 

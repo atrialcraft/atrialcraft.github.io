@@ -48,7 +48,7 @@ export function ProductGallery({
             src={photos[0].src}
             alt={photos[0].alt}
             className="aspect-3/4 h-auto w-full object-cover"
-            sizes="(min-width: 1024px) 27rem, 42rem"
+            sizes="(min-width: 1024px) 19rem, 42rem"
             priority
           />
         </button>
