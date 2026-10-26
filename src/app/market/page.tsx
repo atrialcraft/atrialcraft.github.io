@@ -23,8 +23,11 @@ import {
 function ProductCard({ product }: { product: Product }) {
   let cover = productCover(product)
   return (
-    <ContentCard as="li" className="h-full">
-      <div className="relative z-10 aspect-3/4 w-full overflow-hidden rounded-xl bg-muted">
+    <ContentCard as="li" className="h-full" data-product-card>
+      <div
+        data-product-cover
+        className="relative z-10 aspect-3/4 w-full overflow-hidden rounded-xl bg-muted"
+      >
         {cover ? (
           <Image
             src={cover}

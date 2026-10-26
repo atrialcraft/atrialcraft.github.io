@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'motion/react'
 
+import { isProductTransition } from '@/components/ProductTransition'
 import { motionTransition, smoothSpring } from '@/lib/transitions'
 
 export function PageEnter({
@@ -27,7 +28,8 @@ export function PageEnter({
       {...props}
       className={className}
       initial={
-        reduceMotion
+        // While a product opens or closes, the view transition animates the page
+        reduceMotion || isProductTransition()
           ? false
           : { opacity: 0, y: 18, filter: 'blur(2px)' }
       }

@@ -9,14 +9,17 @@ export function ContentCard({
   as: Component = 'div',
   className,
   children,
+  ...props
 }: {
   as?: 'article' | 'div' | 'li'
   className?: string
   children: React.ReactNode
-}) {
+} & React.HTMLAttributes<HTMLElement> &
+  Record<`data-${string}`, unknown>) {
   return (
     <Component
       className={cn('group relative flex flex-col items-start', className)}
+      {...props}
     >
       {children}
     </Component>

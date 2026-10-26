@@ -212,6 +212,64 @@
   mix-blend-mode: normal;
 }
 
+/*
+ * A product opens from the market like a sheet (see ProductTransition): the
+ * photo of the card grows into the photo of the page, the old page content
+ * fades and the new one slides up. Header and background stay in place.
+ */
+::view-transition-group(product-photo) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+::view-transition-old(product-photo),
+::view-transition-new(product-photo) {
+  height: 100%;
+  animation-duration: 0.3s;
+}
+
+html[data-product-transition='open']::view-transition-old(page-old) {
+  animation: 0.2s ease-out both product-fade-out;
+}
+
+html[data-product-transition='open']::view-transition-new(page-new) {
+  animation: 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.05s both product-sheet-in;
+}
+
+html[data-product-transition='close']::view-transition-old(page-old) {
+  animation: 0.3s cubic-bezier(0.32, 0.72, 0, 1) both product-sheet-out;
+}
+
+html[data-product-transition='close']::view-transition-new(page-new) {
+  animation: 0.3s ease-out 0.1s both product-fade-in;
+}
+
+@keyframes product-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes product-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes product-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+}
+
+@keyframes product-sheet-out {
+  to {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+}
+
 /* Keyboard keys in articles: <kbd>Cmd</kbd> */
 .prose kbd {
   border: 1px solid var(--border);

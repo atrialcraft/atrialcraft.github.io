@@ -38,12 +38,15 @@ export function ProductLayout({
           <Link
             href="/market"
             aria-label="Назад в магазин"
+            data-product-back
             className="group hidden h-10 w-10 items-center justify-center rounded-full bg-card shadow-md ring-1 shadow-foreground/5 ring-border transition article-back lg:flex dark:bg-muted dark:ring-0 dark:hover:ring-1 dark:hover:ring-foreground/20"
           >
             <ArrowLeftIcon className="size-4 text-muted-foreground transition group-hover:text-foreground" />
           </Link>
           <article className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-10">
-            <PageEnter className="min-w-0 lg:sticky lg:top-[calc(var(--banner-h)+5.5rem)]">
+            <PageEnter
+              data-product-photo
+              className="min-w-0 lg:sticky lg:top-[calc(var(--banner-h)+5.5rem)]">
               {cover ? (
                 <ProductGallery
                   images={product.images ?? [cover]}
