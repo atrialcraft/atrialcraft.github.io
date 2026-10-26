@@ -31,14 +31,14 @@ export function ProductLayout({
   let cover = productCover(product)
 
   return (
-    <Container className="mt-16 lg:mt-32">
+    <Container className="mt-16 @container lg:mt-32">
       <div className="xl:relative">
         {/* Same column width and back button as on articles and instructions */}
-        <div className="mx-auto max-w-2xl">
+        <div className="article-column mx-auto max-w-2xl">
           <Link
             href="/market"
             aria-label="Назад в магазин"
-            className="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-card shadow-md ring-1 shadow-foreground/5 ring-border transition lg:absolute lg:left-12 lg:-mt-2 lg:mb-0 xl:-top-1.5 xl:left-0 xl:mt-0 dark:bg-muted dark:ring-0 dark:hover:ring-1 dark:hover:ring-foreground/20"
+            className="group hidden h-10 w-10 items-center justify-center rounded-full bg-card shadow-md ring-1 shadow-foreground/5 ring-border transition article-back lg:flex dark:bg-muted dark:ring-0 dark:hover:ring-1 dark:hover:ring-foreground/20"
           >
             <ArrowLeftIcon className="size-4 text-muted-foreground transition group-hover:text-foreground" />
           </Link>

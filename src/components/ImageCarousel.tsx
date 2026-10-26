@@ -168,7 +168,7 @@ export function ImageCarousel({
                       alt={image.alt ?? ''}
                       width={size.width}
                       height={size.height}
-                      sizes="(min-width: 768px) 672px, 100vw"
+                      sizes="(min-width: 1024px) 880px, (min-width: 768px) 672px, 100vw"
                       className={cn(
                         'pointer-events-none aspect-3/2 h-auto w-full object-cover',
                         image.darkSrc && 'dark:hidden',
@@ -183,7 +183,7 @@ export function ImageCarousel({
                         alt={image.alt ?? ''}
                         width={darkSize.width}
                         height={darkSize.height}
-                        sizes="(min-width: 768px) 672px, 100vw"
+                        sizes="(min-width: 1024px) 880px, (min-width: 768px) 672px, 100vw"
                         className={cn(
                           'pointer-events-none hidden aspect-3/2 h-auto w-full object-cover dark:block',
                           imageClassName,
