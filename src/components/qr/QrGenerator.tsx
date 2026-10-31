@@ -38,6 +38,7 @@ import {
   type Logo,
 } from '@/components/qr/qr'
 import { qrMarkPath, qrMarkSvg } from '@/components/qr/mark'
+import { YandexMap, yandexMapsKey } from '@/components/qr/YandexMap'
 import { cn } from '@/lib/utils'
 
 const tabs = [
@@ -482,14 +483,21 @@ export function QrGenerator() {
             )}
 
             {tab === 'geo' && (
-              <Field
-                label="Координаты"
-                inputMode="decimal"
-                placeholder="53.243400, 34.363300"
-                value={coordinates}
-                onChange={(e) => setCoordinates(e.target.value)}
-                hint="В Яндекс Картах нажмите на нужную точку — координаты появятся в карточке места, их можно скопировать."
-              />
+              <>
+                <Field
+                  label="Координаты"
+                  inputMode="decimal"
+                  placeholder="53.243400, 34.363300"
+                  value={coordinates}
+                  onChange={(e) => setCoordinates(e.target.value)}
+                  hint={
+                    yandexMapsKey
+                      ? undefined
+                      : 'В Яндекс Картах нажмите на нужную точку — координаты появятся в карточке места, их можно скопировать.'
+                  }
+                />
+                {yandexMapsKey && <YandexMap value={coordinates} onChange={setCoordinates} />}
+              </>
             )}
           </div>
         </section>
