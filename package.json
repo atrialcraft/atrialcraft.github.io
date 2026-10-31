@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/qr-links.mjs && next build",
     "preview": "npx --yes serve@14.2.4 out -l 3000",
     "lint": "eslint",
     "fetch-views": "node scripts/fetch-views.mjs"
