@@ -17,12 +17,6 @@ export type QrDesign = {
 /** The library leaves a 750 × 750 hole in the centre for the logo */
 const logoBox = 750
 
-/** Atrial mark (/icon.svg): the pieces take the code colour, the «A» between them stays empty */
-export function recolorMark(markup: string, color: string) {
-  // The «A» first: a light code colour would otherwise be emptied with it
-  return markup.replace(/fill="#ededed"/gi, 'fill="none"').replace(/fill="#111(111)?"/gi, `fill="${color}"`)
-}
-
 /** SVG logo fitted into the logo box, keeping its proportions */
 function svgLogo(markup: string) {
   let doc = new DOMParser().parseFromString(markup, 'image/svg+xml')
@@ -199,7 +193,7 @@ export async function mergedCode(markup: string, color: string) {
   )
   let solid = new paper.Color(color)
 
-  // Empty or light parts in another colour are holes: the «A» of the Atrial mark, white in uploaded logos
+  // Empty or light parts in another colour are holes, as white details of an uploaded logo
   let isHole = (item: paper.PathItem) => {
     let fill = item.fillColor
     return !fill || fill.alpha === 0 || (!fill.equals(solid) && fill.lightness > 0.85)

@@ -34,10 +34,10 @@ import {
   mergedCode,
   pngBlob,
   qrModules,
-  recolorMark,
   wifiPayload,
   type Logo,
 } from '@/components/qr/qr'
+import { qrMarkPath, qrMarkSvg } from '@/components/qr/mark'
 import { cn } from '@/lib/utils'
 
 const tabs = [
@@ -217,17 +217,12 @@ export function QrGenerator() {
   let [logoChoice, setLogoChoice] = useState<'atrial' | 'none' | 'custom'>('atrial')
   let [upload, setUpload] = useState<Logo | null>(null)
 
-  let [mark, setMark] = useState<string | null>(null)
   let [fonts, setFonts] = useState<Fonts | null>(null)
   let [widthMm, setWidthMm] = useState(40)
   let [busy, setBusy] = useState(false)
 
-  // The Atrial mark is the site icon itself; the fonts outline the captions
+  // The fonts outline the captions
   useEffect(() => {
-    fetch('/icon.svg')
-      .then((response) => response.text())
-      .then(setMark)
-      .catch(() => {})
     Promise.all([
       import('opentype.js'),
       fetch('/fonts/golos-text-400.ttf').then((r) => r.arrayBuffer()),
@@ -258,9 +253,7 @@ export function QrGenerator() {
 
   let logo: Logo =
     logoChoice === 'atrial'
-      ? mark
-        ? { kind: 'svg', svg: recolorMark(mark, ink) }
-        : { kind: 'none' }
+      ? { kind: 'svg', svg: qrMarkSvg(ink) }
       : logoChoice === 'custom'
         ? (upload ?? { kind: 'none' })
         : { kind: 'none' }
@@ -268,7 +261,7 @@ export function QrGenerator() {
   let code = useMemo(
     () => createQrSvg(payload || sample, { color: ink, logo }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [payload, ink, logoChoice, mark, upload],
+    [payload, ink, logoChoice, upload],
   )
   let composition = compose(look, nestedCode(code), fonts)
   let preview = svgDocument(composition, 'class="h-auto w-full" role="img" aria-label="QR-код"')
@@ -613,7 +606,9 @@ export function QrGenerator() {
                 <NoSymbolIcon className="size-6 text-muted-foreground" />
               </LogoButton>
               <LogoButton label="Atrial" active={logoChoice === 'atrial'} onClick={() => setLogoChoice('atrial')}>
-                <img src="/icon.svg" alt="" className="size-7" />
+                <svg viewBox="83 83 584 584" className="size-7" aria-hidden="true">
+                  <path className="fill-foreground" d={qrMarkPath} />
+                </svg>
               </LogoButton>
               <label
                 className={cn(
