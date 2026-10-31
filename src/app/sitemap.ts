@@ -38,6 +38,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
     },
     {
+      url: `${siteUrl}/qr`,
+      lastModified: new Date(),
+    },
+    {
       url: `${siteUrl}/market`,
       lastModified: new Date(),
     },

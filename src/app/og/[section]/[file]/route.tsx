@@ -22,6 +22,7 @@ const pages: Record<string, (() => Promise<{ metadata: Metadata }>) | null> = {
   market: () => import('@/app/market/page'),
   instructions: () => import('@/app/instructions/page'),
   privacy: () => import('@/app/privacy/page'),
+  qr: () => import('@/app/qr/page'),
   editor: () => import('@/app/editor-k7f3x9q2/page'),
 }
 
