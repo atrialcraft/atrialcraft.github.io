@@ -88,9 +88,8 @@ tgp('init', ${JSON.stringify(id)});`}
 export function Analytics() {
   let pathname = usePathname()
 
-  // Private tools — Верстак (/editor-…) and the box generator (/boxes-…):
-  // no stats and no Webvisor recordings
-  if (pathname.startsWith('/editor-') || pathname.startsWith('/boxes-')) {
+  // Private tool — Верстак (/editor-…): no stats and no Webvisor recordings
+  if (pathname.startsWith('/editor-')) {
     return null
   }
 
