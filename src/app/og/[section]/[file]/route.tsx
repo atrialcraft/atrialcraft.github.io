@@ -2,6 +2,7 @@ import { readdir, readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Metadata } from 'next'
 
+import { qrPreviewPhoto } from '@/components/qr/preview'
 import { generateCardOgImage, readOgPhoto } from '@/lib/og'
 import { getAllPosts } from '@/lib/posts'
 import { homeHeroTitle, site } from '@/lib/site'
@@ -80,7 +81,8 @@ export async function GET(
     return generateCardOgImage({
       title: metadata ? String(metadata.title) : homeHeroTitle,
       description: String(metadata?.description ?? site.description),
-      photo: photo ? await readOgPhoto(photo) : undefined,
+      // The QR generator shows a code of its own, leading back to it
+      photo: id === 'qr' ? await qrPreviewPhoto() : photo ? await readOgPhoto(photo) : undefined,
     })
   }
 

@@ -31,13 +31,13 @@ import {
   eventPayload,
   geoPayload,
   linkPayload,
-  mergedCode,
   pngBlob,
   qrModules,
   wifiPayload,
   type Logo,
 } from '@/components/qr/qr'
-import { qrMarkPath, qrMarkSvg } from '@/components/qr/mark'
+import { qrMarkLogo, qrMarkPath } from '@/components/qr/mark'
+import { mergedCode } from '@/components/qr/merge'
 import { YandexMap, yandexMapsKey } from '@/components/qr/YandexMap'
 import { cn } from '@/lib/utils'
 
@@ -254,7 +254,7 @@ export function QrGenerator() {
 
   let logo: Logo =
     logoChoice === 'atrial'
-      ? { kind: 'svg', svg: qrMarkSvg(ink) }
+      ? qrMarkLogo(ink)
       : logoChoice === 'custom'
         ? (upload ?? { kind: 'none' })
         : { kind: 'none' }
