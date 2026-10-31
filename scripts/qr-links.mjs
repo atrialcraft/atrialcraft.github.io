@@ -6,10 +6,10 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 
 const links = [
-  { slug: 'mesto', target: '/projects/nalichniki' },
-  { slug: 'prostranstvo', target: '/projects/nalichniki' },
-  { slug: 'retrushka', target: '/projects/nalichniki' },
-  { slug: 'merch', target: '/projects/nalichniki' },
+  { slug: 'mesto', target: '/blog/nabory-bryanskih-nalichnikov' },
+  { slug: 'prostranstvo', target: '/blog/nabory-bryanskih-nalichnikov' },
+  { slug: 'retrushka', target: '/blog/nabory-bryanskih-nalichnikov' },
+  { slug: 'merch', target: '/blog/nabory-bryanskih-nalichnikov' },
   // Thank-you card in the nalichnik sets
   { slug: 'card', target: '/instructions' },
 ]
