@@ -162,7 +162,7 @@ export function NalichnikColors() {
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-start">
       {/* Model */}
       {/* On phones it stays at the top while the colours are picked below */}
-      <div className="sticky top-[calc(var(--banner-h,0px)+0.5rem)] z-10 lg:top-24">
+      <div className="sticky top-2 z-10 lg:top-24">
         <div
           ref={viewer}
           className="relative h-[45dvh] overflow-hidden rounded-2xl bg-[#cfd8de] shadow-lg ring-1 ring-border sm:h-[55dvh] lg:h-[min(44rem,calc(100dvh-8rem))] lg:shadow-none"
