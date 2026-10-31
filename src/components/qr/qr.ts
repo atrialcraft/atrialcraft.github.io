@@ -4,8 +4,6 @@ import { createQR } from '@vkontakte/vk-qr'
 
 export type Logo =
   | { kind: 'none' }
-  /** VK logo of the library: in the code colour or VK blue */
-  | { kind: 'vk' | 'vk-blue' }
   /** Vector logo: the Atrial mark or an uploaded SVG */
   | { kind: 'svg'; svg: string }
   /** Uploaded PNG or JPEG, as a data URL */
@@ -13,16 +11,16 @@ export type Logo =
 
 export type QrDesign = {
   color: string
-  background: boolean
   logo: Logo
 }
 
 /** The library leaves a 750 × 750 hole in the centre for the logo */
 const logoBox = 750
 
-/** Atrial mark (/icon.svg): the dark pieces take the code colour, the light «A» between them is white */
+/** Atrial mark (/icon.svg): the pieces take the code colour, the «A» between them stays empty */
 export function recolorMark(markup: string, color: string) {
-  return markup.replace(/fill="#111(111)?"/gi, `fill="${color}"`).replace(/fill="#ededed"/gi, 'fill="#ffffff"')
+  // The «A» first: a light code colour would otherwise be emptied with it
+  return markup.replace(/fill="#ededed"/gi, 'fill="none"').replace(/fill="#111(111)?"/gi, `fill="${color}"`)
 }
 
 /** SVG logo fitted into the logo box, keeping its proportions */
@@ -48,16 +46,13 @@ export function createQrSvg(text: string, design: QrDesign) {
   let svg = createQR(text, {
     qrSize: 256,
     isShowLogo: logo.kind !== 'none',
-    isShowBackground: design.background,
     foregroundColor: design.color,
-    logoColor: logo.kind === 'vk-blue' ? '#0077ff' : design.color,
     // Anything but empty: the library then draws a picture instead of its VK logo
-    logoData: logo.kind === 'image' ? logo.image : logo.kind === 'svg' ? 'logo' : undefined,
+    logoData: logo.kind === 'image' ? logo.image : 'logo',
     suffix: 'atrial',
   })
   if (logo.kind !== 'svg') return svg
-  let inner = svgLogo(logo.svg)
-  if (inner === null) return svg
+  let inner = svgLogo(logo.svg) ?? ''
   // <image … transform="translate(p,p) scale(s)" … /> → the same place, drawn as vector
   return svg.replace(
     /<image[^>]*?transform="([^"]*)"[^>]*\/>/,
@@ -102,20 +97,23 @@ export function wifiPayload(w: { ssid: string; password: string; security: 'WPA'
 const vEscape = (text: string) => text.replace(/([\\;,])/g, '\\$1').replace(/\n/g, '\\n')
 
 export function contactPayload(c: {
-  firstName: string
   lastName: string
+  firstName: string
+  middleName: string
+  position: string
+  company: string
   phone: string
   email: string
-  company: string
   site: string
 }) {
   if (!Object.values(c).some((v) => v.trim())) return ''
   let lines = [
     'BEGIN:VCARD',
     'VERSION:3.0',
-    `N:${vEscape(c.lastName)};${vEscape(c.firstName)};;;`,
-    `FN:${vEscape([c.firstName, c.lastName].filter(Boolean).join(' '))}`,
+    `N:${vEscape(c.lastName)};${vEscape(c.firstName)};${vEscape(c.middleName)};;`,
+    `FN:${vEscape([c.firstName, c.middleName, c.lastName].filter(Boolean).join(' '))}`,
     c.company && `ORG:${vEscape(c.company)}`,
+    c.position && `TITLE:${vEscape(c.position)}`,
     c.phone && `TEL;TYPE=CELL:${c.phone}`,
     c.email && `EMAIL:${c.email}`,
     c.site && `URL:${withScheme(c.site)}`,
@@ -127,7 +125,7 @@ export function contactPayload(c: {
 /** datetime-local value → iCalendar local time, 20261031T1900 → 20261031T190000 */
 const icalTime = (value: string) => value.replace(/[-:]/g, '').padEnd(15, '0')
 
-export function eventPayload(e: { title: string; start: string; end: string; place: string }) {
+export function eventPayload(e: { title: string; start: string; end: string; place: string; url: string }) {
   if (!e.title || !e.start) return ''
   let lines = [
     'BEGIN:VEVENT',
@@ -135,25 +133,29 @@ export function eventPayload(e: { title: string; start: string; end: string; pla
     `DTSTART:${icalTime(e.start)}`,
     e.end && `DTEND:${icalTime(e.end)}`,
     e.place && `LOCATION:${vEscape(e.place)}`,
+    e.url && `URL:${withScheme(e.url)}`,
     'END:VEVENT',
   ]
   return lines.filter(Boolean).join('\n')
 }
 
-export function geoPayload(g: { lat: string; lng: string }) {
-  let lat = parseFloat(g.lat.replace(',', '.'))
-  let lng = parseFloat(g.lng.replace(',', '.'))
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return ''
+/** «53.2434, 34.3633» as copied from Yandex Maps → geo:53.2434,34.3633 */
+export function geoPayload(coordinates: string) {
+  let numbers = coordinates.match(/-?\d+(?:[.,]\d+)?/g)?.map((n) => parseFloat(n.replace(',', '.')))
+  if (!numbers || numbers.length !== 2) return ''
+  let [lat, lng] = numbers
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return ''
   return `geo:${lat},${lng}`
 }
 
 /**
  * The library builds the code from hundreds of overlapping tiles referenced
  * with <use>, which LightBurn opens as separate pieces. Here the tiles are
- * expanded and merged into one outline, with the white parts of the logo cut
+ * expanded and merged into one outline, with the empty parts of the logo cut
  * out: one closed shape per island, ready for engraving or cutting.
+ * Returns a function that places the outline into a square of the design.
  */
-export async function mergedSvg(markup: string, design: QrDesign, sizeMm: number) {
+export async function mergedCode(markup: string, color: string) {
   let { default: paper } = await import('paper/dist/paper-core')
   let doc = new DOMParser().parseFromString(markup, 'image/svg+xml')
   let root = doc.documentElement
@@ -181,13 +183,11 @@ export async function mergedSvg(markup: string, design: QrDesign, sizeMm: number
   root.querySelectorAll('[fill-rule]').forEach((node) => {
     node.querySelectorAll('path:not([fill-rule])').forEach((path) => path.setAttribute('fill-rule', node.getAttribute('fill-rule')!))
   })
-  // Background and pictures stay as they are, beside the outline
-  let background = root.querySelector(':scope > rect')
-  background?.remove()
+  // An uploaded picture logo stays a picture, beside the outline
   let images = [...root.querySelectorAll('image')]
   images.forEach((image) => image.remove())
 
-  // Without the pixel size paper.js keeps the viewBox units, as the outline is written below
+  // Without the pixel size paper.js keeps the viewBox units
   root.removeAttribute('width')
   root.removeAttribute('height')
 
@@ -197,21 +197,18 @@ export async function mergedSvg(markup: string, design: QrDesign, sizeMm: number
   let shapes = (imported.getItems({ class: paper.PathItem }) as paper.PathItem[]).filter(
     (item) => !(item.parent instanceof paper.CompoundPath),
   )
-  let color = new paper.Color(design.color)
+  let solid = new paper.Color(color)
 
-  // Light parts in another colour are holes: the white «VK», the «A» of the Atrial mark
+  // Empty or light parts in another colour are holes: the «A» of the Atrial mark, white in uploaded logos
   let isHole = (item: paper.PathItem) => {
     let fill = item.fillColor
-    return !fill || fill.alpha === 0 || (!fill.equals(color) && fill.lightness > 0.85)
+    return !fill || fill.alpha === 0 || (!fill.equals(solid) && fill.lightness > 0.85)
   }
 
-  let unite = (items: paper.PathItem[]): paper.PathItem | null => {
-    if (!items.length) return null
+  let unite = (items: paper.PathItem[]): paper.PathItem => {
     if (items.length === 1) return items[0]
     let middle = items.length >> 1
-    let a = unite(items.slice(0, middle))!
-    let b = unite(items.slice(middle))!
-    return a.unite(b, { insert: false })
+    return unite(items.slice(0, middle)).unite(unite(items.slice(middle)), { insert: false })
   }
 
   // Runs of solid shapes are merged together, then the holes drawn over them are cut out
@@ -224,50 +221,37 @@ export async function mergedSvg(markup: string, design: QrDesign, sizeMm: number
   }
   let result: paper.PathItem | null = null
   for (let { hole, items } of runs) {
-    let merged = unite(items)!
+    let merged = unite(items)
     if (hole) result = result ? result.subtract(merged, { insert: false }) : null
     else result = result ? result.unite(merged, { insert: false }) : merged
   }
 
-  let viewBox = root.getAttribute('viewBox') ?? '0 0 100 100'
+  let units = Number(root.getAttribute('viewBox')?.split(/\s+/)[2]) || 256
   let d = result ? (result as paper.PathItem).pathData : ''
   project.remove()
-
   let serializer = new XMLSerializer()
-  let extras = [background, ...images]
-    .filter(Boolean)
-    .map((node) => serializer.serializeToString(node!))
-    .join('\n')
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${viewBox}" width="${sizeMm}mm" height="${sizeMm}mm">
-${extras}
-<path fill="${design.color}" fill-rule="nonzero" d="${d}"/>
-</svg>
-`
+  let pictures = images.map((node) => serializer.serializeToString(node)).join('\n')
+
+  return (x: number, y: number, size: number) =>
+    `<g transform="translate(${x} ${y}) scale(${size / units})">${pictures}<path fill="${color}" d="${d}"/></g>`
 }
 
-/**
- * Raster copy for messengers and print shops. Without the library's own
- * background it gets a white square with a quiet zone: a transparent code
- * turns black on black in a dark chat and scanners need the margin.
- */
-export async function pngBlob(markup: string, size: number, background: boolean) {
-  let margin = background ? 0 : Math.round(size * 0.06)
-  let inner = size - 2 * margin
-  let svg = markup.replace(/width="[^"]*px"/, `width="${inner}px"`).replace(/height="[^"]*px"/, `height="${inner}px"`)
+/** Renders an SVG document to PNG, `width` pixels wide */
+export async function pngBlob(svg: string, width: number, height: number, background: string | null) {
   let url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }))
   try {
     let image = new Image()
     image.src = url
     await image.decode()
     let canvas = document.createElement('canvas')
-    canvas.width = canvas.height = size
+    canvas.width = width
+    canvas.height = height
     let context = canvas.getContext('2d')!
-    if (!background) {
-      context.fillStyle = '#ffffff'
-      context.fillRect(0, 0, size, size)
+    if (background) {
+      context.fillStyle = background
+      context.fillRect(0, 0, width, height)
     }
-    context.drawImage(image, margin, margin, inner, inner)
+    context.drawImage(image, 0, 0, width, height)
     return await new Promise<Blob>((resolve, reject) =>
       canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('PNG'))), 'image/png'),
     )
