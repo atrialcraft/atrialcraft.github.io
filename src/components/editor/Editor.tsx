@@ -630,7 +630,7 @@ export function Editor({
         </p>
         <div className="flex flex-wrap gap-2">
           <Button
-            href="/instructions/kak-pisat-stati"
+            href="/instructions/site-manual"
             target="_blank"
             rel="noopener"
             variant="secondary"

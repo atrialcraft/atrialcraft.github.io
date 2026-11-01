@@ -483,7 +483,7 @@ export function Admin() {
           Чтобы открыть этот раздел, подключите GitHub вверху: Верстак читает и
           сохраняет сайт прямо в репозитории. Как создать токен — в{' '}
           <a
-            href="/instructions/kak-pisat-stati"
+            href="/instructions/site-manual"
             target="_blank"
             className="underline"
           >
