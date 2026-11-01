@@ -37,6 +37,5 @@ export async function GET(
     title: product.name,
     description: product.description,
     photo: coverPath ? await readOgPhoto(coverPath) : undefined,
-    placeholder: true,
   })
 }

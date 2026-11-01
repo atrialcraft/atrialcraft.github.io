@@ -84,8 +84,6 @@ export async function GET(
       description: String(metadata?.description ?? site.description),
       // The QR generator shows a code of its own, leading back to it
       photo: id === 'qr' ? await qrPreviewPhoto() : photo ? await readOgPhoto(photo) : undefined,
-      // Until a photo is put into src/images/og, its place stays empty, as on products
-      placeholder: true,
     })
   }
 

@@ -77,15 +77,15 @@ const photoIconPath =
 /**
  * Preview for messengers and social networks, one per page: a 3:4 photo on
  * the left, the site logo, the title and a short description on the right.
- * Without a photo the text takes the whole width, or, with `placeholder`
- * (products), the photo place shows the same placeholder as on the site.
+ * Without a photo its place shows the same placeholder as products on the
+ * site; `placeholder: false` lets the text take the whole width instead.
  * No prices on purpose: messengers cache previews and an old price would stay
  */
 export async function generateCardOgImage({
   title,
   description,
   photo,
-  placeholder = false,
+  placeholder = true,
 }: {
   title: string
   description: string
