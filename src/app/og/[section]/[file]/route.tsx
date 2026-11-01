@@ -13,7 +13,7 @@ export const dynamicParams = false
 /**
  * Previews of the site sections, /og/page/<id>.png. Title and description
  * come from the page's own metadata. The photo is src/images/og/<id>.webp
- * (or .jpg, .png); without a file the text takes the whole width
+ * (or .jpg, .png); without a file its place shows the empty photo frame
  */
 const pages: Record<string, (() => Promise<{ metadata: Metadata }>) | null> = {
   index: null, // home: the site title and description
@@ -84,6 +84,8 @@ export async function GET(
       description: String(metadata?.description ?? site.description),
       // The QR generator shows a code of its own, leading back to it
       photo: id === 'qr' ? await qrPreviewPhoto() : photo ? await readOgPhoto(photo) : undefined,
+      // Until a photo is put into src/images/og, its place stays empty, as on products
+      placeholder: true,
     })
   }
 
